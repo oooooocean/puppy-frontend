@@ -9,11 +9,11 @@ part of 'net_response.dart';
 NetResponse _$NetResponseFromJson(Map<String, dynamic> json) => NetResponse(
       $enumDecode(_$NetCodeEnumMap, json['code']),
       json['data'],
-    )..msg = json['msg'] as String;
+    )..message = json['message'] as String;
 
 Map<String, dynamic> _$NetResponseToJson(NetResponse instance) =>
     <String, dynamic>{
-      'msg': instance.msg,
+      'msg': instance.message,
       'code': _$NetCodeEnumMap[instance.code],
       'data': instance.data,
     };

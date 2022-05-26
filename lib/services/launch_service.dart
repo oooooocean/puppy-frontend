@@ -41,5 +41,5 @@ class LaunchService {
   }
 
   String get firstRoute =>
-      isLogin ? (registerFlows.isNotEmpty ? registerFlows.first : AppRoutes.scaffold) : AppRoutes.login;
+      isLogin ? (registerFlows.isNotEmpty ? registerFlows.first : AppRoutes.scaffold) : AppRoutes.debug;
 }

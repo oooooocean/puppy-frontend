@@ -4,11 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:frontend/models/id_name.dart';
+import 'package:frontend/services/qiniu_service.dart';
 import 'package:get/get.dart';
 import 'package:frontend/models/net_response.dart';
 import 'package:frontend/net/net.dart';
 import 'package:frontend/services/launch_service.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:more/iterable.dart';
 
 mixin NetMixin {
   final net = Net();
@@ -49,47 +52,43 @@ mixin NetMixin {
     return _parse(res, decoder);
   }
 
-  Future<T> postFormData<T>(String uri, Map<String, dynamic> query, List<AssetEntity> files, Decoder<T> decoder,
-      {bool originSize = false}) {
-    // 构建 MultipartFile
-    final filesFutures = files.map((entity) {
-      Future<Uint8List?> bytes;
-      if (originSize) {
-        bytes = entity.originBytes;
-      } else {
-        final size = ThumbnailSize((min(Get.width * Get.pixelRatio, entity.size.width)).toInt(),
-            (min(Get.height * Get.pixelRatio, entity.size.height).toInt()));
-        bytes = entity.thumbnailDataWithSize(size, quality: 50, format: ThumbnailFormat.jpeg);
-      }
-      return bytes.then((value) {
-        if (value == null) return null;
-        return MultipartFile(value.toList(), filename: entity.title ?? '');
+  /// 上传图片
+  /// 默认会对图片按照当前屏幕进行压缩
+  Future<List<String>> uploadImages(List<AssetEntity> files, {bool originSize = false}) async {
+    final filesFutures = files
+        .map(
+          (entity) => originSize
+              ? entity.originBytes
+              : entity.thumbnailDataWithSize(
+                  ThumbnailSize(min(Get.width * Get.pixelRatio, entity.size.width).toInt(),
+                      min(Get.height * Get.pixelRatio, entity.size.height).toInt()),
+                  quality: 50,
+                  format: ThumbnailFormat.jpeg),
+        )
+        .toList();
+    // 获取有效压缩后的文件
+    final validFilesFuture =
+        Future.wait(filesFutures).then((files) => files.where((element) => element != null).map((e) => e!).toList());
+
+    return validFilesFuture.then((files) {
+      if (files.isEmpty) return [];
+      // 上传到文件服务器
+      return _getUploadTokens(files.length).then((metas) {
+        final uploadFutures = [metas, files].zip().map((e) {
+          final meta = e[0] as IdAndName;
+          return QiniuService.shared.upload(key: meta.id, token: meta.name, bytes: e[1] as Uint8List);
+        }).toList();
+        return Future.wait(uploadFutures);
       });
-    }).toList();
-    // 请求
-    return Future.wait(filesFutures).then((files) {
-      final validFiles = files.where((element) => element != null).map((e) => e!).toList();
-
-      return net.post(uri, FormData({'images': validFiles}),
-          query: query, contentType: 'multipart/form-data', decoder: net.defaultDecoder);
-    }).then((res) => _parse(res.body, decoder));
-
-    // List<MultipartFile> list = [];
-    // for (var entity in files) {
-    //   final bytes = await entity.thumbnailDataWithSize(
-    //       ThumbnailSize((Get.width * Get.pixelRatio).toInt(), (Get.height * Get.pixelRatio).toInt()));
-    //   if (bytes == null) continue;
-    //   list.add(MultipartFile(bytes.toList(), filename: entity.title ?? ''));
-    // }
-    // final formData = FormData({'images': list});
-    // final res =
-    //     (await net.post(uri, formData, query: query, contentType: 'multipart/form-data', decoder: net.defaultDecoder))
-    //         .body;
-    // return _parse(res, decoder);
+    });
   }
 
+  /// 从服务端获取上传文件的Token
+  Future<List<IdAndName>> _getUploadTokens(int count) => get('upload_token', {'count': count.toString()},
+      (data) => (data as List<dynamic>).map((e) => IdAndName.fromJson(e)).toList());
+
   Future<T> _parse<T>(NetResponse? res, Decoder<T> decoder) async {
-    if (res == null) throw NetError()..msg = '服务端返回无法解析';
+    if (res == null) throw NetError()..message = '服务端返回无法解析';
     if (res.code != NetCode.success) {
       if (res.code == NetCode.loginOverdue) {
         Get.find<LaunchService>().restart();

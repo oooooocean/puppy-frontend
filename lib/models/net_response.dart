@@ -16,10 +16,10 @@ enum NetCode {
 }
 
 class NetError extends Error {
-  String msg = '';
+  String message = '';
 
   @override
-  String toString() => msg;
+  String toString() => message;
 }
 
 @JsonSerializable()

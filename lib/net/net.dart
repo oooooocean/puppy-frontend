@@ -26,7 +26,7 @@ class Net extends GetConnect {
         try {
           return NetResponse.fromJson(data);
         } catch (error) {
-          return NetResponse(NetCode.serverError, null)..msg = '服务端未知错误';
+          return NetResponse(NetCode.serverError, null)..message = '服务端未知错误';
         }
       };
 

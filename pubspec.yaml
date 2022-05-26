@@ -62,6 +62,12 @@ dependencies:
   json_annotation: ^4.4.0
   # https://pub.dev/packages/date_format
   date_format: 2.0.4
+  # https://pub.dev/packages/qiniu_flutter_sdk
+  # 七牛云
+  qiniu_flutter_sdk: ^0.4.0
+  # https://pub.dev/packages/more
+  # 扩展函数
+  more: ^3.5.0
 
 dev_dependencies:
   flutter_test:
