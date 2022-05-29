@@ -13,7 +13,7 @@ NetResponse _$NetResponseFromJson(Map<String, dynamic> json) => NetResponse(
 
 Map<String, dynamic> _$NetResponseToJson(NetResponse instance) =>
     <String, dynamic>{
-      'msg': instance.message,
+      'message': instance.message,
       'code': _$NetCodeEnumMap[instance.code],
       'data': instance.data,
     };
@@ -21,6 +21,8 @@ Map<String, dynamic> _$NetResponseToJson(NetResponse instance) =>
 const _$NetCodeEnumMap = {
   NetCode.success: 0,
   NetCode.noAuth: 1000,
+  NetCode.accountInvalid: 1000,
+  NetCode.resrouceNotfound: 1000,
   NetCode.loginOverdue: 1003,
   NetCode.clientError: 1007,
   NetCode.serverError: 1008,

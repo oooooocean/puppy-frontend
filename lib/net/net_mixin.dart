@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,7 @@ mixin NetMixin {
 
   String? shouldRequest() => null;
 
-  Future? request<T>(Future<T> future, {ValueSetter<T>? success, ValueSetter<Error>? fail}) async {
+  Future? request<T>({required Future<T> api, ValueSetter<T>? success, ValueSetter<Error>? fail}) async {
     final errorMsg = shouldRequest();
     if (errorMsg != null) {
       EasyLoading.showToast(errorMsg);
@@ -26,13 +27,14 @@ mixin NetMixin {
     }
 
     EasyLoading.show();
-    return future.then((value) {
+    return api.then((value) {
       EasyLoading.dismiss();
       if (success != null) success(value);
     }).catchError((error) {
       EasyLoading.dismiss();
       EasyLoading.showToast(error.toString());
       if (fail != null) fail(error);
+      if (!const bool.fromEnvironment("dart.vm.product")) throw error;
     });
   }
 

@@ -8,6 +8,6 @@ class CircleAvatarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(child: CircleAvatar(backgroundImage: NetworkImage(url)), onTap: onTap);
+    return InkWell(onTap: onTap, child: CircleAvatar(backgroundImage: NetworkImage(url)));
   }
 }

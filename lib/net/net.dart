@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:frontend/services/store.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:frontend/models/net_response.dart';
 import 'package:frontend/services/app_configuration.dart';
-import 'package:frontend/services/store.dart';
 
 class Net extends GetConnect {
   Net() : super(timeout: const Duration(seconds: 30), userAgent: 'Sesame-Client') {

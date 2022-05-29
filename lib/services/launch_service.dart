@@ -12,12 +12,15 @@ class LaunchService {
 
   User? user;
 
-  List<String> registerFlows = [];
+  String? get isCompletedRegisterFlow {
+    assert(user != null, '必须先登录, 才能进入注册流程');
+    if (user!.info == null) return AppRoutes.userInfoEdit;
+    return null;
+  }
 
   Future init() async {
     isLogin = (await SharedPreferences.getInstance()).containsKey('token');
     user = isLogin ? (await User.cached())! : null;
-    if (isLogin) setRegisterFlows();
   }
 
   Future restart() async {
@@ -36,10 +39,6 @@ class LaunchService {
     this.user = user;
   }
 
-  Future setRegisterFlows() async {
-    if (!(user!.info?.isCompletion ?? false)) registerFlows.addAll([AppRoutes.userInfoSet, AppRoutes.albumCreate]);
-  }
-
   String get firstRoute =>
-      isLogin ? (registerFlows.isNotEmpty ? registerFlows.first : AppRoutes.scaffold) : AppRoutes.debug;
+      isLogin ? (isCompletedRegisterFlow ?? AppRoutes.userInfoEdit) : AppRoutes.login;
 }

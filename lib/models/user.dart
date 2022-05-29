@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/services/store.dart';
@@ -8,9 +6,9 @@ import 'package:frontend/services/store.dart';
 part 'user.g.dart';
 
 enum Gender {
-  @JsonValue(1)
+  @JsonValue(0)
   male,
-  @JsonValue(2)
+  @JsonValue(1)
   female
 }
 
@@ -22,9 +20,10 @@ extension GenderExtension on Gender {
 class User with LoadImageMixin {
   String phone;
   int id;
+  int petCount;
   UserInfo? info;
 
-  User(this.id, this.phone, this.info);
+  User(this.id, this.phone, this.info, this.petCount);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -41,11 +40,12 @@ class User with LoadImageMixin {
 
 @JsonSerializable()
 class UserInfo {
-  String? nickname;
-  Gender? gender;
-  String? avatar;
+  String nickname;
+  Gender gender;
+  String avatar;
+  String introduction;
 
-  UserInfo();
+  UserInfo(this.nickname, this.gender, this.avatar, this.introduction);
 
   factory UserInfo.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
 
@@ -53,6 +53,4 @@ class UserInfo {
 
   @override
   String toString() => '';
-
-  bool get isCompletion => (nickname?.isNotEmpty ?? false) && gender != null && avatar != null;
 }

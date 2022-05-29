@@ -50,13 +50,16 @@ dependencies:
   flutter_easyloading: ^3.0.3
   # 键盘tool bar
   # https://pub.dev/packages/keyboard_actions
-  keyboard_actions: ^3.4.7
+  keyboard_actions: ^4.0.0
   # 数据存储
   # https://pub.dev/packages/shared_preferences
   shared_preferences: ^2.0.13
   # 刷新
   # https://pub.dev/packages/pull_to_refresh
-  pull_to_refresh: ^2.0.0
+  # 适配 3.0: https://github.com/peng8350/flutter_pulltorefresh/issues/591
+  pull_to_refresh:
+    git:
+      url: https://github.com/miquelbeltran/flutter_pulltorefresh
   # json
   # https://pub.dev/packages/json_annotation
   json_annotation: ^4.4.0
@@ -68,6 +71,9 @@ dependencies:
   # https://pub.dev/packages/more
   # 扩展函数
   more: ^3.5.0
+  # 登录苹果
+  # https://pub.dev/packages/sign_in_with_apple
+  sign_in_with_apple: ^4.0.0
 
 dev_dependencies:
   flutter_test:

@@ -29,17 +29,21 @@ class App extends StatelessWidget with ThemeMixin {
     EasyLoading.instance
       ..userInteractions = false
       ..dismissOnTap = false
-      ..indicatorType = EasyLoadingIndicatorType.cubeGrid;
+      ..loadingStyle = EasyLoadingStyle.custom
+      ..backgroundColor = Colors.grey
+      ..indicatorColor = Colors.orange
+      ..textColor = Colors.white
+      ..indicatorType = EasyLoadingIndicatorType.circle;
   }
 
   /// theme
   ThemeData get themeData => ThemeData(
-      textTheme: TextTheme(bodyText2: TextStyle(color: primaryColor)),
+      textTheme: TextTheme(bodyText2: TextStyle(color: primaryTextColor)),
       inputDecorationTheme: InputDecorationTheme(
-          hintStyle: TextStyle(color: greyColor), counterStyle: const TextStyle(color: Colors.grey)),
+          hintStyle: TextStyle(color: borderColor), counterStyle: const TextStyle(color: Colors.grey)),
       appBarTheme: AppBarTheme(
-          backgroundColor: primaryColor,
+          backgroundColor: backgroundColor,
           centerTitle: true,
           titleTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-      scaffoldBackgroundColor: const Color(0xfff4f4f4));
+      scaffoldBackgroundColor: backgroundColor);
 }

@@ -12,26 +12,31 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       json['info'] == null
           ? null
           : UserInfo.fromJson(json['info'] as Map<String, dynamic>),
+      json['petCount'] as int,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'phone': instance.phone,
       'id': instance.id,
+      'petCount': instance.petCount,
       'info': instance.info,
     };
 
-UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo()
-  ..nickname = json['nickname'] as String?
-  ..gender = $enumDecodeNullable(_$GenderEnumMap, json['gender'])
-  ..avatar = json['avatar'] as String?;
+UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
+      json['nickname'] as String,
+      $enumDecode(_$GenderEnumMap, json['gender']),
+      json['avatar'] as String,
+      json['introduction'] as String,
+    );
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'nickname': instance.nickname,
       'gender': _$GenderEnumMap[instance.gender],
       'avatar': instance.avatar,
+      'introduction': instance.introduction,
     };
 
 const _$GenderEnumMap = {
-  Gender.male: 1,
-  Gender.female: 2,
+  Gender.male: 0,
+  Gender.female: 1,
 };
