@@ -18,5 +18,6 @@ final appRoutes = [
       name: AppRoutes.scaffold,
       page: () => const ScaffoldPage(),
       binding: BindingsBuilder(() => Get.lazyPut(() => ScaffoldController()))),
-  ...user_pages.appRoutes,
+  ...user_pages.userRoutes,
+  ...user_pages.petRoutes
 ];

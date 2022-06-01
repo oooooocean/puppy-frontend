@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:frontend/services/store.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
@@ -18,7 +17,7 @@ class Net extends GetConnect {
   }
 
   @override
-  String get baseUrl => serviceHost;
+  String get baseUrl => currentEnvironment.host;
 
   @override
   Decoder<NetResponse> get defaultDecoder => (data) {

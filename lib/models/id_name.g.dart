@@ -7,7 +7,7 @@ part of 'id_name.dart';
 // **************************************************************************
 
 IdAndName _$IdAndNameFromJson(Map<String, dynamic> json) => IdAndName(
-      json['id'] as String,
+      int2String(json['id']),
       json['name'] as String,
     );
 

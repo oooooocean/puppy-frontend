@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
@@ -17,12 +16,11 @@ import 'package:more/iterable.dart';
 mixin NetMixin {
   final net = Net();
 
-  String? shouldRequest() => null;
+  bool get shouldRequest => true;
 
   Future? request<T>({required Future<T> api, ValueSetter<T>? success, ValueSetter<Error>? fail}) async {
-    final errorMsg = shouldRequest();
-    if (errorMsg != null) {
-      EasyLoading.showToast(errorMsg);
+    if (!shouldRequest) {
+      EasyLoading.showToast('请完善信息后重试');
       return;
     }
 
@@ -38,7 +36,7 @@ mixin NetMixin {
     });
   }
 
-  Future<T> get<T>(String uri, Map<String, dynamic> query, Decoder<T> decoder) async {
+  Future<T> get<T>(String uri, Decoder<T> decoder, {Map<String, dynamic>? query}) async {
     final res = (await net.get<NetResponse>(uri, query: query, decoder: net.defaultDecoder)).body;
     return _parse(res, decoder);
   }
@@ -46,6 +44,12 @@ mixin NetMixin {
   Future<T> post<T>(String uri, Map<String, dynamic> body, Decoder<T> decoder) async {
     final res =
         (await net.post<NetResponse>(uri, body, contentType: 'application/json', decoder: net.defaultDecoder)).body;
+    return _parse(res, decoder);
+  }
+
+  Future<T> patch<T>(String uri, Map<String, dynamic> body, Decoder<T> decoder) async {
+    final res =
+        (await net.patch<NetResponse>(uri, body, contentType: 'application/json', decoder: net.defaultDecoder)).body;
     return _parse(res, decoder);
   }
 
@@ -86,7 +90,7 @@ mixin NetMixin {
   }
 
   /// 从服务端获取上传文件的Token
-  Future<List<IdAndName>> _getUploadTokens(int count) => get('upload_token', {'count': count.toString()},
+  Future<List<IdAndName>> _getUploadTokens(int count) => get('upload_token/', query: {'count': count.toString()},
       (data) => (data as List<dynamic>).map((e) => IdAndName.fromJson(e)).toList());
 
   Future<T> _parse<T>(NetResponse? res, Decoder<T> decoder) async {

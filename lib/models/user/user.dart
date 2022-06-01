@@ -2,19 +2,9 @@ import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/services/store.dart';
+import '../gender.dart';
 
 part 'user.g.dart';
-
-enum Gender {
-  @JsonValue(0)
-  male,
-  @JsonValue(1)
-  female
-}
-
-extension GenderExtension on Gender {
-  String get string => ['Male', 'Female'][index];
-}
 
 @JsonSerializable()
 class User with LoadImageMixin {

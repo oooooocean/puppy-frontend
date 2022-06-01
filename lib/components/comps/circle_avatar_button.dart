@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// 圆形头像按钮
 class CircleAvatarButton extends StatelessWidget {
   final String url;
   final VoidCallback onTap;

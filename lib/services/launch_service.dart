@@ -1,10 +1,11 @@
+import 'package:frontend/net/net_mixin.dart';
 import 'package:get/get.dart';
-import 'package:frontend/models/user.dart';
+import 'package:frontend/models/user/user.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:frontend/services/store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LaunchService {
+class LaunchService with NetMixin {
   static final shared = LaunchService();
 
   /// 是否登录
@@ -14,7 +15,8 @@ class LaunchService {
 
   String? get isCompletedRegisterFlow {
     assert(user != null, '必须先登录, 才能进入注册流程');
-    if (user!.info == null) return AppRoutes.userInfoEdit;
+    if (user!.info == null) return AppRoutes.userInfoAdd;
+    if (user!.petCount == 0) return AppRoutes.petAdd;
     return null;
   }
 
@@ -39,6 +41,13 @@ class LaunchService {
     this.user = user;
   }
 
-  String get firstRoute =>
-      isLogin ? (isCompletedRegisterFlow ?? AppRoutes.userInfoEdit) : AppRoutes.login;
+  Future refreshUser() {
+    assert(user != null, '必须先登录, 才能进入刷新用户');
+    return get<UserInfo>('user/${user!.id}/', (data) => UserInfo.fromJson(data)).then((value) {
+      user!.info = value;
+      updateUser(user!);
+    });
+  }
+
+  String get firstRoute => isLogin ? (isCompletedRegisterFlow ?? AppRoutes.scaffold) : AppRoutes.login;
 }

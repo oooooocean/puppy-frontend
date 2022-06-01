@@ -15,13 +15,13 @@ class App extends StatelessWidget with ThemeMixin {
 
   @override
   Widget build(BuildContext context) => refreshScaffold(
-    child: GetMaterialApp(
-        enableLog: const bool.fromEnvironment('dart.vm.product'),
-        initialRoute: initRoute,
-        getPages: appRoutes,
-        builder: EasyLoading.init(),
-        theme: themeData),
-  );
+        child: GetMaterialApp(
+            enableLog: const bool.fromEnvironment('dart.vm.product'),
+            initialRoute: initRoute,
+            getPages: appRoutes,
+            builder: EasyLoading.init(),
+            theme: themeData),
+      );
 
   /// custom loading
   /// see https://pub.dev/packages/flutter_easyloading
@@ -38,12 +38,22 @@ class App extends StatelessWidget with ThemeMixin {
 
   /// theme
   ThemeData get themeData => ThemeData(
-      textTheme: TextTheme(bodyText2: TextStyle(color: primaryTextColor)),
-      inputDecorationTheme: InputDecorationTheme(
-          hintStyle: TextStyle(color: borderColor), counterStyle: const TextStyle(color: Colors.grey)),
-      appBarTheme: AppBarTheme(
-          backgroundColor: backgroundColor,
-          centerTitle: true,
-          titleTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-      scaffoldBackgroundColor: backgroundColor);
+        textTheme:
+            TextTheme(bodyMedium: TextStyle(color: kPrimaryTextColor), labelLarge: TextStyle(color: kPrimaryTextColor)),
+        inputDecorationTheme: InputDecorationTheme(
+            hintStyle: TextStyle(color: kGreyColor),
+            counterStyle: TextStyle(color: kGreyColor),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: kBorderColor)),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kGreyColor))),
+        appBarTheme: AppBarTheme(
+            backgroundColor: kBackgroundColor,
+            centerTitle: true,
+            elevation: 1,
+            titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: kPrimaryTextColor)),
+        textButtonTheme: TextButtonThemeData(
+            style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                foregroundColor: MaterialStateProperty.all(kPrimaryTextColor))),
+        scaffoldBackgroundColor: kBackgroundColor,
+      );
 }

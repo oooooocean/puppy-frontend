@@ -10,9 +10,6 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
 
-/// 世之奇伟、瑰怪，非常之观，常在于险远，而人之所罕至焉，故非有志者不能至也。
-/// 宠物星球 冲冲冲!
-
 class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin, KeyboardAllocator {
   final photoNode = FocusNode();
   final codeNode = FocusNode();
@@ -22,8 +19,6 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(systemOverlayStyle: SystemUiOverlayStyle.light, backgroundColor: Colors.transparent),
       body: SafeArea(
         child: KeyboardActions(
           disableScroll: false,
@@ -43,7 +38,7 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
 
   Widget get _inputContainer => Container(
         padding: EdgeInsets.all(15.toPadding),
-        decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(5))),
+        decoration: BoxDecoration(color: kShapeColor, borderRadius: const BorderRadius.all(Radius.circular(5))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -56,7 +51,8 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
         controller: controller.phoneCtl,
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        decoration: const InputDecoration(hintText: '铲屎的, 手机号填在这里👇'),
+        decoration: const InputDecoration(
+            hintText: '铲屎的, 手机号填在这里👇'),
         onChanged: (_) => controller.codeEnable.value = controller.shouldFetchCode,
       );
 
@@ -98,7 +94,7 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
             () => PuppyButton(
                 onPress: controller.loginEnable.value ? controller.login : null,
                 style: PuppyButtonStyle.style1,
-                child: Text('进入星球', style: TextStyle(fontSize: buttonFont, fontWeight: FontWeight.w600))),
+                child: Text('进入星球', style: TextStyle(fontSize: kButtonFont, fontWeight: FontWeight.w600))),
           ),
           Align(
             alignment: Alignment.center,
@@ -107,22 +103,22 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
               children: [
                 Obx(
                   () => Checkbox(
-                      side: const BorderSide(color: Colors.white),
+                      side: BorderSide(color: kGreyColor),
                       value: controller.selectedClause.value,
                       onChanged: (value) {
                         controller.selectedClause.value = value ?? false;
                         controller.loginEnable.value = controller.shouldLogin;
                       },
                       shape: const CircleBorder(),
-                      activeColor: Colors.white,
+                      activeColor: kOrangeColor,
                       visualDensity: VisualDensity.compact,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      checkColor: orangeColor),
+                      checkColor: Colors.white),
                 ),
                 TextButton(
                   onPressed: () {},
                   style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
-                  child: const Text('同意用户协议和隐私政策', style: TextStyle(fontSize: 13, color: Colors.white)),
+                  child: Text('同意用户协议和隐私政策', style: TextStyle(fontSize: 13, color: kSecondaryTextColor)),
                 )
               ],
             ),
@@ -132,11 +128,11 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
 
   Widget get _otherItem => Column(mainAxisSize: MainAxisSize.min, children: [
         Row(children: [
-          const Expanded(child: Divider(color: Colors.white)),
+          Expanded(child: Divider(color: kGreyColor)),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.toPadding),
-              child: Text('其他进入星球的方式👇', style: TextStyle(color: Colors.white, fontSize: smallFont))),
-          const Expanded(child: Divider(color: Colors.white))
+              child: Text('其他进入星球的方式👇', style: TextStyle(color: kSecondaryTextColor, fontSize: kSmallFont))),
+          Expanded(child: Divider(color: kGreyColor))
         ]),
         SizedBox(height: 25.toPadding),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -147,7 +143,7 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
             child: SignInWithAppleButton(
                 onPressed: controller.loginWithAppleId,
                 text: 'Apple登录',
-                style: SignInWithAppleButtonStyle.white,
+                style: SignInWithAppleButtonStyle.black,
                 height: 32),
           )
         ])

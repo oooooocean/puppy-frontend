@@ -3,7 +3,9 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:get/get.dart';
 
 enum PuppyButtonStyle {
+  /// 白字 橙底
   style1,
+  /// 橙字, 白底
   style2;
 
   Color getTextColor(bool enable) {
@@ -11,14 +13,14 @@ enum PuppyButtonStyle {
       case PuppyButtonStyle.style1:
         return enable ? Colors.white : const Color(0xff878787);
       default:
-        return enable ? Colors.orange : Colors.black26;
+        return enable ? Colors.orange : Colors.grey[400]!;
     }
   }
 
   Color getBackgroundColor(bool enable) {
     switch (this) {
       case PuppyButtonStyle.style1:
-        return enable ? Colors.orange : Colors.grey.withOpacity(0.25);
+        return enable ? Colors.orange : const Color(0xfff1f1f1);
       default:
         return Colors.white;
     }
@@ -34,6 +36,7 @@ enum PuppyButtonStyle {
   }
 }
 
+/// 提交按钮
 class PuppyButton extends StatelessWidget with ThemeMixin {
   final Widget child;
   final VoidCallback? onPress;

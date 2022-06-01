@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:frontend/components/mixins/validator.dart';
-import 'package:frontend/models/user.dart';
+import 'package:frontend/models/user/user.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:frontend/services/launch_service.dart';
-import 'package:frontend/services/store.dart';
 import 'package:get/get.dart';
 import 'package:more/more.dart';
 
@@ -22,7 +20,7 @@ class LoginController extends GetxController with NetMixin {
   var selectedClause = true.obs;
 
   /// 是否可登录
-  var loginEnable = true.obs;
+  var loginEnable = false.obs;
 
   /// 是否可获取验证码
   var codeEnable = false.obs;
@@ -33,7 +31,7 @@ class LoginController extends GetxController with NetMixin {
   /// 验证码定时器
   Timer? timer;
 
-  bool get shouldLogin => true; // codeCtl.text.length == 6 && shouldFetchCode && selectedClause.value;
+  bool get shouldLogin => codeCtl.text.length == 6 && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
 
   bool get shouldFetchCode => Validator.phone.verify(phoneCtl.text) && !(timer?.isActive ?? false);
 

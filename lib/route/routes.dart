@@ -7,5 +7,8 @@ abstract class AppRoutes {
 
   static const scaffold = '/scaffold';
 
+  static const userInfoAdd = '/user/info/add';
   static const userInfoEdit = '/user/info/edit';
+
+  static const petAdd = '/pet/add';
 }

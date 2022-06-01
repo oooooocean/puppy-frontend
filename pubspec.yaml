@@ -74,6 +74,15 @@ dependencies:
   # 登录苹果
   # https://pub.dev/packages/sign_in_with_apple
   sign_in_with_apple: ^4.0.0
+  # 日期选择
+  # https://pub.dev/packages/flutter_datetime_picker
+  flutter_datetime_picker:
+    git:
+      url: https://github.com/oooooocean/flutter_datetime_picker.git
+  # 图片缓存
+  # https://pub.dev/packages/cached_network_image
+  cached_network_image: ^3.2.1
+
 
 dev_dependencies:
   flutter_test:
