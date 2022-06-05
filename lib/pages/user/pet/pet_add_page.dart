@@ -3,6 +3,7 @@ import 'package:frontend/components/comps/comps.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/gender.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
+import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
@@ -11,7 +12,8 @@ import 'package:frontend/components/extension/date_extension.dart';
 // ignore: implementation_imports
 import 'package:flutter_easyloading/src/widgets/indicator.dart' as es;
 
-class PetAddPage extends GetView<PetAddController> with KeyboardAllocator, ThemeMixin {
+class PetAddPage extends GetView<PetAddController>
+    with KeyboardAllocator, ThemeMixin {
   final nickNameNode = FocusNode();
   final introductionNone = FocusNode();
 
@@ -23,11 +25,14 @@ class PetAddPage extends GetView<PetAddController> with KeyboardAllocator, Theme
       appBar: AppBar(
         title: const Text('添加宠物'),
         actions: [
-          TextButton(onPressed: controller.skip, child: Text('跳过', style: TextStyle(color: kSecondaryTextColor)))
+          TextButton(
+              onPressed: controller.skip,
+              child: Text('跳过', style: TextStyle(color: kSecondaryTextColor)))
         ],
       ),
       body: controller.obx((_) => _body,
-          onLoading: const Center(child: es.LoadingIndicator()), onError: (_) => Text(_ ?? '')),
+          onLoading: const Center(child: es.LoadingIndicator()),
+          onError: (_) => Text(_ ?? '')),
     );
   }
 
@@ -37,19 +42,27 @@ class PetAddPage extends GetView<PetAddController> with KeyboardAllocator, Theme
           child: Column(
             children: [
               Expanded(
-                  child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                _avatarItem,
-                _nicknameItem,
-                Padding(padding: EdgeInsets.only(top: 15.toPadding, bottom: 25.toPadding), child: _intrinsicWidgets),
-                _introduceItem
-              ])),
-              Padding(padding: EdgeInsets.symmetric(horizontal: 15.toPadding), child: _nextItem)
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                    _avatarItem,
+                    _nicknameItem,
+                    Padding(
+                        padding: EdgeInsets.only(
+                            top: 15.toPadding, bottom: 25.toPadding),
+                        child: _intrinsicWidgets),
+                    _introduceItem
+                  ])),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.toPadding),
+                  child: _nextItem)
             ],
           ),
         ),
       );
 
-  Widget get _avatarItem => PuppyAvatarButton(didSelected: controller.choseAvatar);
+  Widget get _avatarItem =>
+      PuppyAvatarButton(didSelected: controller.choseAvatar);
 
   Widget get _nicknameItem => PuppyTextField(
       focusNode: nickNameNode,
@@ -62,7 +75,9 @@ class PetAddPage extends GetView<PetAddController> with KeyboardAllocator, Theme
   Widget get _intrinsicWidgets {
     return Container(
       padding: EdgeInsets.all(8.toPadding),
-      decoration: BoxDecoration(color: kShapeColor, borderRadius: const BorderRadius.all(Radius.circular(5))),
+      decoration: BoxDecoration(
+          color: kShapeColor,
+          borderRadius: const BorderRadius.all(Radius.circular(5))),
       child: Column(
         children: [
           Row(children: [const Text('性别'), Expanded(child: _genderItem)]),
@@ -83,8 +98,10 @@ class PetAddPage extends GetView<PetAddController> with KeyboardAllocator, Theme
           padding: EdgeInsets.only(left: 10.toPadding),
           child: OutlinedButton(
               style: ButtonStyle(
-                  side: MaterialStateProperty.all(BorderSide(color: isSelected ? kOrangeColor : kBorderColor)),
-                  foregroundColor: MaterialStateProperty.all(isSelected ? kOrangeColor : kSecondaryTextColor),
+                  side: MaterialStateProperty.all(BorderSide(
+                      color: isSelected ? kOrangeColor : kBorderColor)),
+                  foregroundColor: MaterialStateProperty.all(
+                      isSelected ? kOrangeColor : kSecondaryTextColor),
                   padding: MaterialStateProperty.all(EdgeInsets.zero),
                   visualDensity: VisualDensity.compact),
               onPressed: () => controller.choseGender(gender),
@@ -93,7 +110,9 @@ class PetAddPage extends GetView<PetAddController> with KeyboardAllocator, Theme
       }).toList()));
 
   Widget get _categoryItem => TextButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed(AppRoutes.petCategory, arguments: controller.state);
+        },
         child: Row(children: [
           const Text('类别'),
           Expanded(
@@ -109,7 +128,9 @@ class PetAddPage extends GetView<PetAddController> with KeyboardAllocator, Theme
   Widget get _birthdayItem => GetBuilder<PetAddController>(
         id: 'birthday',
         builder: (_) => PuppyActionButton(
-            leading: const Text('生日'), onPressed: controller.choseBirthday, value: controller.birthday?.yyyymmdd),
+            leading: const Text('生日'),
+            onPressed: controller.choseBirthday,
+            value: controller.birthday?.yyyymmdd),
       );
 
   Widget get _introduceItem => PuppyTextField(
