@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/components/extension/image_extension.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/pet/pet_category.dart';
@@ -27,17 +28,15 @@ class PetCategoryPage extends GetView<PetCategoryController>
   }
 
   Widget _gridContent(context, index) => GestureDetector(
-      onTap: () {
-        Get.toNamed(AppRoutes.petSubCategory,
-            arguments: controller.categories[index]);
-      },
+      onTap: () => controller.jumpToSub(index),
       child: Container(
         decoration:
             BoxDecoration(border: Border.all(width: 1, color: kBorderColor)),
         child: Column(children: [
-          // buildNetImage(
-          //     controller.categories[index].subCategory.first.image),
-          // const SizedBox(height: 12),
+          controller.loadImage(index) == null
+              ? const Icon(Icons.local_laundry_service)
+              : buildNetImage(controller.loadImage(index)!),
+          const SizedBox(height: 12),
           Text(controller.categories[index].name)
         ]),
       ));

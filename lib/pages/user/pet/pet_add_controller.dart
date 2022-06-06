@@ -8,7 +8,8 @@ import 'package:frontend/services/launch_service.dart';
 import 'package:get/get.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
-class PetAddController extends GetxController with NetMixin, StateMixin<List<PetCategory>> {
+class PetAddController extends GetxController
+    with NetMixin, StateMixin<List<PetCategory>> {
   final nicknameCtl = TextEditingController();
   final introductionCtl = TextEditingController();
 
@@ -18,7 +19,8 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
   PetExplicitCategory? category;
 
   @override
-  bool get shouldRequest => nicknameCtl.text.isNotEmpty && avatar != null && birthday != null;
+  bool get shouldRequest =>
+      nicknameCtl.text.isNotEmpty && avatar != null && birthday != null;
 
   save() {
     final user = LaunchService.shared.user;
@@ -36,7 +38,8 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
                 "birthday": birthday!.toIso8601String()
               }
             })
-        .then((params) => post('user/${user!.id}/pets/', params, (data) => data));
+        .then(
+            (params) => post('user/${user!.id}/pets/', params, (data) => data));
 
     request(
         api: api,
@@ -64,7 +67,8 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
 
   choseBirthday() {
     final start = DateTime.now().subtract(const Duration(days: 30));
-    DatePicker.showDatePicker(Get.context!, maxTime: DateTime.now(), currentTime: start, onConfirm: (dateTime) {
+    DatePicker.showDatePicker(Get.context!,
+        maxTime: DateTime.now(), currentTime: start, onConfirm: (dateTime) {
       birthday = dateTime;
       update(['birthday', 'id']);
     }, locale: LocaleType.zh);
@@ -74,15 +78,20 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
     assert(category.isValid, '子类和父类不匹配');
     if (this.category == category) return;
     this.category = category;
-    update(['next']);
+    update(['category', 'next']);
   }
 
   @override
   void onReady() {
     change(null, status: RxStatus.loading());
-    get('configuration/pet/', (data) => (data as List<dynamic>).map((e) => PetCategory.fromJson(e)).toList())
+    get(
+            'configuration/pet/',
+            (data) => (data as List<dynamic>)
+                .map((e) => PetCategory.fromJson(e))
+                .toList())
         .then((value) => change(value, status: RxStatus.success()))
-        .catchError((error) => change(null, status: RxStatus.error(error.toString())));
+        .catchError(
+            (error) => change(null, status: RxStatus.error(error.toString())));
     super.onReady();
   }
 }

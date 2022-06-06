@@ -6,7 +6,8 @@ class PetSubCategoryController extends GetxController {
   PetAddController get petAdd => Get.find<PetAddController>();
 
   void choseCategory(index) {
-    petAdd.choseCategory(PetExplicitCategory(
-        category, category.subCategory[index] as PetSubCategory));
+    petAdd.choseCategory(
+        PetExplicitCategory(category, category.subCategory[index]));
+    Get.back();
   }
 }

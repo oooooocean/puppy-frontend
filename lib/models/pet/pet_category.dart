@@ -14,7 +14,7 @@ class PetExplicitCategory {
 
 @JsonSerializable()
 class PetCategory extends IdAndName {
-  List<IdAndName> subCategory;
+  List<PetSubCategory> subCategory;
 
   PetCategory(String id, String name, this.subCategory) : super(id, name);
 

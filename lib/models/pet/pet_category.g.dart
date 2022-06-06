@@ -10,7 +10,7 @@ PetCategory _$PetCategoryFromJson(Map<String, dynamic> json) => PetCategory(
       int2String(json['id']),
       json['name'] as String,
       (json['subCategory'] as List<dynamic>)
-          .map((e) => IdAndName.fromJson(e as Map<String, dynamic>))
+          .map((e) => PetSubCategory.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

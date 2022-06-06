@@ -109,21 +109,23 @@ class PetAddPage extends GetView<PetAddController>
         );
       }).toList()));
 
-  Widget get _categoryItem => TextButton(
-        onPressed: () {
-          Get.toNamed(AppRoutes.petCategory, arguments: controller.state);
-        },
-        child: Row(children: [
-          const Text('类别'),
-          Expanded(
-              child: Text(
-            '点击选择',
-            textAlign: TextAlign.end,
-            style: TextStyle(color: kSecondaryTextColor),
-          )),
-          Icon(Icons.chevron_right, color: kGreyColor)
-        ]),
-      );
+  Widget get _categoryItem => GetBuilder<PetAddController>(
+      id: "category",
+      builder: (_) => TextButton(
+            onPressed: () {
+              Get.toNamed(AppRoutes.petCategory, arguments: controller.state);
+            },
+            child: Row(children: [
+              const Text('类别'),
+              Expanded(
+                  child: Text(
+                controller.category?.subCategory.name ?? '点击选择',
+                textAlign: TextAlign.end,
+                style: TextStyle(color: kSecondaryTextColor),
+              )),
+              Icon(Icons.chevron_right, color: kGreyColor)
+            ]),
+          ));
 
   Widget get _birthdayItem => GetBuilder<PetAddController>(
         id: 'birthday',
