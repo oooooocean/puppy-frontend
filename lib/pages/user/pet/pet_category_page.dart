@@ -14,7 +14,12 @@ class PetCategoryPage extends GetView<PetCategoryController>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('选择分类')),
+        appBar: AppBar(
+            leading: BackButton(
+              onPressed: () => Get.back(),
+              color: kBlackColor,
+            ),
+            title: const Text('选择分类')),
         body: SafeArea(
             child: GetBuilder<PetCategoryController>(
                 builder: (_) => Padding(

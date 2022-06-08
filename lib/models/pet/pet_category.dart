@@ -15,8 +15,10 @@ class PetExplicitCategory {
 @JsonSerializable()
 class PetCategory extends IdAndName {
   List<PetSubCategory> subCategory;
+  List<int> hotCategory;
 
-  PetCategory(String id, String name, this.subCategory) : super(id, name);
+  PetCategory(String id, String name, this.subCategory, this.hotCategory)
+      : super(id, name);
 
   factory PetCategory.fromJson(Map<String, dynamic> json) =>
       _$PetCategoryFromJson(json);
