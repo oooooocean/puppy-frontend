@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/abstract/scaffold_child_state.dart';
+import 'package:frontend/pages/user/feedback/feedback_page.dart';
 import 'package:frontend/pages/user/user_controller.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
@@ -16,8 +17,15 @@ class _UserState extends ScaffoldChildState<UserPage, UserController> {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      appBar: AppBar(title: Text('hello'),),
       body: Center(
         child: TextButton(onPressed: () => Get.toNamed(AppRoutes.userInfoEdit), child: const Text('编辑用户资料')),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.feedback),
+        heroTag: 'other',
+        tooltip: 'feedback',
+        onPressed: ()=>Get.to(FeedbackPage()),
       ),
     );
   }
