@@ -28,7 +28,11 @@ class PetSubCategoryPage extends GetView<PetSubCategoryController>
             title: const Text('选择品种')),
         body: SafeArea(
             child: Column(children: [
-          SAppBarSearch(height: 40, hintText: "选择宠物品种"),
+          AnimatedSearchBar(
+            height: 40,
+            label: "选择宠物品种",
+            onChanged: (_) {},
+          ),
           Expanded(
               child: Padding(
                   padding: const EdgeInsets.only(top: 10), child: _listView))

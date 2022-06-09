@@ -1,202 +1,228 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/components/mixins/theme_mixin.dart';
+import 'dart:async';
 
-class SAppBarSearch extends StatefulWidget implements PreferredSizeWidget {
-  SAppBarSearch({
-    Key? key,
-    this.borderRadius = 20,
-    this.autoFocus = false,
-    this.focusNode,
-    this.controller,
-    required this.height,
-    this.value,
-    this.leading,
-    this.suffix,
-    this.actions,
-    this.hintText,
-    this.onTap,
-    this.onClear,
-    this.onCancel,
-    this.onChanged,
-    this.onSearch,
-  }) : super(key: key);
+/// Use debouncer to detect user not in typing
+class Debouncer {
+  Duration? duration;
+  VoidCallback? action;
+  Timer? _timer;
 
-  late double? borderRadius;
-  late bool? autoFocus;
-  late FocusNode? focusNode;
-  late TextEditingController? controller;
+  Debouncer({this.duration});
 
-  // 输入框高度 默认40
-  final double height;
-
-  // 默认值
-  final String? value;
-
-  // 最前面的组件
-  late final Widget? leading;
-
-  // 搜索框后缀组件
-  late final Widget? suffix;
-  final List<Widget>? actions;
-
-  // 提示文字
-  final String? hintText;
-
-  // 输入框点击
-  late final VoidCallback? onTap;
-
-  // 单独清除输入框内容
-  late final VoidCallback? onClear;
-
-  // 清除输入框内容并取消输入
-  late final VoidCallback? onCancel;
-
-  // 输入框内容改变
-  late final ValueChanged? onChanged;
-
-  // 点击键盘搜索
-  late final ValueChanged? onSearch;
-
-  @override
-  _SAppBarSearchState createState() => _SAppBarSearchState();
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  run(VoidCallback action) {
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+    _timer = Timer(duration ?? const Duration(milliseconds: 300), action);
+  }
 }
 
-class _SAppBarSearchState extends State<SAppBarSearch> with ThemeMixin {
-  late TextEditingController _controller;
-  late FocusNode _focusNode;
-  bool isInput = false;
+class AnimatedSearchBar extends StatefulWidget {
+  ///  label - String ,isRequired : No
+  ///  onChanged - Function(String)  ,isRequired : No
+  ///  labelStyle - TextStyle ,isRequired :  No
+  ///  searchDecoration - InputDecoration  ,isRequired : No
+  ///  animationDuration in milliseconds -  int ,isRequired : No
+  ///  searchStyle - TextStyle ,isRequired :  No
+  ///  cursorColor - Color ,isRequired : No
+  ///  duration - Duration for debouncer
+  ///
+  const AnimatedSearchBar({
+    Key? key,
+    this.label = "",
+    this.alignment = TextAlign.start,
+    required this.onChanged,
+    this.labelStyle = const TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.bold,
+    ),
+    this.searchDecoration = const InputDecoration(
+        labelText: "Search",
+        alignLabelWithHint: true,
+        contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)), gapPadding: 4)),
+    this.animationDuration = 350,
+    this.searchStyle = const TextStyle(color: Colors.black),
+    this.cursorColor,
+    this.duration = const Duration(milliseconds: 300),
+    this.height = 60,
 
-  bool get isFocus => _focusNode.hasFocus;
+    /// Value key must set with value close
+    this.closeIcon = const Icon(Icons.close, key: ValueKey("close")),
 
-  bool get isTextEmpty => _controller.text.isEmpty;
+    /// Value key must set with value search
+    this.searchIcon = const Icon(Icons.search, key: ValueKey("search")),
+  }) : super(key: key);
 
-  bool get isActionEmpty => widget.actions?.isEmpty ?? true;
+  final String label;
+  final Function(String)? onChanged;
+  final TextStyle labelStyle;
+  final InputDecoration searchDecoration;
+  final int animationDuration;
+  final TextStyle searchStyle;
+  final Color? cursorColor;
+  final TextAlign alignment;
+  final Duration duration;
+  final double height;
+  final Widget closeIcon;
+  final Widget searchIcon;
 
   @override
-  void initState() {
-    _controller = widget.controller ?? TextEditingController();
-    _focusNode = widget.focusNode ?? FocusNode();
-    if (widget.value != null) _controller.text = widget.value!;
-    // 监听输入框状态
-    _focusNode.addListener(() => setState(() {}));
-    // 监听输入框变化
-    // 解决当外部改变输入框内容时 控件处于正确的状态中 (显示清除图标按钮和取消按钮等)
-    _controller.addListener(() {
-      setState(() {});
-      widget.onChanged?.call(_controller.text);
-    });
-    super.initState();
-  }
+  _AnimatedSearchBarState createState() => _AnimatedSearchBarState();
+}
 
-  // 清除输入框内容
-  void _onClearInput() {
-    _controller.clear();
-    if (!isFocus) _focusNode.requestFocus();
-    setState(() {});
-    widget.onClear?.call();
-  }
-
-  // 取消输入框编辑
-  void _onCancelInput() {
-    _controller.clear();
-    _focusNode.unfocus();
-    setState(() {});
-    widget.onCancel?.call();
-  }
-
-  Widget _suffix() {
-    if (!isTextEmpty) {
-      return GestureDetector(
-        onTap: _onClearInput,
-        child: SizedBox(
-          width: widget.height,
-          height: widget.height,
-          child: Icon(Icons.cancel, size: 22, color: kGreyColor),
-        ),
-      );
-    }
-    return widget.suffix ?? const SizedBox();
-  }
-
-  List<Widget> _actions() {
-    List<Widget> list = [];
-    if (isFocus || !isTextEmpty) {
-      list.add(GestureDetector(
-        onTap: _onCancelInput,
-        child: Container(
-          constraints: BoxConstraints(minWidth: 48),
-          alignment: Alignment.center,
-          child: Text(
-            '取消',
-            style: TextStyle(color: kSecondaryTextColor, fontSize: 15),
-          ),
-        ),
-      ));
-    } else if (!isActionEmpty) {
-      list.addAll(widget.actions!);
-    }
-    return list;
-  }
+class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
+  bool _isSearch = false;
+  final _fnSearch = FocusNode();
+  final _debouncer = Debouncer();
+  final _conSearch = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // final ModalRoute<dynamic> parentRoute = ModalRoute.of(context);
-    // final bool canPop = parentRoute?.canPop ?? false;
-    final bool canPop = true;
-    double left = !canPop ? 15 : 0;
-    double right = isActionEmpty && !isFocus && isTextEmpty ? 15 : 0;
-    return AppBar(
-      titleSpacing: 0,
-      leading: isFocus ? const SizedBox() : widget.leading,
-      leadingWidth: isFocus ? 15 : kToolbarHeight,
-      title: Container(
-        margin: EdgeInsets.only(right: right, left: left),
-        height: widget.height,
-        decoration: BoxDecoration(
-          color: kBorderColor,
-          borderRadius: BorderRadius.circular(widget.borderRadius!),
-        ),
-        child: Row(
-          children: [
-            SizedBox(
-              width: widget.height,
-              height: widget.height,
-              child: Icon(Icons.search, size: 22, color: kShapeColor),
-            ),
-            Expanded(
-              child: TextField(
-                autofocus: widget.autoFocus!,
-                focusNode: _focusNode,
-                controller: _controller,
-                decoration: InputDecoration(
-                  isDense: true,
-                  border: InputBorder.none,
-                  hintText: widget.hintText ?? '请输入关键字',
-                  hintStyle:
-                      TextStyle(fontSize: 15, color: kSecondaryTextColor),
-                ),
-                style: TextStyle(
-                    fontSize: 15, color: kPrimaryTextColor, height: 1.3),
-                textInputAction: TextInputAction.search,
-                onTap: widget.onTap,
-                onSubmitted: widget.onSearch,
-              ),
-            ),
-            _suffix(),
-          ],
-        ),
-      ),
-      actions: _actions(),
-    );
-  }
+    _debouncer.duration = widget.duration;
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    _focusNode.dispose();
-    super.dispose();
+    // Use row as Root view
+    return GestureDetector(
+      onTap: () {
+        if (!_isSearch) {
+          setState(() {
+            _isSearch = true;
+            _fnSearch.requestFocus();
+          });
+        }
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Handle Animated Change view for Title and TextField Search
+          Expanded(
+              // Use animated Switcher to show animation in transition widget
+              child: AnimatedSwitcher(
+            duration: Duration(milliseconds: widget.animationDuration),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              //animated from right to left
+              final inAnimation = Tween<Offset>(
+                      begin: const Offset(1.0, 0.0),
+                      end: const Offset(0.0, 0.0))
+                  .animate(animation);
+              //animated from left to right
+              final outAnimation = Tween<Offset>(
+                      begin: const Offset(-1.0, 0.0),
+                      end: const Offset(0.0, 0.0))
+                  .animate(animation);
+
+              // show different animation base on key
+              if (child.key == const ValueKey("textF")) {
+                return ClipRect(
+                  child: SlideTransition(position: inAnimation, child: child),
+                );
+              } else {
+                return ClipRect(
+                  child: SlideTransition(position: outAnimation, child: child),
+                );
+              }
+            },
+            child: _isSearch
+                ?
+                //Container of SearchView
+                SizedBox(
+                    key: const ValueKey("textF"),
+                    height: widget.height,
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextFormField(
+                          focusNode: _fnSearch,
+                          controller: _conSearch,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.search,
+                          textAlign: widget.alignment,
+                          style: widget.searchStyle,
+                          minLines: 1,
+                          maxLines: 1,
+                          cursorColor:
+                              widget.cursorColor ?? ThemeData().primaryColor,
+                          textAlignVertical: TextAlignVertical.center,
+                          decoration: widget.searchDecoration,
+                          onChanged: (value) {
+                            _debouncer.run(() {
+                              widget.onChanged!(value);
+                            });
+                          },
+                        )),
+                  )
+                :
+                //Container of Label
+                SizedBox(
+                    key: const ValueKey("align"),
+                    height: 60,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        widget.label,
+                        style: widget.labelStyle,
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                  ),
+          )),
+          // Handle Animated Change view for Search Icon and Close Icon
+          IconButton(
+            icon:
+                // Use animated Switcher to show animation in transition widget
+                AnimatedSwitcher(
+              duration: const Duration(milliseconds: 350),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                //animated from top to bottom
+                final inAnimation = Tween<Offset>(
+                        begin: const Offset(0.0, 1.0),
+                        end: const Offset(0.0, 0.0))
+                    .animate(animation);
+                //animated from bottom to top
+                final outAnimation = Tween<Offset>(
+                        begin: const Offset(0.0, -1.0),
+                        end: const Offset(0.0, 0.0))
+                    .animate(animation);
+
+                // show different animation base on key
+                if (child.key == const ValueKey("close")) {
+                  return ClipRect(
+                    child: SlideTransition(
+                      position: inAnimation,
+                      child: child,
+                    ),
+                  );
+                } else {
+                  return ClipRect(
+                    child:
+                        SlideTransition(position: outAnimation, child: child),
+                  );
+                }
+              },
+              child: _isSearch
+                  ?
+                  //if is search, set icon as Close
+                  widget.closeIcon
+                  //if is !search, set icon as Search
+                  : widget.searchIcon,
+            ),
+            onPressed: () {
+              setState(() {
+                /// Check if search active and it's not empty
+                if (_isSearch && _conSearch.text.isNotEmpty) {
+                  _conSearch.clear();
+                  widget.onChanged!(_conSearch.text);
+                } else {
+                  _isSearch = !_isSearch;
+                  if (!_isSearch) widget.onChanged!(_conSearch.text);
+                  if (_isSearch) _fnSearch.requestFocus();
+                }
+              });
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
