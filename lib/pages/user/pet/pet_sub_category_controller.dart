@@ -13,6 +13,19 @@ class PetSubCategoryController extends GetxController {
   List<PetSubCategory>? get hotSubCategories => category._hotArray;
   PetAddController get _petAdd => Get.find<PetAddController>();
 
+  String? loadHotImage(int index) {
+    if (hotSubCategories != null && hotSubCategories!.isEmpty) {
+      return null;
+    }
+    return hotSubCategories![index].image.toImageResourceUrl;
+  }
+
+  void choseHotCategory(index) {
+    _petAdd.choseCategory(
+        PetExplicitCategory(category, category._hotArray![index]));
+    Get.back();
+  }
+
   void choseCategory(index) {
     _petAdd.choseCategory(
         PetExplicitCategory(category, category.subCategory[index]));

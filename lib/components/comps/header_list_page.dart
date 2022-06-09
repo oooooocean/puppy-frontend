@@ -5,16 +5,12 @@ typedef HeaderWidgetBuild = Widget Function(BuildContext context, int position);
 typedef ItemWidgetBuild = Widget Function(BuildContext context, int position);
 
 class HeaderListPage extends StatefulWidget {
-  List? headerList;
-  List listData;
-  ItemWidgetBuild itemWidgetCreator;
-  HeaderWidgetBuild? headerCreator;
+  final List listData;
+  final ItemWidgetBuild itemWidgetCreator;
+  final HeaderWidgetBuild? headerCreator;
 
-  HeaderListPage(this.listData,
-      {Key? key,
-        this.headerList,
-        required this.itemWidgetCreator,
-        this.headerCreator})
+  const HeaderListPage(this.listData,
+      {Key? key, required this.itemWidgetCreator, this.headerCreator})
       : super(key: key);
 
   @override
@@ -38,7 +34,7 @@ class ListPageState extends State<HeaderListPage> {
   }
 
   int getHeaderCount() {
-    return widget.headerList?.length ?? 0;
+    return 1;
   }
 
   Widget _headerItemWidget(BuildContext context, int index) {
@@ -49,8 +45,7 @@ class ListPageState extends State<HeaderListPage> {
         child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text("Header Row $index")),
-        onTap: () {
-        },
+        onTap: () {},
       );
     }
   }
@@ -59,15 +54,10 @@ class ListPageState extends State<HeaderListPage> {
     if (index < getHeaderCount()) {
       return _headerItemWidget(context, index);
     } else {
-      int pos = index - getHeaderCount();
-      return _itemBuildWidget(context, pos);
+      return _itemBuildWidget(context, index - getHeaderCount());
     }
   }
 
-  Widget _itemBuildWidget(BuildContext context, int index) => GestureDetector(
-    child: Padding(
-        padding: const EdgeInsets.all(10.0), child: Text("Row $index")),
-    onTap: () {
-    },
-  );
+  Widget _itemBuildWidget(BuildContext context, int index) =>
+      widget.itemWidgetCreator(context, index);
 }
