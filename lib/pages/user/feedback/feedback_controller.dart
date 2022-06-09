@@ -24,26 +24,32 @@ class FeedbackController extends GetxController with NetMixin {
 
    List<String> itmeDescs = ['功能问题：功能故障','体验问题：我有建议','安全问题：密码、隐私','其他问题'];
 
-  AssetEntity? cover;
+  List<AssetEntity> covers = [];
+
+   var maxAssets = 2;
 
   bool get shouldNext => feedbackCtl.text.isNotEmpty && selectIndex > 0 ;
   void choseCover() async {
     final config = AssetPickerConfig(
-        selectedAssets: cover != null ? [cover!] : null, maxAssets: 2, requestType: RequestType.image);
+        selectedAssets: covers.length == maxAssets ? covers : null, maxAssets: maxAssets-covers.length, requestType: RequestType.image);
     final results = await AssetPicker.pickAssets(Get.context!, pickerConfig: config);
     if (results == null || results.isEmpty) return;
-    cover = results.first;
+    covers.isEmpty && results.length == 2 ? covers = results : covers.add(results.first);
     update(['cover']);
   }
   void selectCell (int index) {
 
     selectIndex = index;
-    update(['listView']);
+    update(['listView','next']);
 
   }
 
   feedback() {
-    List<AssetEntity> image = cover != null ? [cover!] : [];
+    List medias =[];
+    covers.forEach((element) {
+      Map map = {'type':0,'key':element };
+    });
+    Future  api = post('feedback/', {'title':itmeDescs[selectIndex],'description':feedbackCtl.text,'medias':[covers]}, (data) => null);
 
 
 

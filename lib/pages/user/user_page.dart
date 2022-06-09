@@ -25,7 +25,7 @@ class _UserState extends ScaffoldChildState<UserPage, UserController> {
         child: Icon(Icons.feedback),
         heroTag: 'other',
         tooltip: 'feedback',
-        onPressed: ()=>Get.to(FeedbackPage()),
+        onPressed: ()=>Get.toNamed(AppRoutes.feedback),
       ),
     );
   }

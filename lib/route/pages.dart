@@ -3,6 +3,8 @@ import 'package:frontend/pages/login/login_controller.dart';
 import 'package:frontend/pages/login/login_page.dart';
 import 'package:frontend/pages/scaffold/scaffold_controller.dart';
 import 'package:frontend/pages/scaffold/scaffold_page.dart';
+import 'package:frontend/pages/user/feedback/feedback_controller.dart';
+import 'package:frontend/pages/user/feedback/feedback_page.dart';
 import 'package:get/get.dart';
 import 'package:frontend/pages/user/user_pages.dart' as user_pages;
 
@@ -18,6 +20,10 @@ final appRoutes = [
       name: AppRoutes.scaffold,
       page: () => const ScaffoldPage(),
       binding: BindingsBuilder(() => Get.lazyPut(() => ScaffoldController()))),
+  GetPage(
+      name: AppRoutes.feedback,
+      page: ()=>FeedbackPage(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => FeedbackController()))),
   ...user_pages.userRoutes,
-  ...user_pages.petRoutes
+  ...user_pages.petRoutes,
 ];
