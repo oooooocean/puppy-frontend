@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
@@ -28,8 +30,8 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator ,T
                 child: Stack (
                   children: [
                     Container(
-                      color:Color(0x30cccccc),
-                      margin: EdgeInsets.only(bottom: 10),
+                      color:bgColor,
+                      margin: const EdgeInsets.only(bottom: 10),
                       child:  ListView (
                         children: [
                           _headerItem,
@@ -89,7 +91,7 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator ,T
   /*问题描述*/
   Widget get _feedbackTextView => Container(
     color: Colors.white,
-    padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+    padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
     child:    Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -130,19 +132,7 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator ,T
             SizedBox(
               height: 60,
               child: Row(
-                  children: [
-                    controller.covers.length == controller.maxAssets ? Row(
-                      children: [
-                        _localImage(controller.covers[0]),
-                        const SizedBox(width: 10,),
-                        _localImage(controller.covers[01]),],
-                    ) : controller.covers.isEmpty ? _addBtn : Row(
-                      children: [
-                        _localImage(controller.covers[0]),
-                        const SizedBox(width: 10,),
-                        _addBtn
-                      ],
-                    )]
+                  children: createImagesInfo(controller.covers, controller.maxAssets)
               ),
             ),
             const SizedBox(height: 10,),
@@ -152,6 +142,18 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator ,T
         ),
       )
   );
+/*图片列表*/
+  List<Widget> createImagesInfo(List<AssetEntity> covers,int maxCount) {
+    List<Widget> images = [];
+    for (var element in covers) {
+      images.add(_localImage(element));
+      images.add(const SizedBox(width: 10,));
+    }
+    if(covers.length < maxCount){
+      images.add(_addBtn);
+    }
+    return images;
+  }
 
 /*添加的图片*/
   Widget  _localImage(AssetEntity entity) => ClipRRect(
