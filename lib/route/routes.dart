@@ -13,4 +13,5 @@ abstract class AppRoutes {
   static const petAdd = '/pet/add';
   static const petCategory = '/pet/category';
   static const petSubCategory = '/pet/subCategory';
+  static const petSearch = '/pet/search';
 }

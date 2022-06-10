@@ -31,7 +31,7 @@ class AnimatedSearchBar extends StatefulWidget {
     Key? key,
     this.label = "",
     this.alignment = TextAlign.start,
-    required this.onChanged,
+    this.onChanged,
     this.labelStyle = const TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.bold,
@@ -53,6 +53,8 @@ class AnimatedSearchBar extends StatefulWidget {
 
     /// Value key must set with value search
     this.searchIcon = const Icon(Icons.search, key: ValueKey("search")),
+    this.searchEnable = true,
+    this.onTap,
   }) : super(key: key);
 
   final String label;
@@ -67,6 +69,8 @@ class AnimatedSearchBar extends StatefulWidget {
   final double height;
   final Widget closeIcon;
   final Widget searchIcon;
+  final bool searchEnable;
+  final Function()? onTap;
 
   @override
   _AnimatedSearchBarState createState() => _AnimatedSearchBarState();
@@ -85,6 +89,10 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
     // Use row as Root view
     return GestureDetector(
       onTap: () {
+        if (!widget.searchEnable) {
+          widget.onTap != null ? widget.onTap!() : 1;
+          return;
+        }
         if (!_isSearch) {
           setState(() {
             _isSearch = true;
@@ -208,6 +216,10 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
                   : widget.searchIcon,
             ),
             onPressed: () {
+              if (!widget.searchEnable) {
+                widget.onTap != null ? widget.onTap!() : 1;
+                return;
+              }
               setState(() {
                 /// Check if search active and it's not empty
                 if (_isSearch && _conSearch.text.isNotEmpty) {

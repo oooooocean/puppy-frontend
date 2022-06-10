@@ -9,6 +9,7 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/pet/pet_category.dart';
 import 'package:frontend/models/id_name.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
+import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 
 part 'package:frontend/pages/user/pet/pet_sub_category_controller.dart';
@@ -31,7 +32,8 @@ class PetSubCategoryPage extends GetView<PetSubCategoryController>
           AnimatedSearchBar(
             height: 40,
             label: "选择宠物品种",
-            onChanged: (_) {},
+            searchEnable: false,
+            onTap: () => controller.jumpToSearch(),
           ),
           Expanded(
               child: Padding(
