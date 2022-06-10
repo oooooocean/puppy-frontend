@@ -1,6 +1,4 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
@@ -9,51 +7,57 @@ import 'package:get/get.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
-import '../../../components/comps/puppy_text_field.dart';
 
 class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator ,ThemeMixin,LoadImageMixin {
   final descriptionNode = FocusNode();
   @override
   final controller = Get.put(FeedbackController());
+  Color bgColor = const Color(0x30cccccc);
+  FeedbackPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title:const Text('意见反馈',style: TextStyle(color: Colors.white),),backgroundColor: Colors.black54,),
     body: SafeArea(
         child: KeyboardActions(
-      config: doneKeyboardConfig( [descriptionNode]),
-      child: SizedBox (
-        height: Get.height - Get.statusBarHeight - kToolbarHeight,
-        child:  Container(
-          padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-          child: Stack (
-            children: [
-              ListView (
-                children: [
-                  _headerItem,
-                  const SizedBox(height: 5,),
-                  _listItem,
-                  const SizedBox(height: 10,),
-                  _feedbackTextView,
-                  _imageAddItme,
-                  const SizedBox(height: 10,),
-                ],
-              ),
-              Positioned(bottom:15,child: _nextItem,)
+          config: doneKeyboardConfig( [descriptionNode]),
+          child: SizedBox (
+            height: Get.height - Get.statusBarHeight - kToolbarHeight,
+            child:  Container(
+                color: bgColor,
+                child: Stack (
+                  children: [
+                    Container(
+                      color:Color(0x30cccccc),
+                      margin: EdgeInsets.only(bottom: 10),
+                      child:  ListView (
+                        children: [
+                          _headerItem,
+                          _listItem,
+                          const SizedBox(height: 10,),
+                          _feedbackTextView,
+                          _imageAddItme,
+                          const SizedBox(height: 10,),
+                        ],
+                      ),
+                    ),
+                    Positioned(bottom:15,child: _nextItem,)
 
-            ],
-          )
-        ),
-      ),
-    )
+                  ],
+                )
+            ),
+          ),
+        )
     ),
-
 
   );
   /*头部提示*/
   Widget get _headerItem => Container(
 
+    color: Colors.white,
     width: Get.width,
+    padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+
     child:  Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children:  [
@@ -67,25 +71,27 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator ,T
 
   /*原因列表*/
   Widget get _listItem => ListView.separated(
-  shrinkWrap: true,
-  physics: const NeverScrollableScrollPhysics(),
-  itemBuilder: (BuildContext context, int index) => GetBuilder<FeedbackController> (
-    id: 'listView',
-    builder: (_) => FeedbackCell(title: controller.itmeDescs[index],
-      opTap: ()=> controller.selectCell(index),
-      isSelect: controller.selectIndex == index ? true : false,
-    ),
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemBuilder: (BuildContext context, int index) => GetBuilder<FeedbackController> (
+      id: 'listView',
+      builder: (_) => FeedbackCell(title: controller.itmeDescs[index],
+        opTap: ()=> controller.selectCell(index),
+        isSelect: controller.selectIndex == index ? true : false,
+      ),
 
-  ),
+    ),
     itemCount: controller.itmeDescs.length,
-    separatorBuilder: (BuildContext context, int index) { return const Divider(); },
+    separatorBuilder: (BuildContext context, int index) {
+      return const Divider(height: 0,indent: 15,endIndent: 15,color:Colors.black38,); },
 
   );
-  /*意见反馈*/
+  /*问题描述*/
   Widget get _feedbackTextView => Container(
-
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    color: Colors.white,
+    padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+    child:    Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const Text('问题描述',style: TextStyle(fontSize:16 ,fontWeight: FontWeight.bold,),),
         const SizedBox(height: 10,),
@@ -97,7 +103,7 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator ,T
           cursorColor: Colors.black,
           onChanged: (_) => controller.update(['next']),
           decoration: const InputDecoration(
-            hintText: '请填写您的意见和反馈说明',
+              hintText: '请填写您的意见和反馈说明',
               fillColor: Color(0x30cccccc),
               filled: true,
               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0x00000000), width: 1)),
@@ -105,42 +111,46 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator ,T
                   borderSide: BorderSide(color: Color(0x00000000),
                   ))
           ),
-          ),
+        ),
       ],
     ),
-
-
   );
 
+
   Widget get _imageAddItme => GetBuilder<FeedbackController> (
-    id: 'cover',
-    builder: (_) => Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      id: 'cover',
+      builder: (_) => Container(
+        color: Colors.white,
+        padding: const EdgeInsets.fromLTRB(15, 0, 15, 5),
 
-      children: [
-        SizedBox(
-          height: 60,
-          child: Row(
-              children: [
-                controller.covers.length == controller.maxAssets ? Row(
+        child:Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+          children: [
+            SizedBox(
+              height: 60,
+              child: Row(
                   children: [
-                    _localImage(controller.covers[0]),
-                    const SizedBox(width: 10,),
-                   _localImage(controller.covers[01]),],
-                ) : controller.covers.isEmpty ? _addBtn : Row(
-                  children: [
-                    _localImage(controller.covers[0]),
-                    const SizedBox(width: 10,),
-                    _addBtn
-                   ],
-                )]
-          ),
+                    controller.covers.length == controller.maxAssets ? Row(
+                      children: [
+                        _localImage(controller.covers[0]),
+                        const SizedBox(width: 10,),
+                        _localImage(controller.covers[01]),],
+                    ) : controller.covers.isEmpty ? _addBtn : Row(
+                      children: [
+                        _localImage(controller.covers[0]),
+                        const SizedBox(width: 10,),
+                        _addBtn
+                      ],
+                    )]
+              ),
+            ),
+            const SizedBox(height: 10,),
+            Text('提示：添加相关问题的照片或截图，能更快的解决问题',style: TextStyle(fontSize: kSmallFont,color: kGreyColor),)
+          ],
+
         ),
-        const SizedBox(height: 10,),
-        Text('提示：添加相关问题的照片或截图，能更快的解决问题',style: TextStyle(fontSize: kSmallFont,color: kGreyColor),)
-      ],
-
-    ),
+      )
   );
 
 /*添加的图片*/
@@ -159,22 +169,26 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator ,T
 
 /*确认按钮*/
   Widget get _nextItem => SizedBox(
-    height: 54,
-    width: Get.width,
-    child: GetBuilder<FeedbackController>(
-      id: 'next',
-      builder: (_){
-        final enable = controller.shouldNext;
-        final color = controller.shouldNext ? kOrangeColor : Colors.grey;
+      height: 64,
+      width: Get.width,
+      child:Container(
+        padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+        color: Colors.white,
+        child:  GetBuilder<FeedbackController>(
+          id: 'next',
+          builder: (_){
+            final enable = controller.shouldNext;
+            final color = controller.shouldNext ? kOrangeColor : Colors.grey;
 
-        return ElevatedButton(
-          onPressed: enable ? controller.feedback : null,
-          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(color)),
-          child: Text('提交',style: (TextStyle(color: kBackgroundColor,fontSize: kButtonFont)),),
+            return ElevatedButton(
+              onPressed: enable ? controller.feedback : null,
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(color)),
+              child: Text('提交',style: (TextStyle(color: kBackgroundColor,fontSize: kButtonFont)),),
 
-        );
-      },
-    ),
+            );
+          },
+        ),
+      )
   );
 
 }
@@ -193,22 +207,22 @@ class _FeedbackCellState extends State<FeedbackCell> with ThemeMixin {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-     onTap: widget.opTap,
-     child: Container(
-       height: 44,
-       color: Colors.white,
-       child: Row(
-         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-         children: [
-          Container(
-         alignment: Alignment.centerLeft,
-         child:  Text(widget.title,
-           style: TextStyle(color: widget.isSelect ? kOrangeColor : kBlackColor,fontSize: kButtonFont),),
-       ),
-           widget.isSelect ? Icon(Icons.check_outlined,color: kOrangeColor,) : Container()
-         ],
-       ),
-     ),
+      onTap: widget.opTap,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+        height: 54,
+        color: Colors.white,
+        child:  Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                child:  Text(widget.title,
+                  style: TextStyle(color: widget.isSelect ? kOrangeColor : kBlackColor,fontSize: kButtonFont),),
+              ),
+              widget.isSelect ? Icon(Icons.check_outlined,color: kOrangeColor,) : Container()
+            ]),
+      ),
 
     );
 

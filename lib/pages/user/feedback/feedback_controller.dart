@@ -1,13 +1,9 @@
 
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:frontend/components/extension/date_extension.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/request/request.dart';
-import 'package:more/more.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
@@ -30,9 +26,21 @@ class FeedbackController extends GetxController with NetMixin {
   List<AssetEntity> covers = [];
 
   ///最大图片数量
-   var maxAssets = 2;
+  var maxAssets = 2;
 
-  bool get shouldNext => feedbackCtl.text.isNotEmpty && selectIndex > -1 ;
+  @override
+  onReady(){
+
+    isSubmited().then((value) => {
+      if(value == true) {
+        EasyLoading.showToast("今天您已经提过建议啦，请明天再提")
+      }
+    }).then((value) => {
+      isLimit.value = true
+    });
+  }
+
+  bool get shouldNext => feedbackCtl.text.isNotEmpty && selectIndex > -1 && !isLimit.value;
   void choseCover() async {
     final config = AssetPickerConfig(
         selectedAssets: covers.length == maxAssets ? covers : null, maxAssets: maxAssets-covers.length, requestType: RequestType.image);
@@ -47,15 +55,15 @@ class FeedbackController extends GetxController with NetMixin {
     update(['listView','next']);
   }
 
+  /// 意见反馈请求
   feedback() {
-    // isSubmited().then((value) => {
-    //   if(value == true) {
-    //     EasyLoading.showToast("今天您已经提过建议啦，请明天再提")
-    //  }else {
-    //     requestMethod()
-    //   }
-    // });
-    requestMethod();
+    isSubmited().then((value) => {
+      if(value == true) {
+        EasyLoading.showToast("今天您已经提过建议啦，请明天再提")
+      }else {
+        requestMethod()
+      }
+    });
 
   }
 
@@ -102,7 +110,7 @@ class FeedbackController extends GetxController with NetMixin {
     return medias;
   }
 /*存储*/
- Future<void> saveDate() async {
+  Future<void> saveDate() async {
     var prefs = await SharedPreferences.getInstance();
     var currentDate = DateTime.now().yyyymmdd;
     prefs.setString("feedbackTime", currentDate);
