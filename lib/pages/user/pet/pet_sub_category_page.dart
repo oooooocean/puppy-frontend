@@ -29,17 +29,35 @@ class PetSubCategoryPage extends GetView<PetSubCategoryController>
             title: const Text('选择品种')),
         body: SafeArea(
             child: Column(children: [
-          AnimatedSearchBar(
-            height: 40,
-            label: "选择宠物品种",
-            searchEnable: false,
-            onTap: () => controller.jumpToSearch(),
-          ),
+          _searchHeaderView,
           Expanded(
               child: Padding(
                   padding: const EdgeInsets.only(top: 10), child: _listView))
         ])));
   }
+
+  Widget get _searchHeaderView => GestureDetector(
+      onTap: () => controller.jumpToSearch(),
+      child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+          child: Container(
+            decoration: BoxDecoration(
+                color: kBackgroundColor,
+                border: Border.all(color: kBorderColor, width: 1),
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
+            height: 40,
+            child: Row(children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Icon(Icons.search, key: ValueKey("search")),
+              ),
+              Expanded(
+                  child: Text(
+                "搜索宠物品种",
+                style: TextStyle(color: kSecondaryTextColor),
+              ))
+            ]),
+          )));
 
   Widget get _listView => GetBuilder<PetSubCategoryController>(builder: (_) {
         if (controller.category.subCategory.isEmpty) {
