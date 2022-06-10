@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:frontend/components/comps/search_bar.dart';
 import 'package:frontend/components/comps/header_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/extension/image_extension.dart';
