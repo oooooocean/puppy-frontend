@@ -25,6 +25,6 @@ class PetSearchController extends GetxController {
 
   void choseCategory(index) {
     _petAdd.choseCategory(PetExplicitCategory(_category, searchedList[index]));
-    Get.back();
+    Get.close(3);
   }
 }

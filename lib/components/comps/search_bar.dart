@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:frontend/components/mixins/theme_mixin.dart';
-
 /// Use debouncer to detect user not in typing
 class Debouncer {
   Duration? duration;
@@ -29,7 +27,7 @@ class AnimatedSearchBar extends StatefulWidget {
   ///  cursorColor - Color ,isRequired : No
   ///  duration - Duration for debouncer
   ///
-  AnimatedSearchBar({
+  const AnimatedSearchBar({
     Key? key,
     this.label = "",
     this.alignment = TextAlign.start,
@@ -68,7 +66,7 @@ class AnimatedSearchBar extends StatefulWidget {
   final Widget searchIcon;
 
   @override
-  _AnimatedSearchBarState createState() => _AnimatedSearchBarState();
+  State createState() => _AnimatedSearchBarState();
 }
 
 class _AnimatedSearchBarState extends State<AnimatedSearchBar> {

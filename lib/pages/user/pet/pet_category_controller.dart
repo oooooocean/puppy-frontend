@@ -12,7 +12,6 @@ class PetCategoryController extends GetxController {
   }
 
   void jumpToSub(int index) {
-    navigator?.pushReplacementNamed(AppRoutes.petSubCategory,
-        arguments: categories[index]);
+    Get.toNamed(AppRoutes.petSubCategory, arguments: categories[index]);
   }
 }

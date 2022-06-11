@@ -20,18 +20,17 @@ class PetSubCategoryController extends GetxController {
     return hotSubCategories![index].image.toImageResourceUrl;
   }
 
-  void jumpToSearch() =>
-      navigator?.pushReplacementNamed(AppRoutes.petSearch, arguments: category);
+  void jumpToSearch() => Get.toNamed(AppRoutes.petSearch, arguments: category);
 
   void choseHotCategory(index) {
     _petAdd.choseCategory(
         PetExplicitCategory(category, category._hotArray![index]));
-    Get.back();
+    Get.close(2);
   }
 
   void choseCategory(index) {
     _petAdd.choseCategory(
         PetExplicitCategory(category, category.subCategory[index]));
-    Get.back();
+    Get.close(2);
   }
 }
