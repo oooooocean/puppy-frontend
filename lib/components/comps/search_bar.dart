@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:frontend/components/mixins/theme_mixin.dart';
+
 /// Use debouncer to detect user not in typing
 class Debouncer {
   Duration? duration;
@@ -27,7 +29,7 @@ class AnimatedSearchBar extends StatefulWidget {
   ///  cursorColor - Color ,isRequired : No
   ///  duration - Duration for debouncer
   ///
-  const AnimatedSearchBar({
+  AnimatedSearchBar({
     Key? key,
     this.label = "",
     this.alignment = TextAlign.start,
@@ -36,12 +38,7 @@ class AnimatedSearchBar extends StatefulWidget {
       fontSize: 14,
       fontWeight: FontWeight.bold,
     ),
-    this.searchDecoration = const InputDecoration(
-        labelText: "Search",
-        alignLabelWithHint: true,
-        contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)), gapPadding: 4)),
+    this.searchDecoration,
     this.animationDuration = 350,
     this.searchStyle = const TextStyle(color: Colors.black),
     this.cursorColor,
@@ -49,28 +46,26 @@ class AnimatedSearchBar extends StatefulWidget {
     this.height = 60,
 
     /// Value key must set with value close
-    this.closeIcon = const Icon(Icons.close, key: ValueKey("close")),
+    this.closeIcon =
+        const Icon(Icons.close, key: ValueKey("close"), color: Colors.black),
 
     /// Value key must set with value search
-    this.searchIcon = const Icon(Icons.search, key: ValueKey("search")),
-    this.searchEnable = true,
-    this.onTap,
+    this.searchIcon =
+        const Icon(Icons.search, key: ValueKey("search"), color: Colors.black),
   }) : super(key: key);
 
   final String label;
   final Function(String)? onChanged;
   final TextStyle labelStyle;
-  final InputDecoration searchDecoration;
+  final InputDecoration? searchDecoration;
   final int animationDuration;
-  final TextStyle searchStyle;
+  final TextStyle? searchStyle;
   final Color? cursorColor;
   final TextAlign alignment;
   final Duration duration;
   final double height;
   final Widget closeIcon;
   final Widget searchIcon;
-  final bool searchEnable;
-  final Function()? onTap;
 
   @override
   _AnimatedSearchBarState createState() => _AnimatedSearchBarState();
@@ -89,10 +84,6 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
     // Use row as Root view
     return GestureDetector(
       onTap: () {
-        if (!widget.searchEnable) {
-          widget.onTap != null ? widget.onTap!() : 1;
-          return;
-        }
         if (!_isSearch) {
           setState(() {
             _isSearch = true;
@@ -216,10 +207,6 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
                   : widget.searchIcon,
             ),
             onPressed: () {
-              if (!widget.searchEnable) {
-                widget.onTap != null ? widget.onTap!() : 1;
-                return;
-              }
               setState(() {
                 /// Check if search active and it's not empty
                 if (_isSearch && _conSearch.text.isNotEmpty) {

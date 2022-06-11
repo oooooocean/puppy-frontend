@@ -20,16 +20,23 @@ class PetSearchPage extends GetView<PetSearchController>
               onPressed: () => Get.back(),
               color: kBlackColor,
             ),
-            title: const Text('选择品种')),
+            title: AnimatedSearchBar(
+              label: "点击开始搜索",
+              searchDecoration: const InputDecoration(
+                  hintText: "搜索宠物品种",
+                  alignLabelWithHint: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      gapPadding: 4)),
+              height: 30,
+              onChanged: (text) {
+                controller.search(text);
+              },
+            )),
         body: SafeArea(
             child: Column(children: [
-          AnimatedSearchBar(
-            height: 40,
-            label: "选择宠物品种",
-            onChanged: (text) {
-              controller.search(text);
-            },
-          ),
           Expanded(
               child: Padding(
                   padding: const EdgeInsets.only(top: 10), child: _listView))
