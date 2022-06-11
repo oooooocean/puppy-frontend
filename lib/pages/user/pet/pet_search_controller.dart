@@ -8,11 +8,15 @@ extension CheckString on String {
 
 // 子分类
 class PetSearchController extends GetxController {
+  bool get hasSearched => _searchedText.isNotEmpty;
   List<PetSubCategory> searchedList = [];
+
+  String _searchedText = "";
   final PetCategory _category = Get.arguments;
   PetAddController get _petAdd => Get.find<PetAddController>();
 
   void search(String text) {
+    _searchedText = text;
     searchedList.removeWhere((_) => true);
     if (text.isEmpty) {
       update(["list"]);

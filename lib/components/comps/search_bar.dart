@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-/// Use debouncer to detect user not in typing
-class Debouncer {
+/// Use DebounceImpl to detect user not in typing
+class DebounceImpl {
   Duration? duration;
   VoidCallback? action;
   Timer? _timer;
 
-  Debouncer({this.duration});
+  DebounceImpl({this.duration});
 
   run(VoidCallback action) {
     if (_timer != null) {
@@ -18,15 +18,6 @@ class Debouncer {
 }
 
 class AnimatedSearchBar extends StatefulWidget {
-  ///  label - String ,isRequired : No
-  ///  onChanged - Function(String)  ,isRequired : No
-  ///  labelStyle - TextStyle ,isRequired :  No
-  ///  searchDecoration - InputDecoration  ,isRequired : No
-  ///  animationDuration in milliseconds -  int ,isRequired : No
-  ///  searchStyle - TextStyle ,isRequired :  No
-  ///  cursorColor - Color ,isRequired : No
-  ///  duration - Duration for debouncer
-  ///
   const AnimatedSearchBar({
     Key? key,
     this.label = "",
@@ -72,7 +63,7 @@ class AnimatedSearchBar extends StatefulWidget {
 class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
   bool _isSearch = false;
   final _fnSearch = FocusNode();
-  final _debouncer = Debouncer();
+  final _debouncer = DebounceImpl();
   final _conSearch = TextEditingController();
 
   @override

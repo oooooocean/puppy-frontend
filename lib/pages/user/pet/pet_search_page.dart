@@ -36,18 +36,26 @@ class PetSearchPage extends GetView<PetSearchController>
               },
             )),
         body: SafeArea(
-            child: Column(children: [
-          Expanded(
-              child: Padding(
-                  padding: const EdgeInsets.only(top: 10), child: _listView))
-        ])));
+            child: Padding(
+                padding: const EdgeInsets.only(top: 10), child: _contentView)));
   }
 
-  Widget get _listView => GetBuilder<PetSearchController>(
+  Widget get _contentView => GetBuilder<PetSearchController>(
       id: "list",
-      builder: (_) => ListView.builder(
-          itemBuilder: _itemBuilder,
-          itemCount: controller.searchedList.length));
+      builder: (_) => controller.searchedList.isEmpty && controller.hasSearched
+          ? _emptyView
+          : _listView);
+
+  Widget get _emptyView => Center(
+          child: SizedBox(
+        height: 200,
+        width: 200,
+        child: Column(
+            children: const [Icon(Icons.hourglass_empty), Text("未找到品种")]),
+      ));
+
+  Widget get _listView => ListView.builder(
+      itemBuilder: _itemBuilder, itemCount: controller.searchedList.length);
 
   Widget _itemBuilder(context, index) => GestureDetector(
       child: Column(
