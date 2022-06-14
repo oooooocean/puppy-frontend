@@ -11,16 +11,16 @@ enum PuppyButtonStyle {
   Color getTextColor(bool enable) {
     switch (this) {
       case PuppyButtonStyle.style1:
-        return enable ? Colors.white : const Color(0xff878787);
+        return enable ? Colors.white : kSecondaryTextColor;
       default:
-        return enable ? Colors.orange : Colors.grey[400]!;
+        return enable ? Colors.orange : kGreyColor;
     }
   }
 
   Color getBackgroundColor(bool enable) {
     switch (this) {
       case PuppyButtonStyle.style1:
-        return enable ? Colors.orange : const Color(0xfff1f1f1);
+        return enable ? Colors.orange : kShapeColor;
       default:
         return Colors.white;
     }

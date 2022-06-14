@@ -45,7 +45,7 @@ class LoginController extends GetxController with NetMixin {
         codeEnable.value = true;
         return;
       }
-      codeCounter.value = '${10 - t.tick}s';
+      codeCounter.value = '${60 - t.tick}s';
     });
   }
 
