@@ -18,11 +18,9 @@ class PuppyActionButton extends StatelessWidget with ThemeMixin {
       child: Row(children: [
         leading,
         Expanded(
-            child: Text(
-          value ?? hint,
-          textAlign: TextAlign.end,
-          style: TextStyle(color: value == null ? kSecondaryTextColor : kPrimaryTextColor),
-        )),
+            child: Text(value ?? hint,
+                textAlign: TextAlign.end,
+                style: TextStyle(color: value == null ? kSecondaryTextColor : kPrimaryTextColor))),
         Icon(Icons.chevron_right, color: kGreyColor)
       ]),
     );

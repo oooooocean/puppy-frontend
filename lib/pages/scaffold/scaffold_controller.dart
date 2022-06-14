@@ -6,7 +6,7 @@ class ScaffoldController extends GetxController with NetMixin, StateMixin {
   @override
   void onReady() {
     change(null, status: RxStatus.loading());
-    LaunchService.shared.refreshUser().then((_) {
+    LaunchService.shared.refreshUserIfNeed()?.then((_) {
       change(null, status: RxStatus.success());
     }).catchError((error) {
       change(null, status: RxStatus.error(error.toString()));
