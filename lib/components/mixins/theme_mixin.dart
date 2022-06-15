@@ -12,7 +12,7 @@ final kGreyColor = Colors.grey[400]!;
 const kBorderColor = Colors.black12;
 const kShapeColor = Color(0xfff1f1f1);
 const kOrangeColor = Colors.orange;
-const kBlueColor = Color.fromARGB(255, 148, 177, 255);
+const kBlueColor = Color(0xff426ab3);
 
 const double kDefaultFont = 15; // 普通文字
 const double kSmallFont = 13;

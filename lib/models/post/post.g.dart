@@ -20,6 +20,9 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
           .map((e) => Media.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['hasPraise'] as bool,
+      (json['topics'] as List<dynamic>)
+          .map((e) => PostTopic.fromJson(e as Map<String, dynamic>))
+          .toList(),
       UserInfo.fromJson(json['ownerInfo'] as Map<String, dynamic>),
       json['owner'] as int,
     );
@@ -36,6 +39,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'createTime': instance.createTime.toIso8601String(),
       'pets': instance.pets,
       'medias': instance.medias,
+      'topics': instance.topics,
     };
 
 const _$PostTypeEnumMap = {

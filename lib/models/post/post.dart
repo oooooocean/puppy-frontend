@@ -2,6 +2,7 @@ import 'package:frontend/components/extension/date_extension.dart';
 import 'package:frontend/models/base.dart';
 import 'package:frontend/models/media.dart';
 import 'package:frontend/models/pet/pet.dart';
+import 'package:frontend/models/post/post_topic.dart';
 import 'package:frontend/models/user/user.dart';
 import 'package:frontend/services/qiniu_service.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -28,9 +29,10 @@ class Post extends OwnerBase {
   DateTime createTime;
   List<PetBaseInfo> pets;
   List<Media> medias;
+  List<PostTopic> topics;
 
   Post(this.id, this.description, this.type, this.praiseCount, this.commentCount,
-      this.createTime, this.pets, this.medias, this.hasPraise, UserInfo ownerInfo, int owner) : super(owner, ownerInfo);
+      this.createTime, this.pets, this.medias, this.hasPraise, this.topics, UserInfo ownerInfo, int owner) : super(owner, ownerInfo);
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 

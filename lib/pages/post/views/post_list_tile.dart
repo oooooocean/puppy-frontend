@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/comps/circle_avatar_button.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
@@ -5,6 +6,7 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/post/post.dart';
 import 'package:frontend/models/post/post_action.dart';
 import 'package:frontend/pages/post/list/post_list_controller.dart';
+import 'package:frontend/pages/post/views/post_description_tile.dart';
 import 'package:frontend/pages/post/views/post_photos_tile.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
@@ -27,7 +29,7 @@ class PostListTile extends GetView<PostListController> with LoadImageMixin {
           padding: EdgeInsets.symmetric(horizontal: 15.toPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [space, _headerItem, space, _descriptionItem, space, _photosItem, space, _panel],
+            children: [space, _headerItem, space, _descriptionItem, space, _photosItem, _panel],
           ),
         ),
       ),
@@ -50,32 +52,33 @@ class PostListTile extends GetView<PostListController> with LoadImageMixin {
     return SizedBox(
       width: width,
       height: width,
-      child: CircleAvatarButton(
-        url: post.avatarUrl,
-        onTap: () => controller.onTapAvatar(post),
-      ),
+      child: CircleAvatarButton(url: post.avatarUrl, onTap: () => controller.onTapAvatar(post)),
     );
   }
 
-  Widget get _descriptionItem => Text(post.description, style: TextStyle(color: kPrimaryTextColor, fontSize: 15.toPadding));
+  Widget get _descriptionItem => PostDescriptionTile(
+      description: post.description, topics: post.topics, onTap: (topic) => controller.onTapTopic(post, topic));
 
   Widget get _photosItem => PostPhotosTile(photos: post.medias, onTap: (index) => controller.onTapPhoto(post, index));
 
   Widget get _panel {
     final double iconSize = 16.toPadding;
     const iconColor = kSecondaryTextColor;
-    final share = _actionLabelBuilder(Icon(PostAction.share.icon, size: iconSize, color: iconColor), '分享', () => controller.onTapShare(post));
-    final comment = _actionLabelBuilder(
-        Icon(PostAction.comment.icon, size: iconSize, color: iconColor), post.commentCount.toString(), () => controller.onTapComment(post));
+    final share = _actionLabelBuilder(
+        Icon(PostAction.share.icon, size: iconSize, color: iconColor), '分享', () => controller.onTapShare(post));
+    final comment = _actionLabelBuilder(Icon(PostAction.comment.icon, size: iconSize, color: iconColor),
+        post.commentCount.toString(), () => controller.onTapComment(post));
     final praise = _actionLabelBuilder(
         Icon(post.hasPraise ? PostAction.praise.accentIcon : PostAction.praise.icon,
             color: post.hasPraise ? kOrangeColor : iconColor, size: iconSize),
         post.praiseCount.toString(),
         () => controller.onTapPraise(post));
-    return SizedBox(
-        height: 40, child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [share, comment, praise]));
+    return ButtonBar(
+        buttonPadding: EdgeInsets.zero, alignment: MainAxisAlignment.spaceBetween, children: [share, comment, praise]);
   }
 
   Widget _actionLabelBuilder(Icon icon, String text, VoidCallback onTap) => TextButton.icon(
-      onPressed: onTap, icon: icon, label: Text(text, style: const TextStyle(color: kSecondaryTextColor, fontSize: kSmallFont)));
+      onPressed: onTap,
+      icon: icon,
+      label: Text(text, style: const TextStyle(color: kSecondaryTextColor, fontSize: kSmallFont)));
 }
