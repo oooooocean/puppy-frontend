@@ -24,10 +24,6 @@ final appRoutes = [
         Get.lazyPut(() => ScaffoldController());
         Get.lazyPut(() => PostListController());
       })),
-  GetPage(
-      name: AppRoutes.feedback,
-      page: () => FeedbackPage(),
-      binding: BindingsBuilder(() => Get.lazyPut(() => FeedbackController()))),
   ...user_pages.userRoutes,
   ...user_pages.petRoutes,
 ];
