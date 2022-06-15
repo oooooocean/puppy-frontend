@@ -38,14 +38,15 @@ class App extends StatelessWidget with ThemeMixin {
 
   /// theme
   ThemeData get themeData => ThemeData(
-        textTheme:
-            TextTheme(bodyMedium: TextStyle(color: kPrimaryTextColor), labelLarge: TextStyle(color: kPrimaryTextColor)),
+        iconTheme: const IconThemeData(color: kSecondaryTextColor),
+        textTheme: const TextTheme(
+            bodyMedium: TextStyle(color: kPrimaryTextColor), labelLarge: TextStyle(color: kPrimaryTextColor)),
         inputDecorationTheme: InputDecorationTheme(
             hintStyle: TextStyle(color: kGreyColor),
             counterStyle: TextStyle(color: kGreyColor),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: kBorderColor)),
+            enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kBorderColor)),
             focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kGreyColor))),
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
             backgroundColor: kBackgroundColor,
             centerTitle: true,
             elevation: 1,
