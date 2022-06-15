@@ -1,6 +1,7 @@
 import 'package:frontend/components/mixins/refresh_mixin.dart';
 import 'package:frontend/models/paging_data.dart';
 import 'package:frontend/models/post/post.dart';
+import 'package:frontend/models/post/post_topic.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +24,12 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
 
   onTapComment(Post post) {}
 
-  onTapPraise(Post post) {}
+  onTapPraise(Post post) {
+    post.hasPraise = true;
+    update();
+  }
+
+  onTapTopic(Post post, PostTopic topic) {}
 
   @override
   Future<PagingData<Post>> get refreshRequest => get('post/', (data) => PagingData.fromJson(data, Post.fromJson),
