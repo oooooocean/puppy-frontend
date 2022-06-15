@@ -1,8 +1,11 @@
 
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:frontend/components/extension/date_extension.dart';
 import 'package:frontend/net/net_mixin.dart';
+import 'package:frontend/services/store.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -31,15 +34,19 @@ class FeedbackController extends GetxController with NetMixin {
   @override
   onReady(){
 
-    isSubmited().then((value) => {
+    isSubmited().then((value){
       if(value == true) {
-        EasyLoading.showToast("今天您已经提过建议啦，请明天再提")
+        showToast(value);
       }
-    }).then((value) => {
-      isLimit.value = true
     });
   }
 
+  void showToast(bool isShow) {
+    if(isShow) {
+      isLimit.value = isShow;
+      EasyLoading.showToast("今天您已经提过建议啦，请明天再提");
+    }
+  }
   bool get shouldNext => feedbackCtl.text.isNotEmpty && selectIndex > -1 && !isLimit.value;
   void choseCover() async {
     final config = AssetPickerConfig(
@@ -88,7 +95,10 @@ class FeedbackController extends GetxController with NetMixin {
       });
 
     }
-    Future?  api = params.then((value) => post('feedback/', value, (data) => null));
+    Future?  api = params.then((value) => post('feedback/', value, (data) =>
+    {
+
+    }));
 
     request(
         api: api,
