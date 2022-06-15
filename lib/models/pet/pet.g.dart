@@ -6,6 +6,19 @@ part of 'pet.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+PetBaseInfo _$PetBaseInfoFromJson(Map<String, dynamic> json) => PetBaseInfo(
+      json['avatar'] as String,
+      json['id'] as int,
+      json['nickname'] as String,
+    );
+
+Map<String, dynamic> _$PetBaseInfoToJson(PetBaseInfo instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'nickname': instance.nickname,
+      'avatar': instance.avatar,
+    };
+
 Pet _$PetFromJson(Map<String, dynamic> json) => Pet(
       json['id'] as int,
       json['owner'] as int,
@@ -18,10 +31,10 @@ Pet _$PetFromJson(Map<String, dynamic> json) => Pet(
 
 Map<String, dynamic> _$PetToJson(Pet instance) => <String, dynamic>{
       'id': instance.id,
-      'ownerInfo': instance.ownerInfo,
-      'owner': instance.owner,
       'nickname': instance.nickname,
       'avatar': instance.avatar,
+      'ownerInfo': instance.ownerInfo,
+      'owner': instance.owner,
       'introduction': instance.introduction,
       'intrinsic': instance.intrinsic,
     };
