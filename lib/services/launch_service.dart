@@ -13,6 +13,8 @@ class LaunchService with NetMixin {
 
   User? user;
 
+  /// 注册流程:
+  /// 用户基本信息 -> 至少一个宠物
   String? get isCompletedRegisterFlow {
     assert(user != null, '必须先登录, 才能进入注册流程');
     if (user!.info == null) return AppRoutes.userInfoAdd;
@@ -25,24 +27,28 @@ class LaunchService with NetMixin {
     user = isLogin ? (await User.cached())! : null;
   }
 
+  /// 退出登录
   Future restart() async {
     await Store.clear();
     await init();
     Get.offAllNamed(AppRoutes.login);
   }
 
+  /// 登录
   void login(User user, String token) {
     updateUser(user);
     StoreToken.setToken(token);
   }
 
+  /// 更新用户
   void updateUser(User user) {
     user.save();
     this.user = user;
   }
 
-  Future refreshUser() {
-    assert(user != null, '必须先登录, 才能进入刷新用户');
+  /// 更新用户信息
+  Future? refreshUserIfNeed() {
+    if (!isLogin) return null;
     return get<UserInfo>('user/${user!.id}/', (data) => UserInfo.fromJson(data)).then((value) {
       user!.info = value;
       updateUser(user!);
