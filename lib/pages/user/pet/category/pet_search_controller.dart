@@ -1,12 +1,12 @@
 part of 'package:frontend/pages/user/pet/category/pet_search_page.dart';
 
-extension CheckString on String {
+extension FilterString on String {
   bool vagueSearch(String text) {
     return indexOf(text) > -1;
   }
 }
 
-// 子分类
+/// 搜索控制器
 class PetSearchController extends GetxController {
   bool get hasSearched => _searchedText.isNotEmpty;
   List<PetSubCategory> searchedList = [];
@@ -17,7 +17,7 @@ class PetSearchController extends GetxController {
 
   void search(String text) {
     _searchedText = text;
-    searchedList.removeWhere((_) => true);
+    searchedList.clear();
     if (text.isEmpty) {
       update(["list"]);
       return;

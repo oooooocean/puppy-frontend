@@ -7,16 +7,14 @@ extension PetHotSubCategory on PetCategory {
       .toList();
 }
 
-// 子分类
+/// 子分类
 class PetSubCategoryController extends GetxController {
   final PetCategory category = Get.arguments;
   List<PetSubCategory>? get hotSubCategories => category._hotArray;
   PetAddController get _petAdd => Get.find<PetAddController>();
 
   String? loadHotImage(int index) {
-    if (hotSubCategories != null && hotSubCategories!.isEmpty) {
-      return null;
-    }
+    if (hotSubCategories != null && hotSubCategories!.isEmpty) return null;
     return hotSubCategories![index].image.toImageResourceUrl;
   }
 
