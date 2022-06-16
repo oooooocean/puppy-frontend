@@ -6,9 +6,7 @@ class ScaffoldChildState<P extends StatefulWidget, C extends GetxController> ext
   C get controller => Get.find<C>();
 
   @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
+  Widget build(BuildContext context) => super.build(context);
 
   @override
   bool get wantKeepAlive => true;

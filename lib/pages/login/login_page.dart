@@ -51,8 +51,7 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
         controller: controller.phoneCtl,
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        decoration: const InputDecoration(
-            hintText: '铲屎的, 手机号填在这里👇'),
+        decoration: const InputDecoration(hintText: '铲屎的, 手机号填在这里👇'),
         onChanged: (_) => controller.codeEnable.value = controller.shouldFetchCode,
       );
 
@@ -94,7 +93,7 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
             () => PuppyButton(
                 onPress: controller.loginEnable.value ? controller.login : null,
                 style: PuppyButtonStyle.style1,
-                child: Text('进入星球', style: TextStyle(fontSize: kButtonFont, fontWeight: FontWeight.w600))),
+                child: const Text('进入星球', style: TextStyle(fontSize: kButtonFont, fontWeight: FontWeight.w600))),
           ),
           Align(
             alignment: Alignment.center,
@@ -118,7 +117,12 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
                 TextButton(
                   onPressed: () {},
                   style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
-                  child: Text('同意用户协议和隐私政策', style: TextStyle(fontSize: 13, color: kSecondaryTextColor)),
+                  child: Text('同意用户协议和隐私政策',
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: kSecondaryTextColor,
+                          decoration: TextDecoration.underline,
+                          decorationColor: kSecondaryTextColor)),
                 )
               ],
             ),

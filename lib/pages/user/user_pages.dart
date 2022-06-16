@@ -1,3 +1,5 @@
+import 'package:frontend/pages/user/feedback/feedback_controller.dart';
+import 'package:frontend/pages/user/feedback/feedback_page.dart';
 import 'package:frontend/pages/user/info/user_add_controller.dart';
 import 'package:frontend/pages/user/info/user_add_page.dart';
 import 'package:frontend/pages/user/info/user_edit_controller.dart';
@@ -11,11 +13,14 @@ final userRoutes = [
       name: AppRoutes.userInfoAdd,
       page: () => UserAddPage<UserAddController>(),
       binding: BindingsBuilder(() => Get.lazyPut(() => UserAddController()))),
-
   GetPage(
       name: AppRoutes.userInfoEdit,
       page: () => UserAddPage<UserEditController>(),
       binding: BindingsBuilder(() => Get.lazyPut(() => UserEditController()))),
+  GetPage(
+      name: AppRoutes.feedback,
+      page: () => FeedbackPage(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => FeedbackController()))),
 ];
 
 final petRoutes = [

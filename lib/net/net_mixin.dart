@@ -61,6 +61,7 @@ mixin NetMixin {
   /// 上传图片
   /// 默认会对图片按照当前屏幕进行压缩
   Future<List<String>> uploadImages(List<AssetEntity> files, {bool originSize = false}) async {
+    if (files.isEmpty) return [];
     final filesFutures = files
         .map(
           (entity) => originSize

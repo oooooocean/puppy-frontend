@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/components/mixins/load_image_mixin.dart';
 
 /// 圆形头像按钮
-class CircleAvatarButton extends StatelessWidget {
+class CircleAvatarButton extends StatelessWidget with LoadImageMixin {
   final String url;
   final VoidCallback onTap;
 
@@ -9,6 +11,6 @@ class CircleAvatarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(onTap: onTap, child: CircleAvatar(backgroundImage: NetworkImage(url)));
+    return InkWell(onTap: onTap, child: CircleAvatar(backgroundImage: CachedNetworkImageProvider(url)));
   }
 }
