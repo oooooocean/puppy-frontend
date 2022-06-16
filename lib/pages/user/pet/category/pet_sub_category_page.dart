@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:frontend/components/comps/header_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/extension/image_extension.dart';
+import 'package:frontend/components/extension/int_extension.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/pet/pet_category.dart';
@@ -43,10 +44,10 @@ class PetSubCategoryPage extends GetView<PetSubCategoryController>
             decoration: BoxDecoration(
                 color: kBackgroundColor,
                 border: Border.all(color: kBorderColor, width: 1),
-                borderRadius: const BorderRadius.all(Radius.circular(20))),
-            height: 40,
-            child: Row(children: [
-              const Padding(
+                borderRadius: BorderRadius.all(Radius.circular(20.toPadding))),
+            height: 40.toPadding,
+            child: Row(children: const [
+              Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Icon(Icons.search, key: ValueKey("search")),
               ),
@@ -74,9 +75,7 @@ class PetSubCategoryPage extends GetView<PetSubCategoryController>
           ListTile(title: Text(controller.category.subCategory[index].name)),
           Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Divider(
-                color: kBorderColor,
-              ))
+              child: Divider(color: kBorderColor, height: 1.toPadding))
         ],
       ),
       onTap: () => controller.choseCategory(index));
@@ -106,10 +105,9 @@ class PetSubCategoryPage extends GetView<PetSubCategoryController>
 
   Widget _imageView(int index) => GestureDetector(
       child: controller.loadHotImage(index) == null
-          ? Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Icon(Icons.camera_alt_rounded,
-                  size: 40, color: kSecondaryTextColor))
+          ? const AspectRatio(
+              aspectRatio: 1,
+              child: Icon(Icons.camera_alt_rounded, color: kSecondaryTextColor))
           : buildNetImage(controller.loadHotImage(index)!, fit: BoxFit.fill),
       onTap: () => controller.choseHotCategory(index));
 }

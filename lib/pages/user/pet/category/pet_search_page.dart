@@ -1,5 +1,6 @@
 import 'package:frontend/components/comps/search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/components/extension/int_extension.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/pet/pet_category.dart';
@@ -63,9 +64,7 @@ class PetSearchPage extends GetView<PetSearchController>
           ListTile(title: Text(controller.searchedList[index].name)),
           Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Divider(
-                color: kBorderColor,
-              ))
+              child: Divider(color: kBorderColor, height: 1.toPadding))
         ],
       ),
       onTap: () => controller.choseCategory(index));

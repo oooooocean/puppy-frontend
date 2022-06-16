@@ -5,6 +5,7 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/pet/pet_category.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
+
 part 'package:frontend/pages/user/pet/category/pet_category_controller.dart';
 
 class PetCategoryPage extends GetView<PetCategoryController>
@@ -48,10 +49,9 @@ class PetCategoryPage extends GetView<PetCategoryController>
 
   Widget _imageView(int index) => GestureDetector(
       child: controller.loadImage(index) == null
-          ? Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Icon(Icons.camera_alt_rounded,
-                  size: 40, color: kSecondaryTextColor))
+          ? const AspectRatio(
+              aspectRatio: 1,
+              child: Icon(Icons.camera_alt_rounded, color: kSecondaryTextColor))
           : buildNetImage(controller.loadImage(index)!, fit: BoxFit.fill),
       onTap: () => controller.jumpToSub(index));
 }
