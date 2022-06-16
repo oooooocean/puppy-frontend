@@ -13,6 +13,7 @@ class _DebugState extends State<DebugPage> with NetMixin {
   void test() async {
     const config = AssetPickerConfig(maxAssets: 2, requestType: RequestType.image);
     final files = await AssetPicker.pickAssets(context, pickerConfig: config);
+    // ignore: unused_local_variable
     final results = await uploadImages(files!);
   }
 

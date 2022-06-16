@@ -1,4 +1,3 @@
-import 'package:frontend/models/base.dart';
 import 'package:frontend/models/user/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../gender.dart';
@@ -34,6 +33,7 @@ class Pet extends PetBaseInfo {
 
   factory Pet.fromJson(Map<String, dynamic> json) => _$PetFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$PetToJson(this);
 
   @override
