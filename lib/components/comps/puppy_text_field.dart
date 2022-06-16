@@ -32,7 +32,7 @@ class PuppyTextField extends StatelessWidget with ThemeMixin {
       maxLines: maxLines,
       onChanged: onChanged,
       decoration: InputDecoration(
-          hintStyle: TextStyle(color: kBorderColor),
+          hintStyle: const TextStyle(color: kBorderColor),
           hintText: hintText,
           enabledBorder: _enabledBorder,
           focusedBorder: _focusedBorder),
@@ -40,10 +40,10 @@ class PuppyTextField extends StatelessWidget with ThemeMixin {
   }
 
   InputBorder get _enabledBorder => (maxLines ?? 1) == 1
-      ? UnderlineInputBorder(borderSide: BorderSide(color: kBorderColor, width: 1))
-      : OutlineInputBorder(borderSide: BorderSide(color: kBorderColor, width: 1));
+      ? const UnderlineInputBorder(borderSide: BorderSide(color: kBorderColor, width: 1))
+      : const OutlineInputBorder(borderSide: BorderSide(color: kBorderColor, width: 1));
 
   InputBorder get _focusedBorder => (maxLines ?? 1) == 1
       ? UnderlineInputBorder(borderSide: BorderSide(color: kGreyColor, width: 1))
-      : OutlineInputBorder(borderSide: BorderSide(color: kSecondaryTextColor, width: 1));
+      : const OutlineInputBorder(borderSide: BorderSide(color: kSecondaryTextColor, width: 1));
 }

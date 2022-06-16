@@ -33,7 +33,7 @@ class _PuppyAvatarState extends State<PuppyAvatarButton> with ThemeMixin, LoadIm
         onPressed: choseAvatar,
         style: ButtonStyle(
           shape: MaterialStateProperty.all(const CircleBorder()),
-          side: MaterialStateProperty.all(BorderSide(color: kBorderColor, width: 3)),
+          side: MaterialStateProperty.all(const BorderSide(color: kBorderColor, width: 3)),
         ),
         child: _avatar);
   }
@@ -45,8 +45,8 @@ class _PuppyAvatarState extends State<PuppyAvatarButton> with ThemeMixin, LoadIm
 
   Widget get _defaultAvatar => widget.defaultAvatar != null
       ? _buildImageItem(buildNetImage(widget.defaultAvatar!, width: avatarWidth, height: avatarWidth))
-      : Padding(
-          padding: const EdgeInsets.all(20.0),
+      : const Padding(
+          padding: EdgeInsets.all(20.0),
           child: Icon(Icons.camera_alt_rounded, size: 40, color: kSecondaryTextColor),
         );
 

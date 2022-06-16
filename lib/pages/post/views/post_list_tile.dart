@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/comps/circle_avatar_button.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';

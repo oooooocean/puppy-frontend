@@ -11,7 +11,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(body: Center(child: Text('Home'),),);
+    return const Scaffold(body: Center(child: Text('Home'),),);
   }
 
   @override

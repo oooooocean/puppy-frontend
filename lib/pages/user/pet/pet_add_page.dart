@@ -27,7 +27,8 @@ class PetAddPage extends GetView<PetAddController>
         actions: [
           TextButton(
               onPressed: controller.skip,
-              child: Text('跳过', style: TextStyle(color: kSecondaryTextColor)))
+              child: const Text('跳过',
+                  style: TextStyle(color: kSecondaryTextColor)))
         ],
       ),
       body: controller.obx((_) => _body,
@@ -75,9 +76,9 @@ class PetAddPage extends GetView<PetAddController>
   Widget get _intrinsicWidgets {
     return Container(
       padding: EdgeInsets.all(8.toPadding),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: kShapeColor,
-          borderRadius: const BorderRadius.all(Radius.circular(5))),
+          borderRadius: BorderRadius.all(Radius.circular(5))),
       child: Column(
         children: [
           Row(children: [const Text('性别'), Expanded(child: _genderItem)]),
@@ -121,7 +122,7 @@ class PetAddPage extends GetView<PetAddController>
                   child: Text(
                 controller.category?.subCategory.name ?? '点击选择',
                 textAlign: TextAlign.end,
-                style: TextStyle(color: kSecondaryTextColor),
+                style: const TextStyle(color: kSecondaryTextColor),
               )),
               Icon(Icons.chevron_right, color: kGreyColor)
             ]),
