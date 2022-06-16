@@ -18,6 +18,8 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
 
   onTapAvatar(Post post) {}
 
+  onTapFollow(Post post) {}
+
   onTapPhoto(Post post, int index) {}
 
   onTapShare(Post post) {}
@@ -30,6 +32,10 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
   }
 
   onTapTopic(Post post, PostTopic topic) {}
+
+  onTapMoreOptions(Post post) {
+    print('111');
+  }
 
   @override
   Future<PagingData<Post>> get refreshRequest => get('post/', (data) => PagingData.fromJson(data, Post.fromJson),

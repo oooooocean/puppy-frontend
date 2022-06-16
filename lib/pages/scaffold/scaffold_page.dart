@@ -4,6 +4,7 @@ import 'package:frontend/pages/post/list/post_list.dart';
 import 'package:frontend/pages/scaffold/scaffold_controller.dart';
 import 'package:frontend/pages/scaffold/scaffold_item.dart';
 import 'package:frontend/pages/user/user_page.dart';
+import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 
@@ -37,7 +38,6 @@ class _ScaffoldState extends State<ScaffoldPage> with ThemeMixin, SingleTickerPr
               overlayColor: MaterialStateProperty.all(Colors.transparent),
               indicator: const BoxDecoration(),
               indicatorWeight: 0,
-              indicatorPadding: EdgeInsets.zero,
               controller: _tabCtl,
               labelColor: kOrangeColor,
               unselectedLabelColor: Colors.grey,
@@ -51,12 +51,12 @@ class _ScaffoldState extends State<ScaffoldPage> with ThemeMixin, SingleTickerPr
         foregroundColor: Colors.white,
         backgroundColor: Colors.blueAccent,
         elevation: 10,
-        onPressed: () {},
+        onPressed: () => Get.toNamed(AppRoutes.postAdd),
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
       body: TabBarView(
-          controller: _tabCtl, physics: const NeverScrollableScrollPhysics(), children: const [PostListPage(), UserPage()]),
+          controller: _tabCtl, physics: const NeverScrollableScrollPhysics(), children: const [HomePage(), UserPage()]),
     );
   }
 }

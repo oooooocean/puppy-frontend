@@ -11,4 +11,6 @@ abstract class AppRoutes {
   static const userInfoEdit = '/user/info/edit';
 
   static const petAdd = '/pet/add';
+
+  static const postAdd = '/post/add';
 }
