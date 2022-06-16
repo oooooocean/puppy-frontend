@@ -11,7 +11,7 @@ import 'package:frontend/pages/user/pet/pet_add_controller.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 
-part 'package:frontend/pages/user/pet/pet_sub_category_controller.dart';
+part 'package:frontend/pages/user/pet/category/pet_sub_category_controller.dart';
 
 class PetSubCategoryPage extends GetView<PetSubCategoryController>
     with LoadImageMixin, ThemeMixin {

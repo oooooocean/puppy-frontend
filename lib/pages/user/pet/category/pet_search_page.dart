@@ -6,7 +6,7 @@ import 'package:frontend/models/pet/pet_category.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
 import 'package:get/get.dart';
 
-part 'package:frontend/pages/user/pet/pet_search_controller.dart';
+part 'package:frontend/pages/user/pet/category/pet_search_controller.dart';
 
 class PetSearchPage extends GetView<PetSearchController>
     with LoadImageMixin, ThemeMixin {

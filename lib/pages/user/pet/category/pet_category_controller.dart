@@ -1,4 +1,4 @@
-part of 'package:frontend/pages/user/pet/pet_category_page.dart';
+part of 'package:frontend/pages/user/pet/category/pet_category_page.dart';
 
 // 大分类
 class PetCategoryController extends GetxController {

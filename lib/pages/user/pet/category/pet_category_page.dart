@@ -5,7 +5,7 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/pet/pet_category.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
-part 'package:frontend/pages/user/pet/pet_category_controller.dart';
+part 'package:frontend/pages/user/pet/category/pet_category_controller.dart';
 
 class PetCategoryPage extends GetView<PetCategoryController>
     with LoadImageMixin, ThemeMixin {

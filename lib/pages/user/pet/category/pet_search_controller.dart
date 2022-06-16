@@ -1,4 +1,4 @@
-part of 'package:frontend/pages/user/pet/pet_search_page.dart';
+part of 'package:frontend/pages/user/pet/category/pet_search_page.dart';
 
 extension CheckString on String {
   bool vagueSearch(String text) {

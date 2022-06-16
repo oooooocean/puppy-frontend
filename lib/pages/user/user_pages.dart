@@ -3,9 +3,9 @@ import 'package:frontend/pages/user/info/user_add_page.dart';
 import 'package:frontend/pages/user/info/user_edit_controller.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
 import 'package:frontend/pages/user/pet/pet_add_page.dart';
-import 'package:frontend/pages/user/pet/pet_category_page.dart';
-import 'package:frontend/pages/user/pet/pet_sub_category_page.dart';
-import 'package:frontend/pages/user/pet/pet_search_page.dart';
+import 'package:frontend/pages/user/pet/category/pet_category_page.dart';
+import 'package:frontend/pages/user/pet/category/pet_sub_category_page.dart';
+import 'package:frontend/pages/user/pet/category/pet_search_page.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 

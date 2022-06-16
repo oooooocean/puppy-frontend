@@ -1,4 +1,4 @@
-part of 'package:frontend/pages/user/pet/pet_sub_category_page.dart';
+part of 'package:frontend/pages/user/pet/category/pet_sub_category_page.dart';
 
 extension PetHotSubCategory on PetCategory {
   List<PetSubCategory>? get _hotArray => subCategory
