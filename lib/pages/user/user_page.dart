@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:frontend/components/abstract/scaffold_child_state.dart';
 import 'package:frontend/pages/user/feedback/feedback_page.dart';
 import 'package:frontend/pages/user/user_controller.dart';
 import 'package:frontend/route/pages.dart';
+import 'package:frontend/services/store.dart';
 import 'package:get/get.dart';
 
 class UserPage extends StatefulWidget {
@@ -22,14 +24,23 @@ class _UserState extends ScaffoldChildState<UserPage, UserController> {
         child: TextButton(onPressed: () => Get.toNamed(AppRoutes.userInfoEdit), child: const Text('编辑用户资料')),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.feedback),
         heroTag: 'other',
         tooltip: 'feedback',
-        onPressed: ()=>Get.toNamed(AppRoutes.feedback),
+        onPressed: gotoFeedback,
+        child: const Icon(Icons.feedback),
       ),
     );
   }
 
+  void gotoFeedback() {
+    StoreDate.isSubmitedFeedback().then((value){
+      if(!value){
+        EasyLoading.showToast("今天您已经提过建议啦，请明天再提");
+      } else{
+        Get.toNamed(AppRoutes.feedback);
+      }
+    });
+  }
   @override
   bool get wantKeepAlive => true;
 }

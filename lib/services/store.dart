@@ -1,3 +1,4 @@
+import 'package:frontend/components/extension/date_extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 typedef StoreDecoder<T> = T Function(dynamic data);
@@ -23,4 +24,13 @@ extension StoreToken on Store {
   static void setToken(String token) => Store.set('token', token);
 
   static Future<String?> getToken() => Store.get('token');
+}
+extension StoreDate on Store {
+  static void setCurrentDateOfYYMMDD(String key) => Store.set(key, DateTime.now().yyyymmdd);
+  static Future<String?> getDate(String key) => Store.get(key);
+  static Future<bool> isSubmitedFeedback() async {
+    final currentDate = DateTime.now().yyyymmdd;
+    final lastDate = await Store.get("feedback");
+   return currentDate == lastDate ;
+  }
 }

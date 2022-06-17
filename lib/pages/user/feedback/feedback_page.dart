@@ -11,6 +11,9 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 
+import '../../../services/launch_service.dart';
+import 'feedback_tile.dart';
+
 class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, ThemeMixin, LoadImageMixin {
   final descriptionNode = FocusNode();
 
@@ -56,16 +59,14 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
 
   /// 原因列表
   List<Widget> get _listItem => controller.reasonCategories.map((e) {
-        return _feedbackCategoryItemBuilder(e, controller.selectCategory.value == e, () => controller.selectCell(e));
+        return _feedbackCategoryItemBuilder(e, controller.selectCategory.value == e, () => controller.selectTile(e));
       }).toList();
 
   Widget _feedbackCategoryItemBuilder(String title, bool hasDivider, VoidCallback onTap) {
-    final cell = GetBuilder<FeedbackController>(
-      id: 'listView',
-      builder: (_) {
-        return FeedbackTile(title: title, opTap: onTap, isSelect: title == controller.selectCategory.value);
-      },
-    );
+    final cell =  Obx(() =>  FeedbackTile(
+        title: title,
+        onTap: onTap,
+        isSelect: title == controller.selectCategory.value));
     if (!hasDivider) return cell;
     return Column(mainAxisSize: MainAxisSize.min, children: [cell, const Divider(height: 1)]);
   }
@@ -82,7 +83,7 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
           focusNode: descriptionNode,
           controller: controller.feedbackCtl,
           maxLines: 5,
-          maxLength: 200,
+          maxLength: int.parse(LaunchService.shared.configModel.maxCommentDescription ?? ''),
           onChanged: (_) => controller.update(['next']),
           decoration: const InputDecoration(
               fillColor: kShapeColor, filled: true, hintText: '请填写您的意见和反馈说明', enabledBorder: InputBorder.none),
@@ -98,10 +99,10 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
   Widget get _imageAddItem => SizedBox(
         height: 60,
         child: GetBuilder<FeedbackController>(
-            id: 'cover',
+            id: 'image',
             builder: (_) {
-              final images = controller.covers.map(_localImage).toList();
-              if (controller.covers.length < controller.maxAssets) images.add(_addBtn);
+              final images = controller.images.map(_localImage).toList();
+              if (controller.images.length < controller.maxAssets) images.add(_addBtn);
               return Row(children: images);
             }),
       );
@@ -118,7 +119,7 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
   Widget get _addBtn => ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: TextButton(
-            onPressed: controller.choseCover, child: Icon(Icons.add_a_photo_rounded, size: 60, color: kGreyColor)),
+            onPressed: controller.choseImage, child: Icon(Icons.add_a_photo_rounded, size: 60, color: kGreyColor)),
       );
 
   /// 提交按钮
@@ -127,48 +128,9 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
         child: GetBuilder<FeedbackController>(
             id: 'next',
             builder: (_) => PuppyButton(
-                onPress: controller.shouldNext ? controller.feedback : null,
+                onPress: controller.shouldNext ? controller.feedbackRequest : null,
                 style: PuppyButtonStyle.style1,
                 child: const Text('提交'))),
       );
 }
 
-class FeedbackTile extends StatefulWidget {
-  final String title;
-  final bool isSelect;
-  final VoidCallback? opTap;
-
-  const FeedbackTile({super.key, required this.title, this.opTap, required this.isSelect});
-
-  @override
-  State<FeedbackTile> createState() => _FeedbackTileState();
-}
-
-class _FeedbackTileState extends State<FeedbackTile> with ThemeMixin {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.opTap,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-        height: 54,
-        color: Colors.white,
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              widget.title,
-              style: TextStyle(color: widget.isSelect ? kOrangeColor : kBlackColor, fontSize: kButtonFont),
-            ),
-          ),
-          widget.isSelect
-              ? Icon(
-                  Icons.check_outlined,
-                  color: kOrangeColor,
-                )
-              : Container()
-        ]),
-      ),
-    );
-  }
-}
