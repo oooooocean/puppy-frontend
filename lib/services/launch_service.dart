@@ -14,12 +14,14 @@ class LaunchService with NetMixin {
 
   User? user;
 
+
   AppConfigModel configModel = AppConfigModel(
       maxCommentDescription:'200' ,/// 最大评论字数
       maxIntroduction:'200' ,/// 最大介绍字数
       maxPetCount: '5' ,/// 宠物个数
       maxTopicDescription:'200' ,///主题描述最多字数
       maxTopicTitle: '50') ; /// 主题标题最大字数
+
 
   /// 注册流程:
   /// 用户基本信息 -> 至少一个宠物

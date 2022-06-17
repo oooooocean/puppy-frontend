@@ -48,9 +48,10 @@ class App extends StatelessWidget with ThemeMixin {
             focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kGreyColor))),
         appBarTheme: const AppBarTheme(
             iconTheme: IconThemeData(color: kPrimaryTextColor),
+            foregroundColor: kSecondaryTextColor,
             backgroundColor: kBackgroundColor,
             centerTitle: true,
-            elevation: 1,
+            elevation: 0.5,
             titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: kPrimaryTextColor)),
         textButtonTheme: TextButtonThemeData(
             style: ButtonStyle(

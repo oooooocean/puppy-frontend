@@ -12,5 +12,9 @@ abstract class AppRoutes {
 
   static const petAdd = '/pet/add';
 
+
   static const feedback = '/user/feedback';
+
+  static const postAdd = '/post/add';
+
 }

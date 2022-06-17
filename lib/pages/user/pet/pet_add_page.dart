@@ -23,7 +23,7 @@ class PetAddPage extends GetView<PetAddController> with KeyboardAllocator, Theme
       appBar: AppBar(
         title: const Text('添加宠物'),
         actions: [
-          TextButton(onPressed: controller.skip, child: Text('跳过', style: TextStyle(color: kSecondaryTextColor)))
+          TextButton(onPressed: controller.skip, child: const Text('跳过', style: TextStyle(color: kSecondaryTextColor)))
         ],
       ),
       body: controller.obx((_) => _body,
@@ -62,7 +62,7 @@ class PetAddPage extends GetView<PetAddController> with KeyboardAllocator, Theme
   Widget get _intrinsicWidgets {
     return Container(
       padding: EdgeInsets.all(8.toPadding),
-      decoration: BoxDecoration(color: kShapeColor, borderRadius: const BorderRadius.all(Radius.circular(5))),
+      decoration: const BoxDecoration(color: kShapeColor, borderRadius: BorderRadius.all(Radius.circular(5))),
       child: Column(
         children: [
           Row(children: [const Text('性别'), Expanded(child: _genderItem)]),
@@ -96,7 +96,7 @@ class PetAddPage extends GetView<PetAddController> with KeyboardAllocator, Theme
         onPressed: () {},
         child: Row(children: [
           const Text('类别'),
-          Expanded(
+          const Expanded(
               child: Text(
             '点击选择',
             textAlign: TextAlign.end,

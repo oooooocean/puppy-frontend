@@ -38,7 +38,7 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
 
   Widget get _inputContainer => Container(
         padding: EdgeInsets.all(15.toPadding),
-        decoration: BoxDecoration(color: kShapeColor, borderRadius: const BorderRadius.all(Radius.circular(5))),
+        decoration: const BoxDecoration(color: kShapeColor, borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -117,7 +117,7 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
                 TextButton(
                   onPressed: () {},
                   style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
-                  child: Text('同意用户协议和隐私政策',
+                  child: const Text('同意用户协议和隐私政策',
                       style: TextStyle(
                           fontSize: 13,
                           color: kSecondaryTextColor,
@@ -135,7 +135,7 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
           Expanded(child: Divider(color: kGreyColor)),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.toPadding),
-              child: Text('其他进入星球的方式👇', style: TextStyle(color: kSecondaryTextColor, fontSize: kSmallFont))),
+              child: const Text('其他进入星球的方式👇', style: TextStyle(color: kSecondaryTextColor, fontSize: kSmallFont))),
           Expanded(child: Divider(color: kGreyColor))
         ]),
         SizedBox(height: 25.toPadding),

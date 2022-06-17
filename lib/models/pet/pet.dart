@@ -34,6 +34,7 @@ class Pet extends PetBaseInfo {
 
   factory Pet.fromJson(Map<String, dynamic> json) => _$PetFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$PetToJson(this);
 
   @override

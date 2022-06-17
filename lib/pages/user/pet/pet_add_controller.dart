@@ -33,7 +33,7 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
                 "category": 0,
                 "sub_category": 0,
                 "gender": gender.value.index,
-                "birthday": birthday!.toIso8601String()
+                "birthday": birthday!.toUtc().toIso8601String()
               }
             })
         .then((params) => post('user/${user!.id}/pets/', params, (data) => data));
