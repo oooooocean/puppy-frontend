@@ -4,7 +4,6 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/pages/home/home_controller.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 import 'package:frontend/pages/post/list/post_list.dart';
-import 'package:frontend/pages/post/list/post_list_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

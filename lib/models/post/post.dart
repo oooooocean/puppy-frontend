@@ -39,7 +39,7 @@ class Post extends OwnerBase {
   Map<String, dynamic> toJson() => _$PostToJson(this);
 
   @override
-  String toString() => '';
+  String toString() => '帖子: $id';
 
   String get avatarUrl => QiniuService.shared.fetchImageUrl(key: ownerInfo.avatar, policy: QiniuPolicy.thumbnail200);
 }

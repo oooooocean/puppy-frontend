@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
+import 'package:frontend/pages/home/home_page.dart';
 import 'package:frontend/pages/post/list/post_list.dart';
 import 'package:frontend/pages/scaffold/scaffold_controller.dart';
 import 'package:frontend/pages/scaffold/scaffold_item.dart';
