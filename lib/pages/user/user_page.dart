@@ -34,7 +34,7 @@ class _UserState extends ScaffoldChildState<UserPage, UserController> {
 
   void gotoFeedback() {
     StoreDate.isSubmitedFeedback().then((value){
-      if(!value){
+      if(value){
         EasyLoading.showToast("今天您已经提过建议啦，请明天再提");
       } else{
         Get.toNamed(AppRoutes.feedback);

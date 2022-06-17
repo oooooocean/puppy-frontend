@@ -45,13 +45,13 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
         )),
       );
 
-  Widget get _divider => Divider(color: kDividerColor, height: 10.toPadding, thickness: 10.toPadding);
+  Widget get _divider => Divider(color: kBackgroundColor, height: 10.toPadding, thickness: 10.toPadding);
 
   /// 头部提示
   Widget get _headerItem => Padding(
       padding: EdgeInsets.all(15.toPadding),
       child: const Text.rich(
-          TextSpan(text: '请选择反馈问题类型', style: TextStyle(fontSize: kAccentFont, fontWeight: FontWeight.bold), children: [
+          TextSpan(text: '请选择反馈问题类型', style: TextStyle(fontSize: kButtonFont, fontWeight: FontWeight.bold), children: [
         TextSpan(
             text: '\n选择反馈问题, 以便我们能够更快速的查找解决问题',
             style: TextStyle(fontSize: kSmallFont, color: kSecondaryTextColor, fontWeight: FontWeight.normal))
@@ -77,7 +77,7 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Padding(
           padding: EdgeInsets.symmetric(vertical: 15.toPadding),
-          child: const Text('问题描述', style: TextStyle(fontSize: kAccentFont, fontWeight: FontWeight.bold)),
+          child: const Text('问题描述', style: TextStyle(fontSize: kButtonFont, fontWeight: FontWeight.bold)),
         ),
         TextField(
           focusNode: descriptionNode,
