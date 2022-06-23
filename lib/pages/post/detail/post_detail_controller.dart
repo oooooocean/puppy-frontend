@@ -51,7 +51,9 @@ class PostDetailController extends GetxController with NetMixin, RefreshMixin<Po
   onTapComment() {}
 
   /// 点赞
-  onTapPraise() {}
+  onTapPraise() async {
+    await praise(mPost);
+  }
 
   /// 收藏
   onTapCollect() {}
@@ -63,7 +65,7 @@ class PostDetailController extends GetxController with NetMixin, RefreshMixin<Po
   /// 筛选评论
   onFilterComment(CommentFilter? filter) {
     if (filter == null) return;
-     commentFilter.value = filter;
+    commentFilter.value = filter;
   }
 
   /// 加载评论

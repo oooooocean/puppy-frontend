@@ -52,17 +52,13 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
 
   /// 点赞
   onTapPraise(Post post) async {
-    final result = await follow(post.id);
-    if (!result) return;
-    post.praiseCount += 1;
-    post.hasPraise.value = true;
+    await praise(post);
   }
 
   /// 主题
   onTapTopic(Post post, PostTopic topic) {}
 
-  onTapMoreOptions(Post post) {
-  }
+  onTapMoreOptions(Post post) {}
 
   @override
   Future<PagingData<Post>> get refreshRequest => get('post/', (data) => PagingData.fromJson(data, Post.fromJson),

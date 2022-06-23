@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:frontend/models/media.dart';
+import 'package:frontend/models/post/post.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
@@ -25,11 +26,20 @@ mixin PostActionMixin on NetMixin {
   }
 
   /// 点赞
-  Future<bool> praise(int postId) {
+  Future<bool> praise(Post post) {
+    final isCancel = post.hasPraise.value;
     final completer = Completer<bool>();
     request(
-        api: () => post('post/$postId/praise/', {}, (data) => data),
-        success: (_) => completer.complete(true), fail: (_) => completer.complete(false));
+        api: () =>
+        isCancel
+            ? delete('post/${post.id}/praise/', {}, (data) => data)
+            : this.post('post/${post.id}/praise/', {}, (data) => data),
+        success: (_) {
+          post.praiseCount += isCancel ? -1 : 1;
+          post.hasPraise.value = !post.hasPraise.value;
+          completer.complete(true);
+        },
+        fail: (_) => completer.complete(false));
     return completer.future;
   }
 }
