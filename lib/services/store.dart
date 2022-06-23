@@ -25,12 +25,3 @@ extension StoreToken on Store {
 
   static Future<String?> getToken() => Store.get('token');
 }
-extension StoreDate on Store {
-  static void setCurrentDateOfYYMMDD(String key) => Store.set(key, DateTime.now().yyyymmdd);
-  static Future<String?> getDate(String key) => Store.get(key);
-  static Future<bool> isSubmitedFeedback() async {
-    final currentDate = DateTime.now().yyyymmdd;
-    final lastDate = await Store.get("feedback");
-   return currentDate == lastDate ;
-  }
-}

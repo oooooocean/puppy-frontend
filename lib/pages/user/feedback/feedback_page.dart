@@ -1,5 +1,4 @@
 import 'dart:core';
-
 import 'package:flutter/material.dart';
 import 'package:frontend/components/comps/comps.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
@@ -10,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:frontend/components/extension/int_extension.dart';
-
 import '../../../services/launch_service.dart';
 import 'feedback_tile.dart';
 
@@ -31,6 +29,7 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
               Expanded(
                 child: ListView(
                   children: [
+                    _headerItem,
                     _headerItem,
                     ..._listItem,
                     _divider,
@@ -63,10 +62,8 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
       }).toList();
 
   Widget _feedbackCategoryItemBuilder(String title, bool hasDivider, VoidCallback onTap) {
-    final cell =  Obx(() =>  FeedbackTile(
-        title: title,
-        onTap: onTap,
-        isSelect: title == controller.selectCategory.value));
+    final cell =
+        Obx(() => FeedbackTile(title: title, onTap: onTap, isSelect: title == controller.selectCategory.value));
     if (!hasDivider) return cell;
     return Column(mainAxisSize: MainAxisSize.min, children: [cell, const Divider(height: 1)]);
   }
@@ -98,13 +95,11 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
   /// 选择图片
   Widget get _imageAddItem => SizedBox(
         height: 60,
-        child: GetBuilder<FeedbackController>(
-            id: 'image',
-            builder: (_) {
-              final images = controller.images.map(_localImage).toList();
-              if (controller.images.length < controller.maxAssets) images.add(_addBtn);
-              return Row(children: images);
-            }),
+        child: Obx(() {
+          final images = controller.images.map(_localImage).toList();
+          if (controller.images.length < controller.assetLimit) images.add(_addBtn);
+          return Row(children: images);
+        }),
       );
 
   Widget _localImage(AssetEntity entity) => Padding(
@@ -128,9 +123,8 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
         child: GetBuilder<FeedbackController>(
             id: 'next',
             builder: (_) => PuppyButton(
-                onPress: controller.shouldNext ? controller.feedbackRequest : null,
+                onPressed: controller.shouldNext ? controller.feedbackRequest : null,
                 style: PuppyButtonStyle.style1,
                 child: const Text('提交'))),
       );
 }
-
