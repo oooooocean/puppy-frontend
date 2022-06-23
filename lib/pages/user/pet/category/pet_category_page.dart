@@ -5,53 +5,38 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/pet/pet_category.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
+import 'package:frontend/components/extension/int_extension.dart';
 
 part 'package:frontend/pages/user/pet/category/pet_category_controller.dart';
 
-class PetCategoryPage extends GetView<PetCategoryController>
-    with LoadImageMixin, ThemeMixin {
+class PetCategoryPage extends GetView<PetCategoryController> with LoadImageMixin {
   PetCategoryPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            leading: BackButton(
-              onPressed: () => Get.back(),
-              color: kBlackColor,
-            ),
-            title: const Text('选择分类')),
-        body: SafeArea(
-            child: GetBuilder<PetCategoryController>(
-                builder: (_) => Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, left: 40, right: 40),
-                    child: GridView.builder(
-                        itemCount: controller.categories.length,
-                        itemBuilder: _gridContent,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisSpacing: 10.0,
-                                mainAxisSpacing: 10.0,
-                                crossAxisCount: 2))))));
+      appBar: AppBar(title: const Text('选择分类')),
+      body: SafeArea(
+        child: GridView.builder(
+            padding: EdgeInsets.only(top: 20.toPadding, left: 40.toPadding, right: 40.toPadding),
+            itemCount: controller.categories.length,
+            itemBuilder: _itemBuilder,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 10.toPadding, mainAxisSpacing: 10.toPadding, crossAxisCount: 2)),
+      ),
+    );
   }
 
-  Widget _gridContent(context, index) => Column(
-        children: [
-          SizedBox(
-              height: 100,
-              width: 100,
-              child: ClipOval(child: _imageView(index))),
-          const SizedBox(height: 12),
-          Text(controller.categories[index].name)
-        ],
-      );
+  Widget _itemBuilder(context, index) => GestureDetector(
+    onTap: () => controller.jumpToSub(index),
+    child: Column(
+          children: [
+            SizedBox(height: 100.toPadding, width: 100.toPadding, child: ClipOval(child: _imageView(index))),
+            SizedBox(height: kSpacePadding),
+            Text(controller.categories[index].name)
+          ],
+        ),
+  );
 
-  Widget _imageView(int index) => GestureDetector(
-      child: controller.loadImage(index) == null
-          ? const AspectRatio(
-              aspectRatio: 1,
-              child: Icon(Icons.camera_alt_rounded, color: kSecondaryTextColor))
-          : buildNetImage(controller.loadImage(index)!, fit: BoxFit.fill),
-      onTap: () => controller.jumpToSub(index));
+  Widget _imageView(int index) => buildNetImage(controller.loadImage(index), fit: BoxFit.fill);
 }
