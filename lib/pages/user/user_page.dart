@@ -16,8 +16,12 @@ class _UserState extends ScaffoldChildState<UserPage, UserController> {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: Center(
-        child: TextButton(onPressed: () => Get.toNamed(AppRoutes.userInfoEdit), child: const Text('编辑用户资料')),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            actions: [IconButton(onPressed: () => Get.toNamed(AppRoutes.userSetting), icon: const Icon(Icons.settings))],
+          )
+        ],
       ),
     );
   }

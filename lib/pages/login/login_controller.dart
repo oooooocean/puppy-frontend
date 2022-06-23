@@ -56,13 +56,13 @@ class LoginController extends GetxController with NetMixin {
       next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
     }
 
-    Future<Tuple2<String, User>> api = post('user/login/', {'phone': phoneCtl.text, 'code': '123456'}, (data) {
-      final token = data['token'];
-      final user = User.fromJson(data['user']);
-      return Tuple2(token, user);
-    });
-
-    request<Tuple2<String, User>>(api: api, success: success);
+    request<Tuple2<String, User>>(
+        api: () => post('user/login/', {'phone': phoneCtl.text, 'code': '123456'}, (data) {
+              final token = data['token'];
+              final user = User.fromJson(data['user']);
+              return Tuple2(token, user);
+            }),
+        success: success);
   }
 
   loginWithAppleId() {}

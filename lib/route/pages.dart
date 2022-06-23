@@ -6,6 +6,7 @@ import 'package:frontend/pages/scaffold/scaffold_controller.dart';
 import 'package:frontend/pages/scaffold/scaffold_page.dart';
 import 'package:get/get.dart';
 import 'package:frontend/pages/user/user_pages.dart' as user_pages;
+import 'package:frontend/pages/post/post_pages.dart' as post_pages;
 
 part 'routes.dart';
 
@@ -23,5 +24,6 @@ final appRoutes = [
         Get.lazyPut(() => PostListController());
       })),
   ...user_pages.userRoutes,
-  ...user_pages.petRoutes
+  ...user_pages.petRoutes,
+  ...post_pages.postRoutes
 ];

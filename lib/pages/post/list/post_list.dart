@@ -17,16 +17,14 @@ class _PostListState extends ScaffoldChildState<PostListPage, PostListController
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      body: GetBuilder<PostListController>(
-        builder: (_) => SmartRefresher(
-          controller: controller.refreshController,
-          enablePullUp: true,
-          onRefresh: controller.onRefresh,
-          onLoading: controller.onLoading,
-          child: ListView.separated(
-              itemBuilder: _itemBuilder, separatorBuilder: _separatorBuilder, itemCount: controller.items.length),
-        ),
+    return GetBuilder<PostListController>(
+      builder: (_) => SmartRefresher(
+        controller: controller.refreshController,
+        enablePullUp: true,
+        onRefresh: controller.onRefresh,
+        onLoading: controller.onLoading,
+        child: ListView.separated(
+            itemBuilder: _itemBuilder, separatorBuilder: _separatorBuilder, itemCount: controller.items.length),
       ),
     );
   }

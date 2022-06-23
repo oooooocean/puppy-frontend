@@ -1,5 +1,6 @@
 import 'package:frontend/services/qiniu_service.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 part 'media.g.dart';
 
@@ -8,6 +9,19 @@ enum MediaType {
   picture,
   @JsonValue(1)
   video
+}
+
+extension AssetTypeExtension on AssetType {
+  MediaType get mediaType {
+    switch (this) {
+      case AssetType.image:
+        return MediaType.picture;
+      case AssetType.video:
+        return MediaType.video;
+      default:
+        throw TypeError();
+    }
+  }
 }
 
 @JsonSerializable()

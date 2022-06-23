@@ -6,6 +6,8 @@ import 'package:frontend/pages/user/pet/pet_add_page.dart';
 import 'package:frontend/pages/user/pet/category/pet_category_page.dart';
 import 'package:frontend/pages/user/pet/category/pet_sub_category_page.dart';
 import 'package:frontend/pages/user/pet/category/pet_search_page.dart';
+import 'package:frontend/pages/user/setting/setting_controller.dart';
+import 'package:frontend/pages/user/setting/setting_page.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +16,10 @@ final userRoutes = [
       name: AppRoutes.userInfoAdd,
       page: () => UserAddPage<UserAddController>(),
       binding: BindingsBuilder(() => Get.lazyPut(() => UserAddController()))),
+  GetPage(
+      name: AppRoutes.userSetting,
+      page: () => const SettingPage(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => SettingController()))),
   GetPage(
       name: AppRoutes.userInfoEdit,
       page: () => UserAddPage<UserEditController>(),

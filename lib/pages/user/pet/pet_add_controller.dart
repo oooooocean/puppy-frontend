@@ -8,8 +8,7 @@ import 'package:frontend/services/launch_service.dart';
 import 'package:get/get.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
-class PetAddController extends GetxController
-    with NetMixin, StateMixin<List<PetCategory>> {
+class PetAddController extends GetxController with NetMixin, StateMixin<List<PetCategory>> {
   final nicknameCtl = TextEditingController();
   final introductionCtl = TextEditingController();
 
@@ -19,15 +18,16 @@ class PetAddController extends GetxController
   PetExplicitCategory? category;
 
   @override
-  bool get shouldRequest =>
-      nicknameCtl.text.isNotEmpty && avatar != null && birthday != null;
+  bool get shouldRequest => nicknameCtl.text.isNotEmpty && avatar != null && birthday != null;
 
   save() {
     final user = LaunchService.shared.user;
     assert(user != null, '必须登录');
 
-    final api = uploadImages([avatar!])
-        .then((value) => {
+    request(
+        api: () => uploadImages([avatar!]).then((value) => post(
+            'user/${user!.id}/pets/',
+            {
               'nickname': nicknameCtl.text,
               'introduction': introductionCtl.text,
               'avatar': value.first,
@@ -35,14 +35,10 @@ class PetAddController extends GetxController
                 "category": 0,
                 "sub_category": 0,
                 "gender": gender.value.index,
-                "birthday": birthday!.toIso8601String()
+                "birthday": birthday!.toUtc().toIso8601String()
               }
-            })
-        .then(
-            (params) => post('user/${user!.id}/pets/', params, (data) => data));
-
-    request(
-        api: api,
+            },
+            (data) => data)),
         success: (_) {
           user?.petCount += 1;
           LaunchService.shared.updateUser(user!);
@@ -67,8 +63,7 @@ class PetAddController extends GetxController
 
   choseBirthday() {
     final start = DateTime.now().subtract(const Duration(days: 30));
-    DatePicker.showDatePicker(Get.context!,
-        maxTime: DateTime.now(), currentTime: start, onConfirm: (dateTime) {
+    DatePicker.showDatePicker(Get.context!, maxTime: DateTime.now(), currentTime: start, onConfirm: (dateTime) {
       birthday = dateTime;
       update(['birthday', 'id']);
     }, locale: LocaleType.zh);
@@ -78,20 +73,15 @@ class PetAddController extends GetxController
     assert(category.isValid, '子类和父类不匹配');
     if (this.category == category) return;
     this.category = category;
-    update(['category', 'next']);
+    update(['next']);
   }
 
   @override
   void onReady() {
     change(null, status: RxStatus.loading());
-    get(
-            'configuration/pet/',
-            (data) => (data as List<dynamic>)
-                .map((e) => PetCategory.fromJson(e))
-                .toList())
+    get('configuration/pet/', (data) => (data as List<dynamic>).map((e) => PetCategory.fromJson(e)).toList())
         .then((value) => change(value, status: RxStatus.success()))
-        .catchError(
-            (error) => change(null, status: RxStatus.error(error.toString())));
+        .catchError((error) => change(null, status: RxStatus.error(error.toString())));
     super.onReady();
   }
 }
