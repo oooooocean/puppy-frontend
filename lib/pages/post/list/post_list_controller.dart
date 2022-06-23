@@ -6,7 +6,6 @@ import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/pages/post/mixin/post_action_mixin.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
-import 'package:more/more.dart';
 
 class PostListController extends GetxController with RefreshMixin<Post>, NetMixin, PostActionMixin {
   /// 刷新

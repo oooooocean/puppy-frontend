@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/components/comps/circle_avatar_button.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/post/post.dart';
-import 'package:frontend/models/post/post_action.dart';
 import 'package:frontend/pages/post/list/post_list_controller.dart';
 import 'package:frontend/pages/post/views/post_description_tile.dart';
 import 'package:frontend/pages/post/views/post_list_action_bar.dart';
 import 'package:frontend/pages/post/views/post_list_header.dart';
 import 'package:frontend/pages/post/views/post_photos_tile.dart';
 import 'package:get/get.dart';
-import 'package:frontend/components/extension/int_extension.dart';
 
 class PostListTile extends GetView<PostListController> with LoadImageMixin {
   final Post post;

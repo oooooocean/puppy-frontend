@@ -28,21 +28,6 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       json['owner'] as int,
     );
 
-Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
-      'ownerInfo': instance.ownerInfo,
-      'owner': instance.owner,
-      'id': instance.id,
-      'description': instance.description,
-      'type': _$PostTypeEnumMap[instance.type],
-      'praiseCount': instance.praiseCount,
-      'commentCount': instance.commentCount,
-      'hasPraise': instance.hasPraise,
-      'hasFollow': instance.hasFollow,
-      'createTime': instance.createTime.toIso8601String(),
-      'pets': instance.pets,
-      'medias': instance.medias,
-      'topics': instance.topics,
-    };
 
 const _$PostTypeEnumMap = {
   PostType.photo: 0,
