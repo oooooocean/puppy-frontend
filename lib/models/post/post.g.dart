@@ -19,7 +19,8 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       (json['medias'] as List<dynamic>)
           .map((e) => Media.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['hasPraise'] as bool,
+      convertBoolToRx(json['hasPraise'] as bool),
+      convertBoolToRx(json['hasFollow'] as bool),
       (json['topics'] as List<dynamic>)
           .map((e) => PostTopic.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -36,6 +37,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'praiseCount': instance.praiseCount,
       'commentCount': instance.commentCount,
       'hasPraise': instance.hasPraise,
+      'hasFollow': instance.hasFollow,
       'createTime': instance.createTime.toIso8601String(),
       'pets': instance.pets,
       'medias': instance.medias,

@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 DateTime convertTimestampToDatetime(dynamic timestamp) {
   int intTimestamp;
   if (timestamp is String) {
@@ -7,3 +9,5 @@ DateTime convertTimestampToDatetime(dynamic timestamp) {
   }
   return DateTime.fromMillisecondsSinceEpoch(intTimestamp * 1000);
 }
+
+RxBool convertBoolToRx(bool value) => RxBool(value);

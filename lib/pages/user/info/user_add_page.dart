@@ -84,7 +84,7 @@ class UserAddPage<C extends UserBaseController> extends GetView<C> with Keyboard
   Widget get _nextItem => GetBuilder<C>(
         id: 'next',
         builder: (_) => PuppyButton(
-            onPress: controller.shouldRequest ? controller.save : null,
+            onPressed: controller.shouldRequest ? controller.save : null,
             style: PuppyButtonStyle.style1,
             child: const Text('下一步')),
       );

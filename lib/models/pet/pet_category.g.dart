@@ -14,6 +14,12 @@ PetCategory _$PetCategoryFromJson(Map<String, dynamic> json) => PetCategory(
           .toList(),
     );
 
+Map<String, dynamic> _$PetCategoryToJson(PetCategory instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'subCategory': instance.subCategory,
+    };
 
 PetSubCategory _$PetSubCategoryFromJson(Map<String, dynamic> json) =>
     PetSubCategory(
@@ -22,3 +28,9 @@ PetSubCategory _$PetSubCategoryFromJson(Map<String, dynamic> json) =>
       json['image'] as String,
     );
 
+Map<String, dynamic> _$PetSubCategoryToJson(PetSubCategory instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'image': instance.image,
+    };

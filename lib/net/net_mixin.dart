@@ -12,20 +12,21 @@ import 'package:frontend/net/net.dart';
 import 'package:frontend/services/launch_service.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:more/iterable.dart';
+import 'package:frontend/models/media.dart';
 
 mixin NetMixin {
   final net = Net();
 
   bool get shouldRequest => true;
 
-  Future? request<T>({required Future<T> api, ValueSetter<T>? success, ValueSetter<Error>? fail}) async {
+  Future? request<T>({required ValueGetter<Future<T>> api, ValueSetter<T>? success, ValueSetter<Error>? fail}) async {
     if (!shouldRequest) {
       EasyLoading.showToast('请完善信息后重试');
       return;
     }
 
     EasyLoading.show();
-    return api.then((value) {
+    return api().then((value) {
       EasyLoading.dismiss();
       if (success != null) success(value);
     }).catchError((error) {
@@ -60,8 +61,8 @@ mixin NetMixin {
 
   /// 上传图片
   /// 默认会对图片按照当前屏幕进行压缩
-  Future<List<String>> uploadImages(List<AssetEntity> files, {bool originSize = false}) async {
-    if (files.isEmpty) return [];
+  Future<List<Media>> uploadImages(List<AssetEntity> files, {bool originSize = false}) async {
+    final types = files.map((e) => e.type.mediaType).toList();
     final filesFutures = files
         .map(
           (entity) => originSize
@@ -81,9 +82,10 @@ mixin NetMixin {
       if (files.isEmpty) return [];
       // 上传到文件服务器
       return _getUploadTokens(files.length).then((metas) {
-        final uploadFutures = [metas, files].zip().map((e) {
+        final uploadFutures = [metas, files, types].zip().map((e) {
           final meta = e[0] as IdAndName;
-          return QiniuService.shared.upload(key: meta.id, token: meta.name, bytes: e[1] as Uint8List);
+          final key = QiniuService.shared.upload(key: meta.id, token: meta.name, bytes: e[1] as Uint8List);
+          return key.then((value) => Media(e[2] as MediaType, value));
         }).toList();
         return Future.wait(uploadFutures);
       });

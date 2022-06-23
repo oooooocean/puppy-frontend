@@ -123,7 +123,7 @@ class PetAddPage extends GetView<PetAddController> with KeyboardAllocator, Theme
   Widget get _nextItem => GetBuilder<PetAddController>(
         id: 'next',
         builder: (_) => PuppyButton(
-            onPress: controller.shouldRequest ? controller.save : null,
+            onPressed: controller.shouldRequest ? controller.save : null,
             style: PuppyButtonStyle.style1,
             child: const Text('下一步')),
       );

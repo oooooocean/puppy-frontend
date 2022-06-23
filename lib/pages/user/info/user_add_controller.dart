@@ -20,17 +20,16 @@ class UserAddController extends UserBaseController {
   void save() {
     final user = LaunchService.shared.user!;
 
-    final api = uploadImages([avatar!])
-        .then((value) => {
+    request<UserInfo>(
+        api: () => uploadImages([avatar!]).then((value) => post(
+            'user/${user.id}/info/',
+            {
               'nickname': nicknameCtl.text,
               'introduction': introductionCtl.text,
-              'avatar': value.first,
+              'avatar': value.first.key,
               'gender': gender.value.index
-            })
-        .then((params) => post('user/${user.id}/info/', params, (data) => UserInfo.fromJson(data)));
-
-    request<UserInfo>(
-        api: api,
+            },
+            (data) => UserInfo.fromJson(data))),
         success: (userInfo) {
           user.info = userInfo;
           LaunchService.shared.updateUser(user);

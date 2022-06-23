@@ -27,7 +27,7 @@ class PostListTile extends GetView<PostListController> with LoadImageMixin {
       child: ColoredBox(
         color: Colors.white,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.toPadding),
+          padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [space, _headerItem, space, _descriptionItem, space, _photosItem, _panel],
@@ -37,12 +37,13 @@ class PostListTile extends GetView<PostListController> with LoadImageMixin {
     );
   }
 
-  Widget get _headerItem => PostListHeader(post: post);
+  Widget get _headerItem => GetBuilder<PostListController>(id: post.id, builder: (_) => PostListHeader(post: post));
 
   Widget get _descriptionItem => PostDescriptionTile(
       description: post.description, topics: post.topics, onTap: (topic) => controller.onTapTopic(post, topic));
 
-  Widget get _photosItem => PostPhotosTile(photos: post.medias, onTap: (index) => controller.onTapPhoto(post, index));
+  Widget get _photosItem =>
+      PostPhotosTile(photos: post.medias, onTap: (index) => controller.pushToMediaPage(post.medias, index));
 
   Widget get _panel => PostListActionBar(post: post);
 }

@@ -24,8 +24,10 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
     final user = LaunchService.shared.user;
     assert(user != null, '必须登录');
 
-    final api = uploadImages([avatar!])
-        .then((value) => {
+    request(
+        api: () => uploadImages([avatar!]).then((value) => post(
+            'user/${user!.id}/pets/',
+            {
               'nickname': nicknameCtl.text,
               'introduction': introductionCtl.text,
               'avatar': value.first,
@@ -35,11 +37,8 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
                 "gender": gender.value.index,
                 "birthday": birthday!.toUtc().toIso8601String()
               }
-            })
-        .then((params) => post('user/${user!.id}/pets/', params, (data) => data));
-
-    request(
-        api: api,
+            },
+            (data) => data)),
         success: (_) {
           user?.petCount += 1;
           LaunchService.shared.updateUser(user!);

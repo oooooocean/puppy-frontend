@@ -3,36 +3,38 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 
-class PuppyPhotoPicker extends StatefulWidget {
+class PuppyAssetsPicker extends StatefulWidget {
   final int limit;
   final double height;
+  final ValueSetter<List<AssetEntity>> assetsChanged;
 
-  const PuppyPhotoPicker({Key? key, required this.limit, this.height = 90}) : super(key: key);
+  const PuppyAssetsPicker({Key? key, required this.limit, required this.assetsChanged, this.height = 90}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PuppyPhotoState();
 }
 
-class _PuppyPhotoState extends State<PuppyPhotoPicker> {
-  List<AssetEntity> _photos = [];
+class _PuppyPhotoState extends State<PuppyAssetsPicker> {
+  List<AssetEntity> _assets = [];
   List<Widget> _children = [];
 
   _chosePhoto() async {
     final config = AssetPickerConfig(
-        selectedAssets: _photos, maxAssets: widget.limit, specialPickerType: SpecialPickerType.wechatMoment);
+        selectedAssets: _assets, maxAssets: widget.limit, specialPickerType: SpecialPickerType.wechatMoment);
     final results = await AssetPicker.pickAssets(context, pickerConfig: config);
     if (results == null) return;
-    _photos = results;
+    _assets = results;
+    widget.assetsChanged(_assets);
     _refresh();
   }
 
   _removePhoto(AssetEntity entity) {
-    _photos.remove(entity);
+    _assets.remove(entity);
     _refresh();
   }
 
   _refresh() {
-    _children = _photos.map((e) => _buildItem(_buildImageItem(e))).toList();
+    _children = _assets.map((e) => _buildItem(_buildImageItem(e))).toList();
     if (_children.length < widget.limit) {
       _children.add(_addButton);
     }

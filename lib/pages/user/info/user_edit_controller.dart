@@ -16,26 +16,19 @@ class UserEditController extends UserBaseController {
 
   @override
   void save() {
-    Future<UserInfo> api;
     final user = LaunchService.shared.user!;
-    if (avatar != null) {
-      api = uploadImages([avatar!])
-          .then((value) => {
-                'nickname': nicknameCtl.text,
-                'introduction': introductionCtl.text,
-                'avatar': value.first,
-                'gender': gender.value.index
-              })
-          .then((params) => patch('user/${user.id}/info/', params, (data) => UserInfo.fromJson(data)));
-    } else {
-      api = patch(
-          'user/${user.id}/info/',
-          {'nickname': nicknameCtl.text, 'introduction': introductionCtl.text, 'gender': gender.value.index},
-          (data) => UserInfo.fromJson(data));
-    }
-
+    var images = [];
+    if (avatar != null) images.add(avatar!);
     request<UserInfo>(
-        api: api,
+        api: () => uploadImages([avatar!]).then((value) => patch(
+            'user/${user.id}/info/',
+            {
+              'nickname': nicknameCtl.text,
+              'introduction': introductionCtl.text,
+              'avatar': value.isNotEmpty ? value.first : '',
+              'gender': gender.value.index
+            },
+            (data) => UserInfo.fromJson(data))),
         success: (userInfo) {
           user.info = userInfo;
           LaunchService.shared.updateUser(user);

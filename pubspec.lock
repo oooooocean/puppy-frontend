@@ -300,6 +300,34 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_baidu_mapapi_base:
+    dependency: transitive
+    description:
+      name: flutter_baidu_mapapi_base
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
+  flutter_baidu_mapapi_map:
+    dependency: "direct main"
+    description:
+      name: flutter_baidu_mapapi_map
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0+1"
+  flutter_baidu_mapapi_search:
+    dependency: "direct main"
+    description:
+      name: flutter_baidu_mapapi_search
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
+  flutter_baidu_mapapi_utils:
+    dependency: "direct main"
+    description:
+      name: flutter_baidu_mapapi_utils
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0+1"
   flutter_blurhash:
     dependency: transitive
     description:
@@ -307,6 +335,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.7.0"
+  flutter_bmflocation:
+    dependency: "direct main"
+    description:
+      name: flutter_bmflocation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0+1"
   flutter_cache_manager:
     dependency: transitive
     description:
@@ -599,6 +634,41 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.11.1"
+  permission_handler:
+    dependency: "direct main"
+    description:
+      name: permission_handler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "10.0.0"
+  permission_handler_android:
+    dependency: transitive
+    description:
+      name: permission_handler_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "10.0.0"
+  permission_handler_apple:
+    dependency: transitive
+    description:
+      name: permission_handler_apple
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.0.4"
+  permission_handler_platform_interface:
+    dependency: transitive
+    description:
+      name: permission_handler_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.7.0"
+  permission_handler_windows:
+    dependency: transitive
+    description:
+      name: permission_handler_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   photo_manager:
     dependency: transitive
     description:
