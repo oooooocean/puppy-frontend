@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:frontend/services/qiniu_service.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/services/store.dart';
@@ -43,4 +44,6 @@ class UserInfo {
 
   @override
   String toString() => '';
+
+  String get avatarUrl => QiniuService.shared.fetchImageUrl(key: avatar, policy: QiniuPolicy.thumbnail200);
 }

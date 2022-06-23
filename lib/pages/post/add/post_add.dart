@@ -18,7 +18,10 @@ class PostAddPage extends GetView<PostAddController> {
           child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.toPadding),
         child: Column(children: [
-          Expanded(child: Column(children: [_chosePhotoItem, _descriptionItem])),
+          Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [_chosePhotoItem, _descriptionItem, _topicItem])),
           _actionBar
         ]),
       )),
@@ -32,14 +35,15 @@ class PostAddPage extends GetView<PostAddController> {
           id: 'publish',
           builder: (_) => PuppyButton(
               style: PuppyButtonStyle.style2,
-              onPress: controller.shouldRequest ? controller.onPublish : null,
+              onPressed: controller.shouldRequest ? controller.onPublish : null,
               child: const Text('发布', style: TextStyle(fontWeight: FontWeight.bold))),
         )
       ],
       elevation: 0);
 
-  Widget get _chosePhotoItem =>
-      PuppyAssetsPicker(limit: 9, assetsChanged: (assets) {
+  Widget get _chosePhotoItem => PuppyAssetsPicker(
+      limit: 9,
+      assetsChanged: (assets) {
         controller.assets.value = assets;
         controller.update(['publish']);
       });
@@ -51,6 +55,18 @@ class PostAddPage extends GetView<PostAddController> {
         onChanged: (_) => controller.update(['publish']),
         decoration: const InputDecoration(hintText: '不管我成为啥鬼姿态, 你从来都不会嫌弃我.\n\n分享快乐, 记录日常.'),
       );
+
+  Widget get _topicItem => GetBuilder<PostAddController>(
+      id: 'topic',
+      builder: (_) => controller.topic == null
+          ? Container()
+          : ActionChip(
+              label: Text('#${controller.topic?.title}'),
+              labelStyle: const TextStyle(color: kOrangeColor),
+              backgroundColor: kShapeColor,
+              visualDensity: VisualDensity.compact,
+              pressElevation: 0,
+              onPressed: controller.onTapTopic));
 
   Widget get _actionBar => const PostAddActionBar();
 }

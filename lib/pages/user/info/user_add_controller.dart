@@ -26,7 +26,7 @@ class UserAddController extends UserBaseController {
             {
               'nickname': nicknameCtl.text,
               'introduction': introductionCtl.text,
-              'avatar': value.first,
+              'avatar': value.first.key,
               'gender': gender.value.index
             },
             (data) => UserInfo.fromJson(data))),

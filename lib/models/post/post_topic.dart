@@ -6,11 +6,11 @@ part 'post_topic.g.dart';
 class PostTopic {
   int id;
   String title;
+  int contentCount;
 
-  PostTopic(this.id, this.title);
+  PostTopic(this.id, this.title, this.contentCount);
 
   factory PostTopic.fromJson(Map<String, dynamic> json) =>  _$PostTopicFromJson(json);
-  Map<String, dynamic> toJson() => _$PostTopicToJson(this);
 
   @override
   String toString() => '';

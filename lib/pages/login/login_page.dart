@@ -72,7 +72,7 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
             padding: const EdgeInsets.only(top: 5.0), // 对齐文字
             child: Obx(
               () => PuppyButton(
-                onPress: controller.codeEnable.value
+                onPressed: controller.codeEnable.value
                     ? () {
                         controller.fetchCode();
                         codeNode.requestFocus();
@@ -91,7 +91,7 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
         children: [
           Obx(
             () => PuppyButton(
-                onPress: controller.loginEnable.value ? controller.login : null,
+                onPressed: controller.loginEnable.value ? controller.login : null,
                 style: PuppyButtonStyle.style1,
                 child: const Text('进入星球', style: TextStyle(fontSize: kButtonFont, fontWeight: FontWeight.w600))),
           ),

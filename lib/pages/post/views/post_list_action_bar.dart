@@ -18,15 +18,22 @@ class PostListActionBar extends GetView<PostListController> {
 
     final share = _actionLabelBuilder(
         Icon(PostAction.share.icon, size: iconSize, color: iconColor), '分享', () => controller.onTapShare(post));
-    final comment = _actionLabelBuilder(Icon(PostAction.comment.icon, size: iconSize, color: iconColor),
-        post.commentCount.toString(), () => controller.onTapComment(post));
-    final praise = _actionLabelBuilder(
-        Icon(post.hasPraise ? PostAction.praise.accentIcon : PostAction.praise.icon,
-            color: post.hasPraise ? kOrangeColor : iconColor, size: iconSize),
-        post.praiseCount.toString(),
-        () => controller.onTapPraise(post));
-    return ButtonBar(
-        buttonPadding: EdgeInsets.zero, alignment: MainAxisAlignment.spaceBetween, children: [share, comment, praise]);
+
+    return GetBuilder<PostListController>(
+        id: post.id,
+        builder: (_) {
+          final comment = _actionLabelBuilder(Icon(PostAction.comment.icon, size: iconSize, color: iconColor),
+              post.commentCount.toString(), () => controller.onTapComment(post));
+          final praise = Obx(() => _actionLabelBuilder(
+              Icon(post.hasPraise.value ? PostAction.praise.accentIcon : PostAction.praise.icon,
+                  color: post.hasPraise.value ? kOrangeColor : iconColor, size: iconSize),
+              post.praiseCount.toString(),
+              () => controller.onTapPraise(post)));
+          return ButtonBar(
+              buttonPadding: EdgeInsets.zero,
+              alignment: MainAxisAlignment.spaceBetween,
+              children: [share, comment, praise]);
+        });
   }
 
   Widget _actionLabelBuilder(Icon icon, String text, VoidCallback onTap) => TextButton.icon(

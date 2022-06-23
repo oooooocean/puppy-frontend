@@ -4,7 +4,10 @@ import 'package:frontend/models/media.dart';
 import 'package:frontend/models/pet/pet.dart';
 import 'package:frontend/models/post/post_topic.dart';
 import 'package:frontend/models/user/user.dart';
+import 'package:frontend/services/launch_service.dart';
 import 'package:frontend/services/qiniu_service.dart';
+import 'package:frontend/services/utils.dart';
+import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'post.g.dart';
@@ -24,22 +27,28 @@ class Post extends OwnerBase {
   PostType type;
   int praiseCount;
   int commentCount;
-  bool hasPraise;
+
+  /// 是否点赞
+  @JsonKey(fromJson: convertBoolToRx)
+  RxBool hasPraise;
+
+  /// 是否关注
+  @JsonKey(fromJson: convertBoolToRx)
+  RxBool hasFollow;
   @JsonKey(fromJson: string2DateTime)
   DateTime createTime;
   List<PetBaseInfo> pets;
   List<Media> medias;
   List<PostTopic> topics;
 
-  Post(this.id, this.description, this.type, this.praiseCount, this.commentCount,
-      this.createTime, this.pets, this.medias, this.hasPraise, this.topics, UserInfo ownerInfo, int owner) : super(owner, ownerInfo);
+  Post(this.id, this.description, this.type, this.praiseCount, this.commentCount, this.createTime, this.pets,
+      this.medias, this.hasPraise, this.hasFollow, this.topics, UserInfo ownerInfo, int owner)
+      : super(owner, ownerInfo);
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PostToJson(this);
 
   @override
   String toString() => '帖子: $id';
 
-  String get avatarUrl => QiniuService.shared.fetchImageUrl(key: ownerInfo.avatar, policy: QiniuPolicy.thumbnail200);
+  bool get isCurrentUser => LaunchService.shared.user?.id == owner;
 }

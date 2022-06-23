@@ -3,38 +3,65 @@ import 'package:frontend/models/paging_data.dart';
 import 'package:frontend/models/post/post.dart';
 import 'package:frontend/models/post/post_topic.dart';
 import 'package:frontend/net/net_mixin.dart';
+import 'package:frontend/pages/post/mixin/post_action_mixin.dart';
+import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
+import 'package:more/more.dart';
 
-class PostListController extends GetxController with RefreshMixin<Post>, NetMixin {
+class PostListController extends GetxController with RefreshMixin<Post>, NetMixin, PostActionMixin {
+  /// 刷新
   onRefresh() {
     startRefresh(RefreshType.refresh).then((value) => update());
   }
 
+  /// 加载更多
   onLoading() {
     startRefresh(RefreshType.loadMore).then((value) => update());
   }
 
-  onTapPost(Post post) {}
+  /// 点击帖子
+  onTapPost(Post post) {
+    Get.toNamed(AppRoutes.postDetail, arguments: post);
+  }
 
-  onTapAvatar(Post post) {}
+  /// 点击头像
+  onTapAvatar(Post post) {
+    pushToPersonPage(post.owner);
+  }
 
-  onTapFollow(Post post) {}
-
-  onTapPhoto(Post post, int index) {}
+  /// 关注
+  onTapFollow(Post post) async {
+    final result = await follow(post.owner);
+    if (!result) return;
+    final needUpdatePosts = items.where((element) => element.owner == post.owner).map((e) {
+      e.hasFollow.value = true;
+      return e.id;
+    }).toList();
+    update(needUpdatePosts);
+  }
 
   onTapShare(Post post) {}
 
-  onTapComment(Post post) {}
-
-  onTapPraise(Post post) {
-    post.hasPraise = true;
-    update();
+  /// 评论
+  onTapComment(Post post) async {
+    final result = await Get.toNamed(AppRoutes.postComment, arguments: post.id) as bool?;
+    if (result == null || !result) return;
+    post.commentCount += 1;
+    update([post.id]);
   }
 
+  /// 点赞
+  onTapPraise(Post post) async {
+    final result = await follow(post.id);
+    if (!result) return;
+    post.praiseCount += 1;
+    post.hasPraise.value = true;
+  }
+
+  /// 主题
   onTapTopic(Post post, PostTopic topic) {}
 
   onTapMoreOptions(Post post) {
-    print('111');
   }
 
   @override

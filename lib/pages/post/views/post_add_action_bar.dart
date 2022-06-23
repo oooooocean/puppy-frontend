@@ -30,7 +30,7 @@ class PostAddActionBar extends GetView<PostAddController> {
   Widget _buildAction({required IconData iconData, required VoidCallback onTap}) {
     return TextButton(
         style: const ButtonStyle(visualDensity: VisualDensity.compact),
-        onPressed: controller.onTapTopic,
+        onPressed: onTap,
         child: Icon(iconData, color: kSecondaryTextColor));
   }
 
