@@ -3,8 +3,7 @@ import 'package:frontend/pages/user/info/user_add_page.dart';
 import 'package:frontend/pages/user/info/user_edit_controller.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
 import 'package:frontend/pages/user/pet/pet_add_page.dart';
-import 'package:frontend/pages/user/pet/category/pet_category_page.dart';
-import 'package:frontend/pages/user/pet/category/pet_sub_category_page.dart';
+import 'package:frontend/pages/user/pet/pet_category_page.dart';
 import 'package:frontend/pages/user/setting/setting_controller.dart';
 import 'package:frontend/pages/user/setting/setting_page.dart';
 import 'package:frontend/route/pages.dart';
@@ -34,8 +33,4 @@ final petRoutes = [
       name: AppRoutes.petCategory,
       page: () => PetCategoryPage(),
       binding: BindingsBuilder(() => Get.lazyPut(() => PetCategoryController(Get.arguments)))),
-  GetPage(
-      name: AppRoutes.petSubCategory,
-      page: () => PetSubCategoryPage(),
-      binding: BindingsBuilder(() => Get.lazyPut(() => PetSubCategoryController(Get.arguments)))),
 ];

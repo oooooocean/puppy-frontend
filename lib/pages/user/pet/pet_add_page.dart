@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/components/comps/comps.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/gender.dart';
+import 'package:frontend/models/pet/pet_category.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
-import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
@@ -114,7 +114,9 @@ class PetAddPage extends GetView<PetAddController>
       id: "category",
       builder: (_) => TextButton(
             onPressed: () {
-              Get.toNamed(AppRoutes.petCategory, arguments: controller.state);
+              final List<PetCategory> dataArray = controller.state!;
+              _actionSheet(Get.context!, dataArray.map((e) => e.name).toList(),
+                  (index) => controller.jumpToCategory(dataArray[index]));
             },
             child: Row(children: [
               const Text('类别'),
@@ -127,6 +129,27 @@ class PetAddPage extends GetView<PetAddController>
               Icon(Icons.chevron_right, color: kGreyColor)
             ]),
           ));
+
+  Future _actionSheet(
+      BuildContext context, List<String> titles, ValueSetter<int> callBack) =>
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return Column(
+                mainAxisSize: MainAxisSize.min, // 设置最小的弹出
+                children: titles
+                    .asMap()
+                    .entries
+                    .map(
+                      (e) => ListTile(
+                    title: Text(e.value),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      callBack(e.key);
+                    },
+                  ),
+                ).toList());
+          });
 
   Widget get _birthdayItem => GetBuilder<PetAddController>(
         id: 'birthday',

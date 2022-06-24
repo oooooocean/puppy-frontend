@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bmflocation/flutter_bmflocation.dart';
 import 'package:permission_handler/permission_handler.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_baidu_mapapi_base/flutter_baidu_mapapi_base.dart' show BMFMapSDK, BMF_COORD_TYPE;
 
 class BDMapService {

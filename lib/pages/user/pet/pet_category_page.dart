@@ -6,13 +6,12 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/pet/pet_category.dart';
 import 'package:frontend/models/id_name.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
-import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 
-part 'package:frontend/pages/user/pet/category/pet_sub_category_controller.dart';
+part 'package:frontend/pages/user/pet/pet_category_controller.dart';
 
-class PetSubCategoryPage extends GetView<PetSubCategoryController> with LoadImageMixin, ThemeMixin {
-  PetSubCategoryPage({Key? key}) : super(key: key);
+class PetCategoryPage extends GetView<PetCategoryController> with LoadImageMixin, ThemeMixin {
+  PetCategoryPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +57,7 @@ class PetSubCategoryPage extends GetView<PetSubCategoryController> with LoadImag
       ));
 
   Widget _itemBuilder(context, index) => ListTile(
-      onTap: () => controller.choseCategory(index),
+      onTap: () => controller.choseCategory(controller.category.subCategory[index]),
       title: Text(controller.searchResult[index].name),
       contentPadding: EdgeInsets.zero,
       visualDensity: VisualDensity.compact);
@@ -70,7 +69,8 @@ class PetSubCategoryPage extends GetView<PetSubCategoryController> with LoadImag
             children: controller.hotSubCategories.map(_hotCategoryBuilder).toList()),
       );
 
-  Widget _hotCategoryBuilder(PetSubCategory category) => LayoutBuilder(
+  Widget _hotCategoryBuilder(PetSubCategory sub) => GestureDetector(child:
+      LayoutBuilder(
         builder: (_, constraints) => SizedBox(
             width: ((constraints.maxWidth - 3 * kSpacePadding) ~/ 4).toDouble(),
             child: Column(
@@ -79,11 +79,11 @@ class PetSubCategoryPage extends GetView<PetSubCategoryController> with LoadImag
                   aspectRatio: 1,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(5.toPadding),
-                      child: buildNetImage(category.image.toImageResourceUrl, fit: BoxFit.cover)),
+                      child: buildNetImage(sub.image.toImageResourceUrl, fit: BoxFit.cover)),
                 ),
                 SizedBox(height: 5.toPadding),
-                Text(category.name)
+                Text(sub.name)
               ],
             )),
-      );
+      ), onTap: () => controller.choseCategory(sub));
 }
