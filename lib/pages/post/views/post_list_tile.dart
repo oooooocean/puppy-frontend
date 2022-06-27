@@ -37,7 +37,11 @@ class PostListTile extends GetView<PostListController> with LoadImageMixin {
   Widget get _headerItem => GetBuilder<PostListController>(id: post.id, builder: (_) => PostListHeader(post: post));
 
   Widget get _descriptionItem => PostDescriptionTile(
-      description: post.description, topics: post.topics, onTap: (topic) => controller.onTapTopic(post, topic));
+      description: post.description,
+      topics: post.topics,
+      notices: post.noticeUsers,
+      onNotice: controller.onTapNotice,
+      onTap: (topic) => controller.onTapTopic(post, topic));
 
   Widget get _photosItem =>
       PostPhotosTile(photos: post.medias, onTap: (index) => controller.pushToMediaPage(post.medias, index));

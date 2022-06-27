@@ -12,6 +12,9 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       $enumDecode(_$PostTypeEnumMap, json['type']),
       json['praiseCount'] as int,
       json['commentCount'] as int,
+      (json['noticeUsers'] as List<dynamic>)
+          .map((e) => BaseUser.fromJson(e as Map<String, dynamic>))
+          .toList(),
       string2DateTime(json['createTime'] as String),
       (json['pets'] as List<dynamic>)
           .map((e) => PetBaseInfo.fromJson(e as Map<String, dynamic>))
@@ -26,8 +29,27 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
           .toList(),
       UserInfo.fromJson(json['ownerInfo'] as Map<String, dynamic>),
       json['owner'] as int,
-    );
+    )..address = json['address'] == null
+        ? null
+        : Address.fromJson(json['address'] as Map<String, dynamic>);
 
+Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
+      'ownerInfo': instance.ownerInfo,
+      'owner': instance.owner,
+      'id': instance.id,
+      'description': instance.description,
+      'type': _$PostTypeEnumMap[instance.type],
+      'praiseCount': instance.praiseCount,
+      'commentCount': instance.commentCount,
+      'noticeUsers': instance.noticeUsers,
+      'hasPraise': instance.hasPraise,
+      'hasFollow': instance.hasFollow,
+      'createTime': instance.createTime.toIso8601String(),
+      'pets': instance.pets,
+      'medias': instance.medias,
+      'topics': instance.topics,
+      'address': instance.address,
+    };
 
 const _$PostTypeEnumMap = {
   PostType.photo: 0,

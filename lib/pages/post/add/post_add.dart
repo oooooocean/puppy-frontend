@@ -21,7 +21,7 @@ class PostAddPage extends GetView<PostAddController> {
           Expanded(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [_chosePhotoItem, _descriptionItem, _topicItem])),
+                  children: [_chosePhotoItem, _descriptionItem, _topicItem, _idolsItem, _addressItem])),
           _actionBar
         ]),
       )),
@@ -60,13 +60,40 @@ class PostAddPage extends GetView<PostAddController> {
       id: 'topic',
       builder: (_) => controller.topic == null
           ? Container()
-          : ActionChip(
-              label: Text('#${controller.topic?.title}'),
-              labelStyle: const TextStyle(color: kOrangeColor),
-              backgroundColor: kShapeColor,
-              visualDensity: VisualDensity.compact,
-              pressElevation: 0,
-              onPressed: controller.onTapTopic));
+          : _buildChipItem(controller.topic!.title, Icons.tag, controller.onTapTopic));
+
+  Widget get _idolsItem => Obx(() {
+        if (controller.idols.isEmpty) return Container();
+        return Wrap(
+            spacing: kSpacePadding,
+            runSpacing: kSpacePadding,
+            children: controller.idols
+                .map((element) =>
+                    _buildChipItem(element.info?.nickname ?? '', Icons.alternate_email, controller.onTapIdols))
+                .toList());
+      });
 
   Widget get _actionBar => const PostAddActionBar();
+
+  Widget get _addressItem => GetBuilder<PostAddController>(
+      id: 'address',
+      builder: (_) {
+        if (controller.address == null) return Container();
+        var description = controller.address?.first.city ?? '';
+        if (controller.address?.second != null) {
+          description += ' · ${controller.address?.second?.name}';
+        }
+        return _buildChipItem(description, Icons.location_on, controller.onTapMap);
+      });
+
+  Widget _buildChipItem(String text, IconData iconData, VoidCallback onPressed) => ActionChip(
+      avatar: Icon(iconData, size: 20.toPadding, color: kOrangeColor),
+      label: Text(text),
+      labelPadding: EdgeInsets.only(right: kSpacePadding),
+      padding: EdgeInsets.symmetric(horizontal: kSpacePadding),
+      labelStyle: const TextStyle(color: kOrangeColor),
+      backgroundColor: kShapeColor,
+      visualDensity: VisualDensity.compact,
+      pressElevation: 0,
+      onPressed: onPressed);
 }

@@ -1,4 +1,5 @@
 import 'package:frontend/components/extension/date_extension.dart';
+import 'package:frontend/models/address.dart';
 import 'package:frontend/models/base.dart';
 import 'package:frontend/models/media.dart';
 import 'package:frontend/models/pet/pet.dart';
@@ -27,6 +28,9 @@ class Post extends OwnerBase {
   int praiseCount;
   int commentCount;
 
+  /// @列表
+  List<BaseUser> noticeUsers;
+
   /// 是否点赞
   @JsonKey(fromJson: convertBoolToRx)
   RxBool hasPraise;
@@ -39,8 +43,9 @@ class Post extends OwnerBase {
   List<PetBaseInfo> pets;
   List<Media> medias;
   List<PostTopic> topics;
+  Address? address;
 
-  Post(this.id, this.description, this.type, this.praiseCount, this.commentCount, this.createTime, this.pets,
+  Post(this.id, this.description, this.type, this.praiseCount, this.commentCount, this.noticeUsers, this.createTime, this.pets,
       this.medias, this.hasPraise, this.hasFollow, this.topics, UserInfo ownerInfo, int owner)
       : super(owner, ownerInfo);
 

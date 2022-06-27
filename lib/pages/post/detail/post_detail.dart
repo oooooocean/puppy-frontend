@@ -72,7 +72,12 @@ class PostDetailPage extends GetView<PostDetailController> with LoadImageMixin, 
   SliverToBoxAdapter get _descriptionItem => SliverToBoxAdapter(
           child: Padding(
         padding: EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kSpacePadding),
-        child: PostDescriptionTile(description: _post.description, topics: _post.topics, onTap: controller.onTapTopic),
+        child: PostDescriptionTile(
+            description: _post.description,
+            topics: _post.topics,
+            notices: _post.noticeUsers,
+            onNotice: controller.onTapNotice,
+            onTap: controller.onTapTopic),
       ));
 
   SliverToBoxAdapter get _mediaItem => SliverToBoxAdapter(
@@ -106,7 +111,8 @@ class PostDetailPage extends GetView<PostDetailController> with LoadImageMixin, 
 
   SliverToBoxAdapter get _divider => SliverToBoxAdapter(
       child: Padding(
-          padding: EdgeInsets.only(top: kSpacePadding), child: Divider(thickness: kSpacePadding, height: kSpacePadding)));
+          padding: EdgeInsets.only(top: kSpacePadding),
+          child: Divider(thickness: kSpacePadding, height: kSpacePadding)));
 
   SliverToBoxAdapter get _divider2 => const SliverToBoxAdapter(child: Divider(height: 1));
 

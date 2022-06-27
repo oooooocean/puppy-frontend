@@ -19,7 +19,7 @@ class PostAddActionBar extends GetView<PostAddController> {
           children: [
             _buildAction(iconData: Icons.pets, onTap: controller.onTapPet),
             _buildAction(iconData: Icons.tag, onTap: controller.onTapTopic),
-            _buildAction(iconData: Icons.alternate_email, onTap: controller.onTapFocus),
+            _buildAction(iconData: Icons.alternate_email, onTap: controller.onTapIdols),
             _buildAction(iconData: Icons.location_on_outlined, onTap: controller.onTapMap),
           ],
         )

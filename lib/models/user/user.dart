@@ -8,13 +8,25 @@ import '../gender.dart';
 part 'user.g.dart';
 
 @JsonSerializable()
-class User with LoadImageMixin {
-  String phone;
+class BaseUser {
   int id;
-  int petCount;
   UserInfo? info;
 
-  User(this.id, this.phone, this.info, this.petCount);
+  BaseUser(this.id, this.info);
+
+  factory BaseUser.fromJson(Map<String, dynamic> json) =>  _$BaseUserFromJson(json);
+  Map<String, dynamic> toJson() => _$BaseUserToJson(this);
+
+  @override
+  String toString() => '';
+}
+
+@JsonSerializable()
+class User extends BaseUser with LoadImageMixin {
+  String phone;
+  int petCount;
+
+  User(int id, this.phone, UserInfo? info, this.petCount) : super(id, info);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
