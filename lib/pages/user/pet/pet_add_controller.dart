@@ -69,7 +69,8 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
     }, locale: LocaleType.zh);
   }
 
-  jumpToCategory(PetCategory sub) => Get.toNamed(AppRoutes.petCategory, arguments: sub);
+  Future<PetExplicitCategory> jumpToCategory(PetCategory sub) async =>
+      await Get.toNamed(AppRoutes.petCategory, arguments: sub);
 
   choseCategory(PetExplicitCategory category) {
     assert(category.isValid, '子类和父类不匹配');

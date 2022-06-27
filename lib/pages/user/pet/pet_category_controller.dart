@@ -11,7 +11,6 @@ class PetCategoryController extends GetxController {
 
   List<PetSubCategory> get hotSubCategories => category._hotArray;
 
-  PetAddController get _petAdd => Get.find<PetAddController>();
   var searchResult = RxList<PetSubCategory>();
 
   final searchCtl = TextEditingController();
@@ -21,13 +20,11 @@ class PetCategoryController extends GetxController {
   }
 
   void choseHotCategory(index) {
-    _petAdd.choseCategory(PetExplicitCategory(category, category._hotArray[index]));
-    Get.back();
+    Get.back(result: PetExplicitCategory(category, category._hotArray[index]));
   }
 
   void choseCategory(PetSubCategory sub) {
-    _petAdd.choseCategory(PetExplicitCategory(category, sub));
-    Get.back();
+    Get.back(result: PetExplicitCategory(category, sub));
   }
 
   search() {

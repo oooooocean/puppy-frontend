@@ -116,7 +116,11 @@ class PetAddPage extends GetView<PetAddController>
             onPressed: () {
               final List<PetCategory> dataArray = controller.state!;
               _actionSheet(Get.context!, dataArray.map((e) => e.name).toList(),
-                  (index) => controller.jumpToCategory(dataArray[index]));
+                  (index) {
+                controller
+                    .jumpToCategory(dataArray[index])
+                    .then((value) => controller.choseCategory(value));
+              });
             },
             child: Row(children: [
               const Text('类别'),
@@ -131,25 +135,20 @@ class PetAddPage extends GetView<PetAddController>
           ));
 
   Future _actionSheet(
-      BuildContext context, List<String> titles, ValueSetter<int> callBack) =>
-      showModalBottomSheet(
-          context: context,
-          builder: (BuildContext context) {
-            return Column(
-                mainAxisSize: MainAxisSize.min, // 设置最小的弹出
-                children: titles
-                    .asMap()
-                    .entries
-                    .map(
-                      (e) => ListTile(
-                    title: Text(e.value),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      callBack(e.key);
-                    },
-                  ),
-                ).toList());
-          });
+      BuildContext context, List<String> titles, ValueSetter<int> callBack) => Get.bottomSheet(Column(
+      mainAxisSize: MainAxisSize.min, // 设置最小的弹出
+      children: titles
+          .asMap()
+          .entries
+          .map(
+            (e) => ListTile(
+          title: Text(e.value),
+          onTap: () {
+            Navigator.of(context).pop();
+            callBack(e.key);
+          },
+        ),
+      ).toList()));
 
   Widget get _birthdayItem => GetBuilder<PetAddController>(
         id: 'birthday',
