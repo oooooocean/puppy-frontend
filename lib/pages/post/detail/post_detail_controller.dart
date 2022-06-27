@@ -3,6 +3,7 @@ import 'package:frontend/models/paging_data.dart';
 import 'package:frontend/models/post/post.dart';
 import 'package:frontend/models/post/post_comment.dart';
 import 'package:frontend/models/post/post_topic.dart';
+import 'package:frontend/models/user/user.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/pages/post/mixin/post_action_mixin.dart';
 import 'package:get/get.dart';
@@ -57,6 +58,9 @@ class PostDetailController extends GetxController with NetMixin, RefreshMixin<Po
 
   /// 收藏
   onTapCollect() {}
+
+  /// 关注的人
+  onTapNotice(BaseUser user) {}
 
   onCommentToComment(PostComment comment) {}
 
