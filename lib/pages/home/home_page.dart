@@ -12,7 +12,8 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomeState();
 }
 
-class _HomeState extends ScaffoldChildState<HomePage, HomeController> with SingleTickerProviderStateMixin {
+class _HomeState extends ScaffoldChildState<HomePage, HomeController>
+    with SingleTickerProviderStateMixin {
   late TabController _tabCtl;
 
   @override
@@ -39,7 +40,7 @@ class _HomeState extends ScaffoldChildState<HomePage, HomeController> with Singl
                 tabs: ['星球', '乐园'].map((e) => Tab(text: e)).toList()),
           ),
         ),
-        body: TabBarView(controller: _tabCtl, children: [
+        body: TabBarView(controller: _tabCtl, children: const [
           PostListPage(),
           Center(child: Text('2')),
         ]));

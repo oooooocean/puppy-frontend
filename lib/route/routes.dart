@@ -13,7 +13,7 @@ abstract class AppRoutes {
   static const userSetting = '/user/setting';
 
   static const petAdd = '/pet/add';
-
+  static const petCategory = '/pet/category';
   static const postAdd = '/post/add';
   static const postDetail = '/post/detail';
   static const postTopicList = '/post/topic/list';

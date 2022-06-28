@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
-import 'package:frontend/pages/home/home_page.dart';
-import 'package:frontend/pages/post/list/post_list.dart';
 import 'package:frontend/pages/scaffold/scaffold_controller.dart';
 import 'package:frontend/pages/scaffold/scaffold_item.dart';
 import 'package:frontend/pages/user/user_page.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
+
+import '../home/home_page.dart';
 
 class ScaffoldPage extends StatefulWidget {
   const ScaffoldPage({Key? key}) : super(key: key);

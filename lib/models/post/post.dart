@@ -6,7 +6,6 @@ import 'package:frontend/models/pet/pet.dart';
 import 'package:frontend/models/post/post_topic.dart';
 import 'package:frontend/models/user/user.dart';
 import 'package:frontend/services/launch_service.dart';
-import 'package:frontend/services/qiniu_service.dart';
 import 'package:frontend/services/utils.dart';
 import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
