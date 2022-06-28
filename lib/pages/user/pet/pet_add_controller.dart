@@ -71,17 +71,20 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
 
   /// 选择类别
   chosePetCategory() async {
-    List<String> categories = state!.map((e) => e.name).toList();
-
-    final result = await Get.bottomSheet<String>(
+    final result = await Get.bottomSheet<PetCategory>(
       Column(
         mainAxisSize: MainAxisSize.min, // 设置最小的弹出
-        children: categories.map((e) => ListTile(title: Text(e), onTap: () => Get.back(result: e))).toList(),
+        children: state!
+            .map((e) =>
+                ListTile(title: Text(e.name), onTap: () => Get.back(result: e)))
+            .toList(),
       ),
     );
     if (result == null) return;
 
-    PetExplicitCategory? category = await Get.toNamed(AppRoutes.petCategory, arguments: result);
+    PetExplicitCategory? category =
+        await Get.toNamed(AppRoutes.petCategory, arguments: result)
+            as PetExplicitCategory?;
     if (category == null) return;
 
     this.category = category;
