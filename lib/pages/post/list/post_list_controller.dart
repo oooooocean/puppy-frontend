@@ -2,6 +2,7 @@ import 'package:frontend/components/mixins/refresh_mixin.dart';
 import 'package:frontend/models/paging_data.dart';
 import 'package:frontend/models/post/post.dart';
 import 'package:frontend/models/post/post_topic.dart';
+import 'package:frontend/models/user/user.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/pages/post/mixin/post_action_mixin.dart';
 import 'package:frontend/route/pages.dart';
@@ -52,17 +53,16 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
 
   /// 点赞
   onTapPraise(Post post) async {
-    final result = await follow(post.id);
-    if (!result) return;
-    post.praiseCount += 1;
-    post.hasPraise.value = true;
+    await praise(post);
   }
 
   /// 主题
   onTapTopic(Post post, PostTopic topic) {}
 
-  onTapMoreOptions(Post post) {
-  }
+  /// 关注的人
+  onTapNotice(BaseUser user) {}
+
+  onTapMoreOptions(Post post) {}
 
   @override
   Future<PagingData<Post>> get refreshRequest => get('post/', (data) => PagingData.fromJson(data, Post.fromJson),

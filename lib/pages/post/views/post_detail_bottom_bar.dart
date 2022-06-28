@@ -21,7 +21,9 @@ class PostDetailBottomBar extends GetView<PostDetailController> {
             _commentButton,
             const Spacer(),
             _buildButton(Icons.share_outlined, _post.praiseCount.toString(), controller.onTapPraise),
-            _buildButton(Icons.favorite_outline, _post.praiseCount.toString(), controller.onTapPraise),
+            Obx(() => _buildButton(_post.hasPraise.value ? Icons.favorite : Icons.favorite_outline,
+                _post.praiseCount.toString(), controller.onTapPraise,
+                color: _post.hasPraise.value ? kOrangeColor : kGreyColor)),
             _buildButton(Icons.star_outline, _post.praiseCount.toString(), controller.onTapCollect),
           ],
         ),
@@ -40,13 +42,13 @@ class PostDetailBottomBar extends GetView<PostDetailController> {
         child: Text('友善评论, 欢乐撸宠~', style: TextStyle(color: kGreyColor)),
       );
 
-  Widget _buildButton(IconData iconData, String text, VoidCallback onTap) => GestureDetector(
+  Widget _buildButton(IconData iconData, String text, VoidCallback onTap, {Color? color}) => GestureDetector(
         onTap: onTap,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
           child: Column(
             children: [
-              Icon(iconData, size: 18, color: kGreyColor),
+              Icon(iconData, size: 18, color: color ?? kGreyColor),
               Text(text, style: const TextStyle(color: kSecondaryTextColor, fontSize: 11))
             ],
           ),

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/components/comps/circle_avatar_button.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/post/post.dart';
-import 'package:frontend/models/post/post_action.dart';
 import 'package:frontend/pages/post/list/post_list_controller.dart';
 import 'package:frontend/pages/post/views/post_description_tile.dart';
 import 'package:frontend/pages/post/views/post_list_action_bar.dart';
 import 'package:frontend/pages/post/views/post_list_header.dart';
 import 'package:frontend/pages/post/views/post_photos_tile.dart';
 import 'package:get/get.dart';
-import 'package:frontend/components/extension/int_extension.dart';
 
 class PostListTile extends GetView<PostListController> with LoadImageMixin {
   final Post post;
@@ -40,7 +37,11 @@ class PostListTile extends GetView<PostListController> with LoadImageMixin {
   Widget get _headerItem => GetBuilder<PostListController>(id: post.id, builder: (_) => PostListHeader(post: post));
 
   Widget get _descriptionItem => PostDescriptionTile(
-      description: post.description, topics: post.topics, onTap: (topic) => controller.onTapTopic(post, topic));
+      description: post.description,
+      topics: post.topics,
+      notices: post.noticeUsers,
+      onNotice: controller.onTapNotice,
+      onTap: (topic) => controller.onTapTopic(post, topic));
 
   Widget get _photosItem =>
       PostPhotosTile(photos: post.medias, onTap: (index) => controller.pushToMediaPage(post.medias, index));
