@@ -4,8 +4,6 @@ import 'package:frontend/pages/login/login_page.dart';
 import 'package:frontend/pages/post/list/post_list_controller.dart';
 import 'package:frontend/pages/scaffold/scaffold_controller.dart';
 import 'package:frontend/pages/scaffold/scaffold_page.dart';
-import 'package:frontend/pages/user/feedback/feedback_controller.dart';
-import 'package:frontend/pages/user/feedback/feedback_page.dart';
 import 'package:get/get.dart';
 import 'package:frontend/pages/user/user_pages.dart' as user_pages;
 import 'package:frontend/pages/post/post_pages.dart' as post_pages;
@@ -28,6 +26,7 @@ final appRoutes = [
       })),
   ...user_pages.userRoutes,
   ...user_pages.petRoutes,
+  ...user_pages.settingRoutes,
   ...post_pages.postRoutes,
   ...social_pages.routes
 ];

@@ -40,23 +40,26 @@ class FeedbackController extends GetxController with NetMixin {
     images.value = results;
   }
 
-  void selectTile(String selected) => selectCategory.value = selected;
-
-  /// 意见反馈请求
-  void feedbackRequest() {
-    request(
-        api: () => uploadImages(images).then((images) => post(
-            'feedback/',
-            {
-              'title': selectCategory.value,
-              'description': feedbackCtl.text,
-              'medias': images.map((e) => e.toJson()).toList()
-            },
-            (data) => data)),
-        success: (_) {
-          Store.set(FeedbackStore.saveKey, (DateTime.now().microsecondsSinceEpoch ~/ 1000).toString());
-          EasyLoading.showToast('已提交成功，感谢您的建议');
-          Get.back();
-        });
+  void selectTile(String selected) {
+    selectCategory.value = selected;
+    update(['next']);
   }
-}
+
+    /// 意见反馈请求
+    void feedbackRequest() {
+      request(
+          api: () => uploadImages(images).then((images) => post(
+              'feedback/',
+              {
+                'title': selectCategory.value,
+                'description': feedbackCtl.text,
+                'medias': images.map((e) => e.toJson()).toList()
+              },
+                  (data) => data)),
+          success: (_) {
+            Store.set(FeedbackStore.saveKey, (DateTime.now().microsecondsSinceEpoch ~/ 1000).toString());
+            EasyLoading.showToast('已提交成功，感谢您的建议');
+            Get.back();
+          });
+    }
+  }

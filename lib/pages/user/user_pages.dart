@@ -1,3 +1,5 @@
+import 'package:frontend/pages/user/feedback/feedback_controller.dart';
+import 'package:frontend/pages/user/feedback/feedback_page.dart';
 import 'package:frontend/pages/user/info/user_add_controller.dart';
 import 'package:frontend/pages/user/info/user_add_page.dart';
 import 'package:frontend/pages/user/info/user_edit_controller.dart';
@@ -29,4 +31,10 @@ final petRoutes = [
       name: AppRoutes.petAdd,
       page: () => PetAddPage(),
       binding: BindingsBuilder(() => Get.lazyPut(() => PetAddController()))),
+];
+final settingRoutes = [
+  GetPage(
+      name: AppRoutes.feedback,
+      page: () => FeedbackPage(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => FeedbackController()))),
 ];

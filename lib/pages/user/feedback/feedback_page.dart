@@ -30,7 +30,6 @@ class FeedbackPage extends GetView<FeedbackController> with KeyboardAllocator, T
                 child: ListView(
                   children: [
                     _headerItem,
-                    _headerItem,
                     ..._listItem,
                     _divider,
                     _feedContentItem,
