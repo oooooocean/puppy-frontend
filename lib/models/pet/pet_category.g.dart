@@ -10,16 +10,11 @@ PetCategory _$PetCategoryFromJson(Map<String, dynamic> json) => PetCategory(
       int2String(json['id']),
       json['name'] as String,
       (json['subCategory'] as List<dynamic>)
-          .map((e) => IdAndName.fromJson(e as Map<String, dynamic>))
+          .map((e) => PetSubCategory.fromJson(e as Map<String, dynamic>))
           .toList(),
+      (json['hotCategory'] as List<dynamic>).map((e) => e as int).toList(),
     );
 
-Map<String, dynamic> _$PetCategoryToJson(PetCategory instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'subCategory': instance.subCategory,
-    };
 
 PetSubCategory _$PetSubCategoryFromJson(Map<String, dynamic> json) =>
     PetSubCategory(
@@ -28,9 +23,3 @@ PetSubCategory _$PetSubCategoryFromJson(Map<String, dynamic> json) =>
       json['image'] as String,
     );
 
-Map<String, dynamic> _$PetSubCategoryToJson(PetSubCategory instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'image': instance.image,
-    };

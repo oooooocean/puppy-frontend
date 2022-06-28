@@ -16,11 +16,14 @@ class PetExplicitCategory {
 
 @JsonSerializable()
 class PetCategory extends IdAndName {
-  List<IdAndName> subCategory;
+  List<PetSubCategory> subCategory;
+  List<int> hotCategory;
 
-  PetCategory(String id, String name, this.subCategory) : super(id, name);
+  PetCategory(String id, String name, this.subCategory, this.hotCategory)
+      : super(id, name);
 
-  factory PetCategory.fromJson(Map<String, dynamic> json) =>  _$PetCategoryFromJson(json);
+  factory PetCategory.fromJson(Map<String, dynamic> json) =>
+      _$PetCategoryFromJson(json);
 
   @override
   String toString() => '';
@@ -32,9 +35,9 @@ class PetSubCategory extends IdAndName {
 
   PetSubCategory(String id, String name, this.image) : super(id, name);
 
-  factory PetSubCategory.fromJson(Map<String, dynamic> json) =>  _$PetSubCategoryFromJson(json);
+  factory PetSubCategory.fromJson(Map<String, dynamic> json) =>
+      _$PetSubCategoryFromJson(json);
 
   @override
   String toString() => '';
 }
-

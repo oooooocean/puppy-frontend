@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/comps/comps.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
