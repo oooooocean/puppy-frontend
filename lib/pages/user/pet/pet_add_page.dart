@@ -4,6 +4,7 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/gender.dart';
 import 'package:frontend/models/pet/pet_category.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
+import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
@@ -26,7 +27,7 @@ class PetAddPage extends GetView<PetAddController>
         title: const Text('添加宠物'),
         actions: [
           TextButton(
-              onPressed: controller.skip,
+              onPressed: () => Get.offAllNamed(AppRoutes.scaffold),
               child: const Text('跳过',
                   style: TextStyle(color: kSecondaryTextColor)))
         ],
@@ -113,15 +114,7 @@ class PetAddPage extends GetView<PetAddController>
   Widget get _categoryItem => GetBuilder<PetAddController>(
       id: "category",
       builder: (_) => TextButton(
-            onPressed: () {
-              final List<PetCategory> dataArray = controller.state!;
-              _actionSheet(Get.context!, dataArray.map((e) => e.name).toList(),
-                  (index) {
-                controller
-                    .jumpToCategory(dataArray[index])
-                    .then((value) => controller.choseCategory(value));
-              });
-            },
+            onPressed: controller.chosePetCategory,
             child: Row(children: [
               const Text('类别'),
               Expanded(
@@ -133,22 +126,6 @@ class PetAddPage extends GetView<PetAddController>
               Icon(Icons.chevron_right, color: kGreyColor)
             ]),
           ));
-
-  Future _actionSheet(
-      BuildContext context, List<String> titles, ValueSetter<int> callBack) => Get.bottomSheet(Column(
-      mainAxisSize: MainAxisSize.min, // 设置最小的弹出
-      children: titles
-          .asMap()
-          .entries
-          .map(
-            (e) => ListTile(
-          title: Text(e.value),
-          onTap: () {
-            Navigator.of(context).pop();
-            callBack(e.key);
-          },
-        ),
-      ).toList()));
 
   Widget get _birthdayItem => GetBuilder<PetAddController>(
         id: 'birthday',

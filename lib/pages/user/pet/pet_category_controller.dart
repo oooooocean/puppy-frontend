@@ -5,10 +5,11 @@ extension PetHotSubCategory on PetCategory {
       subCategory.where((element) => hotCategory.map((e) => int2String(e)).contains(element.id)).toList();
 }
 
-/// 分类
+/// 宠物分类
 class PetCategoryController extends GetxController {
   final PetCategory category;
 
+  /// 热门宠物
   List<PetSubCategory> get hotSubCategories => category._hotArray;
 
   var searchResult = RxList<PetSubCategory>();
@@ -19,13 +20,9 @@ class PetCategoryController extends GetxController {
     searchResult.value = category.subCategory;
   }
 
-  void choseHotCategory(index) {
-    Get.back(result: PetExplicitCategory(category, category._hotArray[index]));
-  }
+  void choseHotCategory(index) => Get.back(result: PetExplicitCategory(category, category._hotArray[index]));
 
-  void choseCategory(PetSubCategory sub) {
-    Get.back(result: PetExplicitCategory(category, sub));
-  }
+  void choseCategory(PetSubCategory sub) => Get.back(result: PetExplicitCategory(category, sub));
 
   search() {
     if (searchCtl.text.isEmpty) {

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:frontend/models/gender.dart';
 import 'package:frontend/models/pet/pet_category.dart';
@@ -18,7 +19,7 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
   PetExplicitCategory? category;
 
   @override
-  bool get shouldRequest => nicknameCtl.text.isNotEmpty && avatar != null && birthday != null;
+  bool get shouldRequest => nicknameCtl.text.isNotEmpty && avatar != null && birthday != null && category != null;
 
   save() {
     final user = LaunchService.shared.user;
@@ -32,10 +33,10 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
               'introduction': introductionCtl.text,
               'avatar': value.first,
               "intrinsic": {
-                "category": 0,
-                "sub_category": 0,
+                "category": category!.category.id,
+                "sub_category": category!.subCategory.id,
                 "gender": gender.value.index,
-                "birthday": birthday!.toUtc().toIso8601String()
+                "birthday": birthday!.toIso8601String()
               }
             },
             (data) => data)),
@@ -46,21 +47,20 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
         });
   }
 
-  skip() {
-    Get.offAllNamed(AppRoutes.scaffold);
-  }
-
+  /// 选择头像
   choseAvatar(AssetEntity assetEntity) {
     avatar = assetEntity;
     update(['next']);
   }
 
+  /// 选择性别
   choseGender(Gender gender) {
     if (this.gender.value == gender) return;
     this.gender.value = gender;
     update(['next']);
   }
 
+  /// 选择生日
   choseBirthday() {
     final start = DateTime.now().subtract(const Duration(days: 30));
     DatePicker.showDatePicker(Get.context!, maxTime: DateTime.now(), currentTime: start, onConfirm: (dateTime) {
@@ -69,12 +69,21 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
     }, locale: LocaleType.zh);
   }
 
-  Future<PetExplicitCategory> jumpToCategory(PetCategory sub) async =>
-      await Get.toNamed(AppRoutes.petCategory, arguments: sub);
+  /// 选择类别
+  chosePetCategory() async {
+    List<String> categories = state!.map((e) => e.name).toList();
 
-  choseCategory(PetExplicitCategory category) {
-    assert(category.isValid, '子类和父类不匹配');
-    if (this.category == category) return;
+    final result = await Get.bottomSheet<String>(
+      Column(
+        mainAxisSize: MainAxisSize.min, // 设置最小的弹出
+        children: categories.map((e) => ListTile(title: Text(e), onTap: () => Get.back(result: e))).toList(),
+      ),
+    );
+    if (result == null) return;
+
+    PetExplicitCategory? category = await Get.toNamed(AppRoutes.petCategory, arguments: result);
+    if (category == null) return;
+
     this.category = category;
     update(['next', 'category']);
   }

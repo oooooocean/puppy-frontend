@@ -5,7 +5,6 @@ import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/pet/pet_category.dart';
 import 'package:frontend/models/id_name.dart';
-import 'package:frontend/pages/user/pet/pet_add_controller.dart';
 import 'package:get/get.dart';
 
 part 'package:frontend/pages/user/pet/pet_category_controller.dart';
@@ -16,10 +15,8 @@ class PetCategoryPage extends GetView<PetCategoryController> with LoadImageMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('选择品种')),
-      body: SafeArea(
-        child: Column(children: [_searchBar, Expanded(child: _content)]),
-      ),
+      appBar: AppBar(title: const Text('它是哪种小可爱?')),
+      body: SafeArea(child: Column(children: [_searchBar, Expanded(child: _content)])),
     );
   }
 
@@ -28,16 +25,15 @@ class PetCategoryPage extends GetView<PetCategoryController> with LoadImageMixin
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kSpacePadding),
       child: TextField(
-        textInputAction: TextInputAction.search,
-        onSubmitted: (_) => controller.search(),
-        controller: controller.searchCtl,
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical: 0),
-            hintText: '搜索宠物品种',
-            prefixIcon: Icon(Icons.search, color: kGreyColor),
-            focusedBorder: border,
-            enabledBorder: border),
-      ),
+          textInputAction: TextInputAction.search,
+          onSubmitted: (_) => controller.search(),
+          controller: controller.searchCtl,
+          decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 0),
+              hintText: '搜索',
+              prefixIcon: Icon(Icons.search, color: kGreyColor),
+              focusedBorder: border,
+              enabledBorder: border)),
     );
   }
 
@@ -45,9 +41,7 @@ class PetCategoryPage extends GetView<PetCategoryController> with LoadImageMixin
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         slivers: [
           SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kSpacePadding),
-            sliver: _headerItem,
-          ),
+              padding: EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kSpacePadding), sliver: _headerItem),
           SliverToBoxAdapter(child: Divider(height: kSpacePadding, thickness: kSpacePadding)),
           SliverPadding(
               padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
@@ -69,8 +63,8 @@ class PetCategoryPage extends GetView<PetCategoryController> with LoadImageMixin
             children: controller.hotSubCategories.map(_hotCategoryBuilder).toList()),
       );
 
-  Widget _hotCategoryBuilder(PetSubCategory sub) => GestureDetector(child:
-      LayoutBuilder(
+  Widget _hotCategoryBuilder(PetSubCategory sub) => GestureDetector(
+      child: LayoutBuilder(
         builder: (_, constraints) => SizedBox(
             width: ((constraints.maxWidth - 3 * kSpacePadding) ~/ 4).toDouble(),
             child: Column(
@@ -85,5 +79,6 @@ class PetCategoryPage extends GetView<PetCategoryController> with LoadImageMixin
                 Text(sub.name)
               ],
             )),
-      ), onTap: () => controller.choseCategory(sub));
+      ),
+      onTap: () => controller.choseCategory(sub));
 }
