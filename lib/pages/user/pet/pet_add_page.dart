@@ -12,6 +12,7 @@ import 'package:frontend/components/extension/date_extension.dart';
 
 // ignore: implementation_imports
 import 'package:flutter_easyloading/src/widgets/indicator.dart' as es;
+import 'package:keyboard_actions/keyboard_actions.dart';
 
 class PetAddPage extends GetView<PetAddController>
     with KeyboardAllocator, ThemeMixin {
@@ -43,21 +44,22 @@ class PetAddPage extends GetView<PetAddController>
           padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
           child: Column(
             children: [
+              Divider(color: kBackgroundColor, height: 25.toPadding, thickness: 10.toPadding),
               Expanded(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                    _avatarItem,
-                    _nicknameItem,
-                    Padding(
-                        padding: EdgeInsets.only(
-                            top: 15.toPadding, bottom: 25.toPadding),
-                        child: _intrinsicWidgets),
-                    _introduceItem
-                  ])),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.toPadding),
-                  child: _nextItem)
+                  child: KeyboardActions(
+                      config:
+                          doneKeyboardConfig([nickNameNode, introductionNone]),
+                      disableScroll: true,
+                      child: ListView(children: [
+                        _avatarItem,
+                        _nicknameItem,
+                        Padding(
+                            padding: EdgeInsets.only(
+                                top: 15.toPadding, bottom: 25.toPadding),
+                            child: _intrinsicWidgets),
+                        _introduceItem
+                      ]))),
+              _nextItem
             ],
           ),
         ),
