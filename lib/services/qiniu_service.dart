@@ -26,11 +26,11 @@ enum QiniuBucket {
   String get host {
     switch (this) {
       case QiniuBucket.resource:
-        return 'http://rcovqpywf.bkt.clouddn.com/';
+        return 'http://qiniu.sesame.fun/';
       case QiniuBucket.develop:
-        return 'http://rcgvzdinm.hd-bkt.clouddn.com/';
+        return 'http://qiniudevelop.sesame.fun/';
       case QiniuBucket.product:
-        return 'http://rch630muw.bkt.clouddn.com/';
+        return 'http://qiniuproduct.sesame.fun/';
     }
   }
 }

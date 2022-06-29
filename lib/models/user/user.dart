@@ -23,17 +23,17 @@ class BaseUser {
 
 @JsonSerializable()
 class User extends BaseUser with LoadImageMixin {
-  String phone;
   int petCount;
+  UserSocialInfo social;
 
-  User(int id, this.phone, UserInfo? info, this.petCount) : super(id, info);
+  User(int id, UserInfo? info, this.petCount, this.social) : super(id, info);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
   @override
-  String toString() => 'User: $phone';
+  String toString() => 'User: $id';
 
   void save() => Store.set('user', const JsonEncoder().convert(toJson()));
 
@@ -58,4 +58,19 @@ class UserInfo {
   String toString() => '';
 
   String get avatarUrl => QiniuService.shared.fetchImageUrl(key: avatar, policy: QiniuPolicy.thumbnail200);
+}
+
+@JsonSerializable()
+class UserSocialInfo {
+  final int praiseCount;
+  final int fansCount;
+  final int idolCount;
+
+  UserSocialInfo(this.praiseCount, this.fansCount, this.idolCount);
+
+  factory UserSocialInfo.fromJson(Map<String, dynamic> json) =>  _$UserSocialInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$UserSocialInfoToJson(this);
+
+  @override
+  String toString() => '';
 }

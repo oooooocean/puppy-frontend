@@ -43,6 +43,7 @@ mixin NetMixin {
   }
 
   Future<T> post<T>(String uri, Map<String, dynamic> body, Decoder<T> decoder) async {
+    print(body);
     final res =
         (await net.post<NetResponse>(uri, body, contentType: 'application/json', decoder: net.defaultDecoder)).body;
     return _parse(res, decoder);

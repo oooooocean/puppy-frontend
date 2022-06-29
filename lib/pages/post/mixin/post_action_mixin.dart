@@ -13,7 +13,9 @@ mixin PostActionMixin on NetMixin {
   }
 
   /// 个人主页
-  pushToPersonPage(int ownerId) {}
+  pushToPersonPage(int ownerId) {
+    Get.toNamed(AppRoutes.userCenter, arguments: ownerId);
+  }
 
   /// 关注
   Future<bool> follow(int followId) {
