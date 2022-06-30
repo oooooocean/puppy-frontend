@@ -42,7 +42,7 @@ class LoginCodeView extends GetView<LoginController> with ThemeMixin, LoadImageM
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
-      children: [_phoneItem, _codeItem],
+      children: [_phoneItem, _codeItem, _switchItem],
     ),
   );
 
@@ -85,6 +85,13 @@ class LoginCodeView extends GetView<LoginController> with ThemeMixin, LoadImageM
       ),
     ),
   ]);
+
+  Widget get _switchItem => Row(children: [
+        TextButton(
+            onPressed: () =>
+                controller.switchLoginPageState(LoginPageState.password),
+            child: const Text("账号密码登录"))
+      ]);
 
   Widget get _loginItem => Column(
     mainAxisSize: MainAxisSize.min,

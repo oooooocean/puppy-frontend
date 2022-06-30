@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/login/login_controller.dart';
 import 'package:frontend/pages/login/view/login_code_view.dart';
+import 'package:frontend/pages/login/view/login_pwd_view.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends GetView<LoginController> {
@@ -10,14 +11,12 @@ class LoginPage extends GetView<LoginController> {
   Widget build(BuildContext context) => Scaffold(
     body: Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 60),
-      decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage('assets/images/login-bg.png'), fit: BoxFit.cover)),
       child: Obx(() {
         switch (controller.pageState.value) {
-          // case LoginPageState.prepare:
-          //   return const LoginPrepareView();
           case LoginPageState.code:
             return LoginCodeView();
+          case LoginPageState.password:
+            return LoginPwdView();
           default:
             return LoginCodeView();
         }
