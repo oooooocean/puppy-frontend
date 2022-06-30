@@ -12,7 +12,10 @@ import 'package:more/more.dart';
 /// 世之奇伟、瑰怪，非常之观，常在于险远，而人之所罕至焉，故非有志者不能至也。
 /// 宠物星球 冲冲冲!
 
+enum LoginPageState { prepare, code, password }
+
 class LoginController extends GetxController with NetMixin {
+
   final phoneCtl = TextEditingController();
   final codeCtl = TextEditingController();
 
@@ -34,6 +37,12 @@ class LoginController extends GetxController with NetMixin {
   bool get shouldLogin => codeCtl.text.length == 6 && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
 
   bool get shouldFetchCode => Validator.phone.verify(phoneCtl.text) && !(timer?.isActive ?? false);
+
+  var pageState = LoginPageState.prepare.obs;
+
+  void switchLoginPageState(LoginPageState state) {
+    pageState.value = state;
+  }
 
   fetchCode() {
     timer?.cancel();
