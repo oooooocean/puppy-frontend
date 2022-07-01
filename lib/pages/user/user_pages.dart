@@ -1,5 +1,7 @@
 import 'package:frontend/pages/user/feedback/feedback_controller.dart';
 import 'package:frontend/pages/user/feedback/feedback_page.dart';
+import 'package:frontend/pages/user/center/center_controller.dart';
+import 'package:frontend/pages/user/center/center_page.dart';
 import 'package:frontend/pages/user/info/user_add_controller.dart';
 import 'package:frontend/pages/user/info/user_add_page.dart';
 import 'package:frontend/pages/user/info/user_edit_controller.dart';
@@ -24,6 +26,10 @@ final userRoutes = [
       name: AppRoutes.userInfoEdit,
       page: () => UserAddPage<UserEditController>(),
       binding: BindingsBuilder(() => Get.lazyPut(() => UserEditController()))),
+  GetPage(
+      name: AppRoutes.userCenter,
+      page: () => CenterPage(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => CenterController(Get.arguments)))),
 ];
 
 final petRoutes = [

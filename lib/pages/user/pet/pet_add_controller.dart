@@ -31,12 +31,12 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
             {
               'nickname': nicknameCtl.text,
               'introduction': introductionCtl.text,
-              'avatar': value.first,
+              'avatar': value.first.key,
               "intrinsic": {
                 "category": category!.category.id,
                 "sub_category": category!.subCategory.id,
                 "gender": gender.value.index,
-                "birthday": birthday!.toIso8601String()
+                "birthday": birthday!.toUtc().toIso8601String()
               }
             },
             (data) => data)),
@@ -71,17 +71,23 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
 
   /// 选择类别
   chosePetCategory() async {
-    List<String> categories = state!.map((e) => e.name).toList();
-
-    final result = await Get.bottomSheet<String>(
-      Column(
-        mainAxisSize: MainAxisSize.min, // 设置最小的弹出
-        children: categories.map((e) => ListTile(title: Text(e), onTap: () => Get.back(result: e))).toList(),
+    final result = await Get.bottomSheet<PetCategory>(
+      SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // 设置最小的弹出
+          children: state!
+              .map((e) =>
+                  ListTile(title: Text(e.name), onTap: () => Get.back(result: e)))
+              .toList(),
+        ),
       ),
+      backgroundColor: Colors.white
     );
     if (result == null) return;
 
-    PetExplicitCategory? category = await Get.toNamed(AppRoutes.petCategory, arguments: result);
+    PetExplicitCategory? category =
+        await Get.toNamed(AppRoutes.petCategory, arguments: result)
+            as PetExplicitCategory?;
     if (category == null) return;
 
     this.category = category;

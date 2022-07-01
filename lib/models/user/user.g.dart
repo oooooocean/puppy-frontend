@@ -20,18 +20,18 @@ Map<String, dynamic> _$BaseUserToJson(BaseUser instance) => <String, dynamic>{
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
       json['id'] as int,
-      json['phone'] as String,
       json['info'] == null
           ? null
           : UserInfo.fromJson(json['info'] as Map<String, dynamic>),
       json['petCount'] as int,
+      UserSocialInfo.fromJson(json['social'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'info': instance.info,
-      'phone': instance.phone,
       'petCount': instance.petCount,
+      'social': instance.social,
     };
 
 UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
@@ -52,3 +52,17 @@ const _$GenderEnumMap = {
   Gender.male: 0,
   Gender.female: 1,
 };
+
+UserSocialInfo _$UserSocialInfoFromJson(Map<String, dynamic> json) =>
+    UserSocialInfo(
+      json['praiseCount'] as int,
+      json['fansCount'] as int,
+      json['idolCount'] as int,
+    );
+
+Map<String, dynamic> _$UserSocialInfoToJson(UserSocialInfo instance) =>
+    <String, dynamic>{
+      'praiseCount': instance.praiseCount,
+      'fansCount': instance.fansCount,
+      'idolCount': instance.idolCount,
+    };
