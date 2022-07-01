@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 
 import '../home/home_page.dart';
+import '../post/list/post_list.dart';
 
 class ScaffoldPage extends StatefulWidget {
   const ScaffoldPage({Key? key}) : super(key: key);
@@ -57,7 +58,7 @@ class _ScaffoldState extends State<ScaffoldPage> with ThemeMixin, SingleTickerPr
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
       body: TabBarView(
-          controller: _tabCtl, physics: const NeverScrollableScrollPhysics(), children: const [HomePage(), UserPage()]),
+          controller: _tabCtl, physics: const NeverScrollableScrollPhysics(), children: const [PostListPage(), UserPage()]),
     );
   }
 }

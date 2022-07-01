@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:frontend/models/id_name.dart';
 import 'package:json_annotation/json_annotation.dart';
 

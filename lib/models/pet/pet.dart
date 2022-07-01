@@ -1,3 +1,4 @@
+import 'package:frontend/models/base.dart';
 import 'package:frontend/models/user/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../gender.dart';

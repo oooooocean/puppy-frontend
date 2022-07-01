@@ -26,6 +26,7 @@ final appRoutes = [
       })),
   ...user_pages.userRoutes,
   ...user_pages.petRoutes,
+  ...user_pages.settingRoutes,
   ...post_pages.postRoutes,
   ...social_pages.routes
 ];

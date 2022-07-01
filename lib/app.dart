@@ -47,6 +47,7 @@ class App extends StatelessWidget with ThemeMixin {
             enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kBorderColor)),
             focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kGreyColor))),
         appBarTheme: const AppBarTheme(
+            iconTheme: IconThemeData(color: kPrimaryTextColor),
             foregroundColor: kSecondaryTextColor,
             backgroundColor: kBackgroundColor,
             centerTitle: true,
