@@ -44,6 +44,14 @@ class LoginController extends GetxController with NetMixin {
   var pageState = LoginPageState.code.obs;
 
   void switchLoginPageState(LoginPageState state) {
+    switch (state) {
+      case LoginPageState.code:
+        loginEnable.value = shouldCodeLogin;
+        break;
+      case LoginPageState.password:
+        loginEnable.value = shouldPwdLogin;
+        break;
+    }
     pageState.value = state;
   }
 
