@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginPwdView extends GetView<LoginController> with ThemeMixin, LoadImageMixin, KeyboardAllocator {
   final photoNode = FocusNode();
@@ -27,7 +28,7 @@ class LoginPwdView extends GetView<LoginController> with ThemeMixin, LoadImageMi
             child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               buildAssetImage('logo', width: Get.width * 0.35),
               _inputContainer,
-              Column(children: [_loginItem])
+              Column(children: [_loginItem, Padding(padding: EdgeInsets.only(top: 35.toPadding), child: _otherItem)])
             ]),
           ),
         ),
@@ -51,39 +52,17 @@ class LoginPwdView extends GetView<LoginController> with ThemeMixin, LoadImageMi
     keyboardType: TextInputType.number,
     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
     decoration: const InputDecoration(hintText: '铲屎的, 手机号填在这里👇'),
-    onChanged: (_) => controller.codeEnable.value = controller.shouldFetchCode,
+    onChanged: (_) => controller.loginEnable.value = controller.shouldPwdLogin,
   );
 
-  Widget get _codeItem => Row(children: [
-    Expanded(
-      child: TextField(
-        controller: controller.codeCtl,
-        focusNode: codeNode,
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        decoration: const InputDecoration(hintText: '验证码填在这里👇'),
-        onChanged: (_) => controller.loginEnable.value = controller.shouldLogin,
-      ),
-    ),
-    SizedBox(
-      width: 100,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 5.0), // 对齐文字
-        child: Obx(
-              () => PuppyButton(
-            onPressed: controller.codeEnable.value
-                ? () {
-              controller.fetchCode();
-              codeNode.requestFocus();
-            }
-                : null,
-            style: PuppyButtonStyle.style2,
-            child: Obx(() => Text(controller.codeCounter.value)),
-          ),
-        ),
-      ),
-    ),
-  ]);
+  Widget get _codeItem => TextField(
+    controller: controller.pwdCtl,
+    focusNode: codeNode,
+    keyboardType: TextInputType.number,
+    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+    decoration: const InputDecoration(hintText: '密码填在这里👇'),
+    onChanged: (_) => controller.loginEnable.value = controller.shouldPwdLogin,
+  );
 
   Widget get _switchItem => Row(children: [
         TextButton(
@@ -112,7 +91,7 @@ class LoginPwdView extends GetView<LoginController> with ThemeMixin, LoadImageMi
                   value: controller.selectedClause.value,
                   onChanged: (value) {
                     controller.selectedClause.value = value ?? false;
-                    controller.loginEnable.value = controller.shouldLogin;
+                    controller.loginEnable.value = controller.shouldPwdLogin;
                   },
                   shape: const CircleBorder(),
                   activeColor: kOrangeColor,
@@ -135,4 +114,27 @@ class LoginPwdView extends GetView<LoginController> with ThemeMixin, LoadImageMi
       ),
     ],
   );
+
+  Widget get _otherItem => Column(mainAxisSize: MainAxisSize.min, children: [
+    Row(children: [
+      Expanded(child: Divider(color: kGreyColor)),
+      Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.toPadding),
+          child: const Text('其他进入星球的方式👇', style: TextStyle(color: kSecondaryTextColor, fontSize: kSmallFont))),
+      Expanded(child: Divider(color: kGreyColor))
+    ]),
+    SizedBox(height: 25.toPadding),
+    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      IconButton(onPressed: controller.loginWithWeChat, icon: buildAssetImage('wechat-logo')),
+      SizedBox(width: 20.toPadding),
+      SizedBox(
+        width: 120,
+        child: SignInWithAppleButton(
+            onPressed: controller.loginWithAppleId,
+            text: 'Apple登录',
+            style: SignInWithAppleButtonStyle.black,
+            height: 32),
+      )
+    ])
+  ]);
 }

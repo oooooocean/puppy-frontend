@@ -18,6 +18,7 @@ class LoginController extends GetxController with NetMixin {
 
   final phoneCtl = TextEditingController();
   final codeCtl = TextEditingController();
+  final pwdCtl = TextEditingController();
 
   /// 是否选择同意用户协议
   var selectedClause = true.obs;
@@ -34,7 +35,9 @@ class LoginController extends GetxController with NetMixin {
   /// 验证码定时器
   Timer? timer;
 
-  bool get shouldLogin => codeCtl.text.length == 6 && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
+  bool get shouldCodeLogin => codeCtl.text.length == 6 && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
+
+  bool get shouldPwdLogin => pwdCtl.text.length >= 6 && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
 
   bool get shouldFetchCode => Validator.phone.verify(phoneCtl.text) && !(timer?.isActive ?? false);
 

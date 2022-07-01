@@ -63,7 +63,7 @@ class LoginCodeView extends GetView<LoginController> with ThemeMixin, LoadImageM
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         decoration: const InputDecoration(hintText: '验证码填在这里👇'),
-        onChanged: (_) => controller.loginEnable.value = controller.shouldLogin,
+        onChanged: (_) => controller.loginEnable.value = controller.shouldCodeLogin,
       ),
     ),
     SizedBox(
@@ -113,7 +113,7 @@ class LoginCodeView extends GetView<LoginController> with ThemeMixin, LoadImageM
                   value: controller.selectedClause.value,
                   onChanged: (value) {
                     controller.selectedClause.value = value ?? false;
-                    controller.loginEnable.value = controller.shouldLogin;
+                    controller.loginEnable.value = controller.shouldCodeLogin;
                   },
                   shape: const CircleBorder(),
                   activeColor: kOrangeColor,
