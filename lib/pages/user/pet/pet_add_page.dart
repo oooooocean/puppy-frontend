@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/components/comps/comps.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/gender.dart';
-import 'package:frontend/models/pet/pet_category.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';

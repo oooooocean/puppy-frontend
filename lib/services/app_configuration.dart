@@ -18,4 +18,4 @@ enum Environment {
   }
 }
 
-const currentEnvironment = Environment.local;
+const currentEnvironment = Environment.develop;

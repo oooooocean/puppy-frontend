@@ -82,9 +82,21 @@ class LoginController extends GetxController with NetMixin {
       next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
     }
 
+    if (LoginPageState.password == pageState.value) {
+      request<Tuple2<String, User>>(
+          api: () =>
+              post('user/login_password/', {'phone': phoneCtl.text, 'password': pwdCtl.text},
+                      (data) {
+                    final token = data['token'];
+                    final user = User.fromJson(data['user']);
+                    return Tuple2(token, user);
+                  }),
+          success: success);
+      return;
+    }
     request<Tuple2<String, User>>(
         api: () =>
-            post('user/login/', {'phone': phoneCtl.text, 'code': '123456'},
+            post('user/login/', {'phone': phoneCtl.text, 'code': codeCtl.text},
                 (data) {
               final token = data['token'];
               final user = User.fromJson(data['user']);
