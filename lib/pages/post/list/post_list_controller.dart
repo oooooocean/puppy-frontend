@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:frontend/components/mixins/refresh_mixin.dart';
-import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/paging_data.dart';
 import 'package:frontend/models/post/post.dart';
 import 'package:frontend/models/post/post_topic.dart';
@@ -37,7 +34,7 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
     final result = await follow(post.owner);
     if (!result) return;
     final needUpdatePosts = items.where((element) => element.owner == post.owner).map((e) {
-      e.hasFollow.value = true;
+      e.social.hasFollow.value = true;
       return e.id;
     }).toList();
     update(needUpdatePosts);
@@ -49,7 +46,7 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
   onTapComment(Post post) async {
     final result = await Get.toNamed(AppRoutes.postComment, arguments: post.id) as bool?;
     if (result == null || !result) return;
-    post.commentCount += 1;
+    post.social.commentCount += 1;
     update([post.id]);
   }
 

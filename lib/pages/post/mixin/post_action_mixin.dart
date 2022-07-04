@@ -32,15 +32,15 @@ mixin PostActionMixin on NetMixin {
 
   /// 点赞
   Future<bool> praise(Post post) {
-    final isCancel = post.hasPraise.value;
+    final isCancel = post.social.hasPraise.value;
     final completer = Completer<bool>();
     request(
         api: () => isCancel
             ? delete('post/${post.id}/praise/', {}, (data) => data)
             : this.post('post/${post.id}/praise/', {}, (data) => data),
         success: (_) {
-          post.praiseCount += isCancel ? -1 : 1;
-          post.hasPraise.value = !post.hasPraise.value;
+          post.social.praiseCount += isCancel ? -1 : 1;
+          post.social.hasPraise.value = !post.social.hasPraise.value;
           completer.complete(true);
         },
         fail: (_) => completer.complete(false));

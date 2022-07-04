@@ -23,11 +23,11 @@ class PostListActionBar extends GetView<PostListController> {
         id: post.id,
         builder: (_) {
           final comment = _actionLabelBuilder(Icon(PostAction.comment.icon, size: iconSize, color: iconColor),
-              post.commentCount.toString(), () => controller.onTapComment(post));
+              post.social.commentCount.toString(), () => controller.onTapComment(post));
           final praise = Obx(() => _actionLabelBuilder(
-              Icon(post.hasPraise.value ? PostAction.praise.accentIcon : PostAction.praise.icon,
-                  color: post.hasPraise.value ? kOrangeColor : iconColor, size: iconSize),
-              post.praiseCount.toString(),
+              Icon(post.social.hasPraise.value ? PostAction.praise.accentIcon : PostAction.praise.icon,
+                  color: post.social.hasPraise.value ? kOrangeColor : iconColor, size: iconSize),
+              post.social.praiseCount.toString(),
               () => controller.onTapPraise(post)));
           return ButtonBar(
               buttonPadding: EdgeInsets.zero,
