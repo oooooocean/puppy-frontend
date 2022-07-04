@@ -6,11 +6,15 @@ import 'package:frontend/components/mixins/load_image_mixin.dart';
 class CircleAvatarButton extends StatelessWidget with LoadImageMixin {
   final String url;
   final VoidCallback onTap;
+  final double? size;
 
-  const CircleAvatarButton({Key? key, required this.url, required this.onTap}) : super(key: key);
+  const CircleAvatarButton({Key? key, required this.url, required this.onTap, this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(onTap: onTap, child: CircleAvatar(backgroundImage: CachedNetworkImageProvider(url)));
+    return InkWell(
+        onTap: onTap,
+        child:
+            SizedBox(width: size, height: size, child: CircleAvatar(backgroundImage: CachedNetworkImageProvider(url))));
   }
 }

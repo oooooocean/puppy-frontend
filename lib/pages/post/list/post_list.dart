@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/components/abstract/scaffold_child_state.dart';
 import 'package:frontend/pages/post/list/post_list_controller.dart';
 import 'package:frontend/pages/post/views/post_list_tile.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:frontend/components/extension/int_extension.dart';

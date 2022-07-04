@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:frontend/components/mixins/refresh_mixin.dart';
+import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/paging_data.dart';
 import 'package:frontend/models/post/post.dart';
 import 'package:frontend/models/post/post_topic.dart';
@@ -60,8 +63,6 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
 
   /// 关注的人
   onTapNotice(BaseUser user) {}
-
-  onTapMoreOptions(Post post) {}
 
   @override
   Future<PagingData<Post>> get refreshRequest => get('post/', (data) => PagingData.fromJson(data, Post.fromJson),

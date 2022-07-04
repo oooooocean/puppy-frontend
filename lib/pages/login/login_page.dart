@@ -93,6 +93,7 @@ class LoginPage extends GetView<LoginController> with ThemeMixin, LoadImageMixin
             () => PuppyButton(
                 onPressed: controller.loginEnable.value ? controller.login : null,
                 style: PuppyButtonStyle.style1,
+                buttonStyle: ButtonStyle(fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
                 child: const Text('进入星球', style: TextStyle(fontSize: kButtonFont, fontWeight: FontWeight.w600))),
           ),
           Align(

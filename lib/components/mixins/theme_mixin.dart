@@ -15,8 +15,8 @@ const kShapeColor = Color(0xfff1f1f1);
 const kOrangeColor = Colors.orange;
 const kBlueColor = Color(0xff426ab3);
 
-const double kDefaultFont = 15; // 普通文字
-const double kSmallFont = 13;
+const double kDefaultFont = 14; // 普通文字
+const double kSmallFont = 12;
 const double kButtonFont = 16;
 
 final double kDefaultPadding = 15.toPadding;

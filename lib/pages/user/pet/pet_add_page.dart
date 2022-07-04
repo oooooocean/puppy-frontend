@@ -140,7 +140,7 @@ class PetAddPage extends GetView<PetAddController>
   Widget get _introduceItem => PuppyTextField(
       focusNode: introductionNone,
       controller: controller.introductionCtl,
-      maxLength: 200,
+      maxLength: 50,
       maxLines: 4,
       onChanged: (_) => controller.update(['next']),
       hintText: '嘿, 特点, 个性, 习惯什么的, 写在这里👇');
@@ -150,6 +150,7 @@ class PetAddPage extends GetView<PetAddController>
         builder: (_) => PuppyButton(
             onPressed: controller.shouldRequest ? controller.save : null,
             style: PuppyButtonStyle.style1,
+            buttonStyle: ButtonStyle(fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
             child: const Text('下一步')),
       );
 }

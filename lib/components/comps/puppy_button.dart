@@ -40,15 +40,6 @@ enum PuppyButtonStyle {
         return kShapeColor;
     }
   }
-
-  MaterialStateProperty<Size>? get size {
-    switch (this) {
-      case PuppyButtonStyle.style1:
-        return MaterialStateProperty.all(Size(Get.width, 44));
-      default:
-        return null;
-    }
-  }
 }
 
 /// 提交按钮
@@ -67,8 +58,7 @@ class PuppyButton extends StatelessWidget with ThemeMixin {
         backgroundColor: MaterialStateProperty.resolveWith<Color?>(
             (Set<MaterialState> states) => style.getBackgroundColor(!states.contains(MaterialState.disabled))),
         foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) => style.getTextColor(!states.contains(MaterialState.disabled))),
-        fixedSize: style.size);
+            (Set<MaterialState> states) => style.getTextColor(!states.contains(MaterialState.disabled))));
     if (buttonStyle != null) {
       mergedStyle = mergedStyle.merge(buttonStyle);
     }
