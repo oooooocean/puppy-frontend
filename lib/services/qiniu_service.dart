@@ -47,7 +47,7 @@ class QiniuService {
     return bucket.host + key + policy.key;
   }
 
-  String fetchCustomImageUrl({required String key, bool isResource = false, int? width, int? height}) {
+  String fetchCustomImageUrl({required String key, bool isResource = false, int? width, int? height, bool crop = false}) {
     assert(width != null || height != null, '请使用fetchImageUrl');
     String policy;
     int ratio = Get.pixelRatio.toInt();
@@ -59,7 +59,7 @@ class QiniuService {
       policy = 'w/${width * ratio}/h/${height * ratio}';
     }
     final bucket = _fetchBucket(isResource);
-    return '${bucket.host}$key?imageView2/0/$policy/ignore-error/1';
+    return '${bucket.host}$key?imageView2/${crop ? '1' : '0'}/$policy/ignore-error/1';
   }
 
   QiniuBucket _fetchBucket(bool isResource) => isResource

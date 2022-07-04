@@ -15,7 +15,6 @@ import 'package:more/more.dart';
 enum LoginPageState { code, password }
 
 class LoginController extends GetxController with NetMixin {
-
   final phoneCtl = TextEditingController();
   final codeCtl = TextEditingController();
   final pwdCtl = TextEditingController();
@@ -35,11 +34,18 @@ class LoginController extends GetxController with NetMixin {
   /// 验证码定时器
   Timer? timer;
 
-  bool get shouldCodeLogin => codeCtl.text.length == 6 && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
+  bool get shouldCodeLogin =>
+      codeCtl.text.length == 6 &&
+      Validator.phone.verify(phoneCtl.text) &&
+      selectedClause.value;
 
-  bool get shouldPwdLogin => pwdCtl.text.length >= 6 && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
+  bool get shouldPwdLogin =>
+      pwdCtl.text.length >= 6 &&
+      Validator.phone.verify(phoneCtl.text) &&
+      selectedClause.value;
 
-  bool get shouldFetchCode => Validator.phone.verify(phoneCtl.text) && !(timer?.isActive ?? false);
+  bool get shouldFetchCode =>
+      Validator.phone.verify(phoneCtl.text) && !(timer?.isActive ?? false);
 
   var pageState = LoginPageState.code.obs;
 
@@ -77,7 +83,9 @@ class LoginController extends GetxController with NetMixin {
     }
 
     request<Tuple2<String, User>>(
-        api: () => post('user/login/', {'phone': phoneCtl.text, 'code': '123456'}, (data) {
+        api: () =>
+            post('user/login/', {'phone': phoneCtl.text, 'code': '123456'},
+                (data) {
               final token = data['token'];
               final user = User.fromJson(data['user']);
               return Tuple2(token, user);

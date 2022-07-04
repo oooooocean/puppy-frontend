@@ -107,7 +107,7 @@ class PostDetailPage extends GetView<PostDetailController> with LoadImageMixin, 
 
   SliverPersistentHeader get _commentHeader => SliverPersistentHeader(
       pinned: true,
-      delegate: PostCommentHeaderDelegate(commentCount: _post.commentCount, praiseCount: _post.praiseCount));
+      delegate: PostCommentHeaderDelegate(commentCount: _post.social.commentCount, praiseCount: _post.social.praiseCount));
 
   SliverToBoxAdapter get _divider => SliverToBoxAdapter(
       child: Padding(

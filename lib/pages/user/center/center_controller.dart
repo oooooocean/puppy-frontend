@@ -14,6 +14,8 @@ class CenterController extends GetxController with StateMixin<UserCenterData>, N
 
   User get user => state!.first;
 
+  List<Pet> get pets => state!.second;
+
   onTapPraise() {}
 
   onTapFans() {}
@@ -21,6 +23,12 @@ class CenterController extends GetxController with StateMixin<UserCenterData>, N
   onTapIdols() {}
 
   onSelectedAvatar(AssetEntity assetEntity) {}
+
+  onTapEdit() {}
+
+  onTapPet(Pet pet) {}
+
+  onTapFollow() {}
 
   @override
   void onReady() {

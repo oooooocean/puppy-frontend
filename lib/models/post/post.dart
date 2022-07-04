@@ -21,16 +21,9 @@ enum PostType {
 }
 
 @JsonSerializable()
-class Post extends OwnerBase {
-  int id;
-  String description;
-  PostType type;
+class PostSocial {
   int praiseCount;
   int commentCount;
-
-  /// @列表
-  List<BaseUser> noticeUsers;
-
   /// 是否点赞
   @JsonKey(fromJson: convertBoolToRx)
   RxBool hasPraise;
@@ -38,6 +31,26 @@ class Post extends OwnerBase {
   /// 是否关注
   @JsonKey(fromJson: convertBoolToRx)
   RxBool hasFollow;
+
+  PostSocial(this.praiseCount, this.commentCount, this.hasPraise, this.hasFollow);
+
+  factory PostSocial.fromJson(Map<String, dynamic> json) =>  _$PostSocialFromJson(json);
+  Map<String, dynamic> toJson() => _$PostSocialToJson(this);
+
+  @override
+  String toString() => '';
+}
+
+@JsonSerializable()
+class Post extends OwnerBase {
+  int id;
+  String description;
+  PostType type;
+
+  /// @列表
+  List<BaseUser> noticeUsers;
+
+  PostSocial social;
   @JsonKey(fromJson: string2DateTime)
   DateTime createTime;
   List<PetBaseInfo> pets;
@@ -45,8 +58,8 @@ class Post extends OwnerBase {
   List<PostTopic> topics;
   Address? address;
 
-  Post(this.id, this.description, this.type, this.praiseCount, this.commentCount, this.noticeUsers, this.createTime, this.pets,
-      this.medias, this.hasPraise, this.hasFollow, this.topics, UserInfo ownerInfo, int owner)
+  Post(this.id, this.description, this.type, this.noticeUsers, this.social, this.createTime, this.pets,
+      this.medias, this.topics, UserInfo ownerInfo, int owner)
       : super(owner, ownerInfo);
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);

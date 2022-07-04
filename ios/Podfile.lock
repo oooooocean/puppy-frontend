@@ -7,7 +7,7 @@ PODS:
   - BaiduMapKit/Utils (6.5.1):
     - BaiduMapKit/Base
   - BMKLocationKit (2.0.2)
-  - camera (0.0.1):
+  - camera_avfoundation (0.0.1):
     - Flutter
   - Flutter (1.0.0)
   - flutter_baidu_mapapi_base (3.1.0):
@@ -49,7 +49,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - camera (from `.symlinks/plugins/camera/ios`)
+  - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - Flutter (from `Flutter`)
   - flutter_baidu_mapapi_base (from `.symlinks/plugins/flutter_baidu_mapapi_base/ios`)
   - flutter_baidu_mapapi_map (from `.symlinks/plugins/flutter_baidu_mapapi_map/ios`)
@@ -71,8 +71,8 @@ SPEC REPOS:
     - FMDB
 
 EXTERNAL SOURCES:
-  camera:
-    :path: ".symlinks/plugins/camera/ios"
+  camera_avfoundation:
+    :path: ".symlinks/plugins/camera_avfoundation/ios"
   Flutter:
     :path: Flutter
   flutter_baidu_mapapi_base:
@@ -103,7 +103,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   BaiduMapKit: f227cfb43581e91466fb4f1344f655eab5788777
   BMKLocationKit: 3b96beefb31c3b12d53e9156aa4ab19ecd695dec
-  camera: 9993f92f2c793e87b65e35f3a23c70582afb05b1
+  camera_avfoundation: 07c77549ea54ad95d8581be86617c094a46280d9
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_baidu_mapapi_base: cb406be78c3a949fb58a45dc6627f139d580bd37
   flutter_baidu_mapapi_map: 81c4e6e93dc668e311d9b521421deaf292390434

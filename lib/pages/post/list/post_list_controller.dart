@@ -34,7 +34,7 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
     final result = await follow(post.owner);
     if (!result) return;
     final needUpdatePosts = items.where((element) => element.owner == post.owner).map((e) {
-      e.hasFollow.value = true;
+      e.social.hasFollow.value = true;
       return e.id;
     }).toList();
     update(needUpdatePosts);
@@ -46,7 +46,7 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
   onTapComment(Post post) async {
     final result = await Get.toNamed(AppRoutes.postComment, arguments: post.id) as bool?;
     if (result == null || !result) return;
-    post.commentCount += 1;
+    post.social.commentCount += 1;
     update([post.id]);
   }
 
@@ -60,8 +60,6 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
 
   /// 关注的人
   onTapNotice(BaseUser user) {}
-
-  onTapMoreOptions(Post post) {}
 
   @override
   Future<PagingData<Post>> get refreshRequest => get('post/', (data) => PagingData.fromJson(data, Post.fromJson),

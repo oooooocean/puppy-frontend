@@ -38,7 +38,7 @@ class PostDetailController extends GetxController with NetMixin, RefreshMixin<Po
     request(
         api: () => post('follow/', {'follow_id': mPost.owner}, (data) => data),
         success: (_) {
-          mPost.hasFollow.value = true;
+          mPost.social.hasFollow.value = true;
         });
   }
 

@@ -20,11 +20,11 @@ class PostDetailBottomBar extends GetView<PostDetailController> {
           children: [
             _commentButton,
             const Spacer(),
-            _buildButton(Icons.share_outlined, _post.praiseCount.toString(), controller.onTapPraise),
-            Obx(() => _buildButton(_post.hasPraise.value ? Icons.favorite : Icons.favorite_outline,
-                _post.praiseCount.toString(), controller.onTapPraise,
-                color: _post.hasPraise.value ? kOrangeColor : kGreyColor)),
-            _buildButton(Icons.star_outline, _post.praiseCount.toString(), controller.onTapCollect),
+            _buildButton(Icons.share_outlined, _post.social.praiseCount.toString(), controller.onTapPraise),
+            Obx(() => _buildButton(_post.social.hasPraise.value ? Icons.favorite : Icons.favorite_outline,
+                _post.social.praiseCount.toString(), controller.onTapPraise,
+                color: _post.social.hasPraise.value ? kOrangeColor : kGreyColor)),
+            _buildButton(Icons.star_outline, _post.social.praiseCount.toString(), controller.onTapCollect),
           ],
         ),
       )
