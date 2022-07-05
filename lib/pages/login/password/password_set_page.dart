@@ -11,30 +11,37 @@ import 'package:frontend/components/mixins/keyboard_allocator.dart';
 
 class PasswordSetPage extends GetView<PasswordSetController>
     with ThemeMixin, LoadImageMixin, KeyboardAllocator {
-  final photoNode = FocusNode();
-  final codeNode = FocusNode();
+  final passwordNode = FocusNode();
+  final confirmNode = FocusNode();
 
   PasswordSetPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: KeyboardActions(
-          disableScroll: false,
-          config: doneKeyboardConfig([photoNode, codeNode]),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  buildAssetImage('logo', width: Get.width * 0.35),
-                  _inputContainer,
-                  Column(children: [
-                    _loginItem
-                  ])
-                ]),
-          ),
+      appBar: AppBar(
+        title: const Text('设置密码'),
+        actions: [
+          TextButton(
+              onPressed: () => controller.skip(),
+              child: const Text('跳过',
+                  style: TextStyle(color: kSecondaryTextColor)))
+        ],
+      ),
+      body: KeyboardActions(
+        disableScroll: false,
+        config: doneKeyboardConfig([passwordNode, confirmNode]),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                buildAssetImage('logo', width: Get.width * 0.35),
+                _inputContainer,
+                Column(children: [
+                  _saveItem
+                ])
+              ]),
         ),
       ),
     );
@@ -48,100 +55,35 @@ class PasswordSetPage extends GetView<PasswordSetController>
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
-      children: [_phoneItem, _codeItem],
+      children: [_passwordItem, _confirmItem],
     ),
   );
 
-  Widget get _phoneItem => TextField(
-    focusNode: photoNode,
-    controller: controller.phoneCtl,
-    keyboardType: TextInputType.number,
-    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-    decoration: const InputDecoration(hintText: '铲屎的, 手机号填在这里👇'),
-    onChanged: (_) =>
-    controller.codeEnable.value = controller.shouldFetchCode,
+  Widget get _passwordItem => TextField(
+    focusNode: passwordNode,
+    controller: controller.pwdCtl,
+    keyboardType: TextInputType.visiblePassword,
+    decoration: const InputDecoration(hintText: '至少8个字符，且包含数字和字母👇'),
+    onChanged: (_) => controller.saveEnable.value = controller.shouldSavePassword,
   );
 
-  Widget get _codeItem => Row(children: [
-    Expanded(
-      child: TextField(
-        controller: controller.codeCtl,
-        focusNode: codeNode,
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        decoration: const InputDecoration(hintText: '验证码填在这里👇'),
-        onChanged: (_) =>
-        controller.loginEnable.value = controller.shouldCodeLogin,
-      ),
-    ),
-    SizedBox(
-      width: 100,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 5.0), // 对齐文字
-        child: Obx(
-              () => PuppyButton(
-            onPressed: controller.codeEnable.value
-                ? () {
-              controller.fetchCode();
-              codeNode.requestFocus();
-            }
-                : null,
-            style: PuppyButtonStyle.style2,
-            child: Obx(() => Text(controller.codeCounter.value)),
-          ),
-        ),
-      ),
-    ),
-  ]);
+  Widget get _confirmItem => TextField(
+    controller: controller.confirmCtl,
+    focusNode: confirmNode,
+    keyboardType: TextInputType.visiblePassword,
+    decoration: const InputDecoration(hintText: '再次确认👇'),
+    onChanged: (_) => controller.saveEnable.value = controller.shouldSavePassword,
+  );
 
-  Widget get _loginItem => Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Obx(
-            () => PuppyButton(
-            onPressed:
-            controller.loginEnable.value ? controller.login : null,
-            style: PuppyButtonStyle.style1,
-            buttonStyle: ButtonStyle(
-                fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
-            child: const Text('进入星球',
-                style: TextStyle(
-                    fontSize: kButtonFont, fontWeight: FontWeight.w600))),
-      ),
-      Align(
-        alignment: Alignment.center,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Obx(
-                  () => Checkbox(
-                  side: BorderSide(color: kGreyColor),
-                  value: controller.selectedClause.value,
-                  onChanged: (value) {
-                    controller.selectedClause.value = value ?? false;
-                    controller.loginEnable.value =
-                        controller.shouldCodeLogin;
-                  },
-                  shape: const CircleBorder(),
-                  activeColor: kOrangeColor,
-                  visualDensity: VisualDensity.compact,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  checkColor: Colors.white),
-            ),
-            TextButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                  padding: MaterialStateProperty.all(EdgeInsets.zero)),
-              child: const Text('同意用户协议和隐私政策',
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: kSecondaryTextColor,
-                      decoration: TextDecoration.underline,
-                      decorationColor: kSecondaryTextColor)),
-            )
-          ],
-        ),
-      ),
-    ],
+  Widget get _saveItem => Obx(
+        () => PuppyButton(
+        onPressed:
+        controller.saveEnable.value ? controller.save() : null,
+        style: PuppyButtonStyle.style1,
+        buttonStyle: ButtonStyle(
+            fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
+        child: const Text('保存密码',
+            style: TextStyle(
+                fontSize: kButtonFont, fontWeight: FontWeight.w600))),
   );
 }

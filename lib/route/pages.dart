@@ -22,11 +22,11 @@ final appRoutes = [
       page: () => const LoginPage(),
       binding: BindingsBuilder(() => Get.lazyPut(() => LoginController()))),
   GetPage(
-      name: AppRoutes.login,
+      name: AppRoutes.loginSetPassword,
       page: () => PasswordSetPage(),
       binding: BindingsBuilder(() => Get.lazyPut(() => PasswordSetController()))),
   GetPage(
-      name: AppRoutes.login,
+      name: AppRoutes.loginSetPassword,
       page: () => PasswordResetPage(),
       binding: BindingsBuilder(() => Get.lazyPut(() => PasswordResetController()))),
   GetPage(

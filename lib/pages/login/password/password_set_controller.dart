@@ -10,70 +10,35 @@ import 'package:get/get.dart';
 import 'package:more/more.dart';
 
 class PasswordSetController extends GetxController with NetMixin {
-  final phoneCtl = TextEditingController();
-  final codeCtl = TextEditingController();
   final pwdCtl = TextEditingController();
+  final confirmCtl = TextEditingController();
 
-  /// 是否选择同意用户协议
-  var selectedClause = true.obs;
+  /// 是否可保存
+  var saveEnable = false.obs;
 
-  /// 是否可登录
-  var loginEnable = false.obs;
+  bool get shouldSavePassword =>
+      pwdCtl.text == confirmCtl.text &&
+      Validator.password.verify(pwdCtl.text);
 
-  /// 是否可获取验证码
-  var codeEnable = false.obs;
-
-  /// 验证码倒计时
-  var codeCounter = '获取验证码'.obs;
-
-  /// 验证码定时器
-  Timer? timer;
-
-  bool get shouldCodeLogin =>
-      codeCtl.text.length == 6 &&
-          Validator.phone.verify(phoneCtl.text) &&
-          selectedClause.value;
-
-  bool get shouldPwdLogin =>
-      pwdCtl.text.length >= 6 &&
-          Validator.phone.verify(phoneCtl.text) &&
-          selectedClause.value;
-
-  bool get shouldFetchCode =>
-      Validator.phone.verify(phoneCtl.text) && !(timer?.isActive ?? false);
-
-  fetchCode() {
-    timer?.cancel();
-    codeEnable.value = false;
-    timer = Timer.periodic(const Duration(seconds: 1), (t) {
-      if (t.tick == 10) {
-        codeCounter.value = '获取验证码';
-        timer?.cancel();
-        codeEnable.value = true;
-        return;
-      }
-      codeCounter.value = '${60 - t.tick}s';
-    });
+  skip() {
+    final next = LaunchService.shared.isCompletedRegisterFlow;
+    next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
   }
 
-  login() {
-    success(Tuple2<String, User> result) {
-      LaunchService.shared.login(result.second, result.first);
-      final next = LaunchService.shared.isCompletedRegisterFlow;
-      next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
-    }
-    request<Tuple2<String, User>>(
-        api: () =>
-            post('user/login/', {'phone': phoneCtl.text, 'code': codeCtl.text},
-                    (data) {
-                  final token = data['token'];
-                  final user = User.fromJson(data['user']);
-                  return Tuple2(token, user);
-                }),
-        success: success);
+  save() {
+    // success(Tuple2<String, User> result) {
+    //   LaunchService.shared.login(result.second, result.first);
+    //   final next = LaunchService.shared.isCompletedRegisterFlow;
+    //   next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
+    // }
+    // request<Tuple2<String, User>>(
+    //     api: () =>
+    //         post('user/login/', {'phone': pwdCtl.text, 'code': confirmCtl.text},
+    //                 (data) {
+    //               final token = data['token'];
+    //               final user = User.fromJson(data['user']);
+    //               return Tuple2(token, user);
+    //             }),
+    //     success: success);
   }
-
-  loginWithAppleId() {}
-
-  loginWithWeChat() {}
 }
