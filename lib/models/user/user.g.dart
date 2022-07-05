@@ -25,6 +25,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           : UserInfo.fromJson(json['info'] as Map<String, dynamic>),
       json['petCount'] as int,
       UserSocialInfo.fromJson(json['social'] as Map<String, dynamic>),
+      json['hasPassword'] as bool,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -32,6 +33,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'info': instance.info,
       'petCount': instance.petCount,
       'social': instance.social,
+      'hasPassword': instance.hasPassword,
     };
 
 UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(

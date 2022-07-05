@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:frontend/services/qiniu_service.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
@@ -25,8 +26,9 @@ class BaseUser {
 class User extends BaseUser with LoadImageMixin {
   int petCount;
   UserSocialInfo social;
+  bool hasPassword;
 
-  User(int id, UserInfo? info, this.petCount, this.social) : super(id, info);
+  User(int id, UserInfo? info, this.petCount, this.social, this.hasPassword) : super(id, info);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
