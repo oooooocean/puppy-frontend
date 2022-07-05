@@ -8,9 +8,7 @@ part of 'user.dart';
 
 BaseUser _$BaseUserFromJson(Map<String, dynamic> json) => BaseUser(
       json['id'] as int,
-      json['info'] == null
-          ? null
-          : UserInfo.fromJson(json['info'] as Map<String, dynamic>),
+      UserInfo.fromJson(json['info'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$BaseUserToJson(BaseUser instance) => <String, dynamic>{
@@ -18,19 +16,29 @@ Map<String, dynamic> _$BaseUserToJson(BaseUser instance) => <String, dynamic>{
       'info': instance.info,
     };
 
-User _$UserFromJson(Map<String, dynamic> json) => User(
+LoginUser _$LoginUserFromJson(Map<String, dynamic> json) => LoginUser(
       json['id'] as int,
       json['info'] == null
           ? null
           : UserInfo.fromJson(json['info'] as Map<String, dynamic>),
       json['petCount'] as int,
+    );
+
+Map<String, dynamic> _$LoginUserToJson(LoginUser instance) => <String, dynamic>{
+      'id': instance.id,
+      'info': instance.info,
+      'petCount': instance.petCount,
+    };
+
+User _$UserFromJson(Map<String, dynamic> json) => User(
+      json['id'] as int,
+      UserInfo.fromJson(json['info'] as Map<String, dynamic>),
       UserSocialInfo.fromJson(json['social'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'info': instance.info,
-      'petCount': instance.petCount,
       'social': instance.social,
     };
 
@@ -58,6 +66,7 @@ UserSocialInfo _$UserSocialInfoFromJson(Map<String, dynamic> json) =>
       json['praiseCount'] as int,
       json['fansCount'] as int,
       json['idolCount'] as int,
+      convertBoolToRx(json['hasFollow'] as bool),
     );
 
 Map<String, dynamic> _$UserSocialInfoToJson(UserSocialInfo instance) =>
@@ -65,4 +74,5 @@ Map<String, dynamic> _$UserSocialInfoToJson(UserSocialInfo instance) =>
       'praiseCount': instance.praiseCount,
       'fansCount': instance.fansCount,
       'idolCount': instance.idolCount,
+      'hasFollow': instance.hasFollow,
     };

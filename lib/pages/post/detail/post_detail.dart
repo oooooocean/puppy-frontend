@@ -44,7 +44,7 @@ class PostDetailPage extends GetView<PostDetailController> with LoadImageMixin, 
           ]),
         ),
         actions: [
-          UnconstrainedBox(child: buildFollowItem(_post, controller.onTapFollow)),
+          UnconstrainedBox(child: buildFollowItem(_post, () => controller.onTapFollow(controller.mPost))),
           IconButton(onPressed: controller.onTapMore, icon: const Icon(Icons.more_horiz))
         ],
       );
@@ -77,7 +77,7 @@ class PostDetailPage extends GetView<PostDetailController> with LoadImageMixin, 
             topics: _post.topics,
             notices: _post.noticeUsers,
             onNotice: controller.onTapNotice,
-            onTap: controller.onTapTopic),
+            onTap: (topic) => controller.onTapTopic(controller.mPost, topic)),
       ));
 
   SliverToBoxAdapter get _mediaItem => SliverToBoxAdapter(
@@ -107,7 +107,8 @@ class PostDetailPage extends GetView<PostDetailController> with LoadImageMixin, 
 
   SliverPersistentHeader get _commentHeader => SliverPersistentHeader(
       pinned: true,
-      delegate: PostCommentHeaderDelegate(commentCount: _post.social.commentCount, praiseCount: _post.social.praiseCount));
+      delegate:
+          PostCommentHeaderDelegate(commentCount: _post.social.commentCount, praiseCount: _post.social.praiseCount));
 
   SliverToBoxAdapter get _divider => SliverToBoxAdapter(
       child: Padding(

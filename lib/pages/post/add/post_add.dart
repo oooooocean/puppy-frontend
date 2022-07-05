@@ -69,7 +69,7 @@ class PostAddPage extends GetView<PostAddController> {
             runSpacing: kSpacePadding,
             children: controller.idols
                 .map((element) =>
-                    _buildChipItem(element.info?.nickname ?? '', Icons.alternate_email, controller.onTapIdols))
+                    _buildChipItem(element.info.nickname, Icons.alternate_email, controller.onTapIdols))
                 .toList());
       });
 

@@ -50,16 +50,16 @@ class LoginController extends GetxController with NetMixin {
   }
 
   login() {
-    success(Tuple2<String, User> result) {
+    success(Tuple2<String, LoginUser> result) {
       LaunchService.shared.login(result.second, result.first);
       final next = LaunchService.shared.isCompletedRegisterFlow;
       next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
     }
 
-    request<Tuple2<String, User>>(
+    request<Tuple2<String, LoginUser>>(
         api: () => post('user/login/', {'phone': phoneCtl.text, 'code': '123456'}, (data) {
               final token = data['token'];
-              final user = User.fromJson(data['user']);
+              final user = LoginUser.fromJson(data['user']);
               return Tuple2(token, user);
             }),
         success: success);

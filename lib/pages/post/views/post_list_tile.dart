@@ -3,13 +3,14 @@ import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/post/post.dart';
 import 'package:frontend/pages/post/list/post_list_controller.dart';
+import 'package:frontend/pages/post/mixin/post_action_mixin.dart';
 import 'package:frontend/pages/post/views/post_description_tile.dart';
 import 'package:frontend/pages/post/views/post_list_action_bar.dart';
 import 'package:frontend/pages/post/views/post_list_header.dart';
 import 'package:frontend/pages/post/views/post_photos_tile.dart';
 import 'package:get/get.dart';
 
-class PostListTile extends GetView<PostListController> with LoadImageMixin {
+class PostListTile<C extends PostActionMixin> extends GetView<C> with LoadImageMixin {
   final Post post;
   final space = const SizedBox(height: 5);
   final ValueSetter<Post> onTap;
@@ -34,7 +35,7 @@ class PostListTile extends GetView<PostListController> with LoadImageMixin {
     );
   }
 
-  Widget get _headerItem => GetBuilder<PostListController>(id: post.id, builder: (_) => PostListHeader(post: post));
+  Widget get _headerItem => GetBuilder<C>(id: post.id, builder: (_) => PostListHeader<C>(post: post));
 
   Widget get _descriptionItem => PostDescriptionTile(
       description: post.description,
