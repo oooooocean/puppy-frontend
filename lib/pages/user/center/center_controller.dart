@@ -1,6 +1,7 @@
 import 'package:frontend/models/pet/pet.dart';
 import 'package:frontend/models/user/user.dart';
 import 'package:frontend/net/net_mixin.dart';
+import 'package:frontend/pages/user/center/center_post_controller.dart';
 import 'package:get/get.dart';
 import 'package:more/more.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -41,6 +42,8 @@ class CenterController extends GetxController with StateMixin<UserCenterData>, N
     }).catchError((error) {
       change(null, status: RxStatus.error(error.toString()));
     });
+
+    Get.lazyPut(() => CenterPostController(userId));
     super.onReady();
   }
 }
