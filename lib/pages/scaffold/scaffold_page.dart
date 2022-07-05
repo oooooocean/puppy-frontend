@@ -58,7 +58,7 @@ class _ScaffoldState extends State<ScaffoldPage> with ThemeMixin, SingleTickerPr
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
       body: TabBarView(
-          controller: _tabCtl, physics: const NeverScrollableScrollPhysics(), children: const [PostListPage(), UserPage()]),
+          controller: _tabCtl, physics: const NeverScrollableScrollPhysics(), children: const [HomePage(), UserPage()]),
     );
   }
 }

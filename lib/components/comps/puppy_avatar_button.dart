@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:frontend/components/extension/int_extension.dart';
 
 /// 从图片库中选择头像
 class PuppyAvatarButton extends StatefulWidget {
@@ -16,7 +17,6 @@ class PuppyAvatarButton extends StatefulWidget {
 
 class _PuppyAvatarState extends State<PuppyAvatarButton> with ThemeMixin, LoadImageMixin {
   AssetEntity? avatar;
-  final avatarWidth = 80.0;
 
   choseAvatar() async {
     final config = AssetPickerConfig(
@@ -32,8 +32,9 @@ class _PuppyAvatarState extends State<PuppyAvatarButton> with ThemeMixin, LoadIm
     return OutlinedButton(
         onPressed: choseAvatar,
         style: ButtonStyle(
+          padding: MaterialStateProperty.all(EdgeInsets.zero),
           shape: MaterialStateProperty.all(const CircleBorder()),
-          side: MaterialStateProperty.all(const BorderSide(color: kBorderColor, width: 3)),
+          side: MaterialStateProperty.all(BorderSide(color: kBorderColor, width: 3.toPadding)),
         ),
         child: _avatar);
   }
@@ -41,14 +42,14 @@ class _PuppyAvatarState extends State<PuppyAvatarButton> with ThemeMixin, LoadIm
   Widget get _avatar => avatar == null
       ? _defaultAvatar
       : _buildImageItem(
-          Image(image: AssetEntityImageProvider(avatar!), width: avatarWidth, height: avatarWidth, fit: BoxFit.cover));
+          Image(image: AssetEntityImageProvider(avatar!), fit: BoxFit.cover));
 
   Widget get _defaultAvatar => widget.defaultAvatar != null
-      ? _buildImageItem(buildNetImage(widget.defaultAvatar!, width: avatarWidth, height: avatarWidth))
+      ? _buildImageItem(buildNetImage(widget.defaultAvatar!))
       : const Padding(
           padding: EdgeInsets.all(20.0),
           child: Icon(Icons.camera_alt_rounded, size: 40, color: kSecondaryTextColor),
         );
 
-  Widget _buildImageItem(Widget image) => Padding(padding: const EdgeInsets.all(3.0), child: ClipOval(child: image));
+  Widget _buildImageItem(Widget image) => Padding(padding: EdgeInsets.all(3.toPadding), child: ClipOval(child: image));
 }

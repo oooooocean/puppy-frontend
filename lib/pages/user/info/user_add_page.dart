@@ -55,7 +55,7 @@ class UserAddPage<C extends UserBaseController> extends GetView<C> with Keyboard
   Widget get _introduceItem => PuppyTextField(
       focusNode: introductionNone,
       controller: controller.introductionCtl,
-      maxLength: 200,
+      maxLength: 50,
       maxLines: 4,
       onChanged: (_) => controller.update(['next']),
       hintText: '嘿, 主人, 你不想对我说点啥吗?');
@@ -86,6 +86,7 @@ class UserAddPage<C extends UserBaseController> extends GetView<C> with Keyboard
         builder: (_) => PuppyButton(
             onPressed: controller.shouldRequest ? controller.save : null,
             style: PuppyButtonStyle.style1,
+            buttonStyle: ButtonStyle(fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
             child: const Text('下一步')),
       );
 }
