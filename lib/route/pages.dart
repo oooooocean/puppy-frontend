@@ -1,6 +1,10 @@
 import 'package:frontend/debug.dart';
 import 'package:frontend/pages/login/login_controller.dart';
 import 'package:frontend/pages/login/login_page.dart';
+import 'package:frontend/pages/login/password/password_set_page.dart';
+import 'package:frontend/pages/login/password/password_set_controller.dart';
+import 'package:frontend/pages/login/password/password_reset_page.dart';
+import 'package:frontend/pages/login/password/password_reset_controller.dart';
 import 'package:frontend/pages/post/list/post_list_controller.dart';
 import 'package:frontend/pages/scaffold/scaffold_controller.dart';
 import 'package:frontend/pages/scaffold/scaffold_page.dart';
@@ -15,8 +19,16 @@ final appRoutes = [
   GetPage(name: AppRoutes.debug, page: () => const DebugPage()),
   GetPage(
       name: AppRoutes.login,
-      page: () => LoginPage(),
+      page: () => const LoginPage(),
       binding: BindingsBuilder(() => Get.lazyPut(() => LoginController()))),
+  GetPage(
+      name: AppRoutes.login,
+      page: () => PasswordSetPage(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => PasswordSetController()))),
+  GetPage(
+      name: AppRoutes.login,
+      page: () => PasswordResetPage(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => PasswordResetController()))),
   GetPage(
       name: AppRoutes.scaffold,
       page: () => const ScaffoldPage(),
