@@ -29,9 +29,9 @@ class PostReportPage extends GetView<PostReportController> {
                   ..._detailsItem,
                   _titleItem(false, controller.titles[2]),
                   _descriptionItem,
-                  _titleItem(false, controller.titles[3]),
-                  _spaceHeightWidget,
-                  _chosePhotoItem,
+                  // _titleItem(false, controller.titles[3]),
+                  // _spaceHeightWidget,
+                  // _chosePhotoItem,
                 ],
               ),
             ),
@@ -57,6 +57,7 @@ class PostReportPage extends GetView<PostReportController> {
     }
   }
 
+  /// 选择举报理由
   Widget _choiceChipTitleItem() =>Obx(() => Padding(
     padding: EdgeInsets.symmetric(vertical: 15.toPadding),
     child: Wrap(
@@ -82,6 +83,8 @@ class PostReportPage extends GetView<PostReportController> {
       }),
     ),
   ));
+
+  /// 具体举报理由
   List<Widget> get _detailsItem => [
     Obx(() =>  controller.reasonIndex.value < 100 ?  _titleItem(true, controller.titles[1]) : Container()),
     Obx(() =>  controller.reasonIndex.value < 100 ? _choiceChipDetailItem(controller.reasonIndex.value ) : Container()),
@@ -126,7 +129,8 @@ class PostReportPage extends GetView<PostReportController> {
         controller.assets.value = assets;
         controller.update(['publish']);
       });
- Widget get _submitItem =>  Obx(() => PuppyButton(
+  /// 提交按钮
+  Widget get _submitItem =>  Obx(() => PuppyButton(
        onPressed: controller.shouldNext.isTrue ? controller.submitOnTap : null,
        style: PuppyButtonStyle.style1,
        child: const Text('提交', style: TextStyle(fontSize: kButtonFont, fontWeight: FontWeight.w600))),);

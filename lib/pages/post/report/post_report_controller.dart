@@ -1,11 +1,16 @@
 
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
+import 'package:frontend/net/net_mixin.dart';
 import 'package:get/get.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
-class PostReportController extends GetxController {
+import '../../../models/post/post.dart';
+
+class PostReportController extends GetxController with NetMixin {
 
   List<Map> reasons = [{'title':"内容违规",'subTitles':
   ['低俗色情','抄袭他人作品','涉嫌非法集资','广告软文'
@@ -33,15 +38,16 @@ class PostReportController extends GetxController {
  var assets = RxList<AssetEntity>();
  final reportDescCtr = TextEditingController();
 
+ /// 举报理由选择
   reportReasonSelect(int index) {
     if(index != reasonIndex.value) {
       reasonIndex.value = index;
      List subTitles = reasons[index]['subTitles'];
       reasonDetailIndex.value = subTitles.length == 1 ? 0 : 100;
-      selectedColor = const Color(0x81f89502);
       shouldNext.value = subTitles.length== 1 ? true :false;
     }
   }
+  /// 具体理由选择
   reportReasonDetailSelect(int index) {
      if(index != reasonDetailIndex.value) {
        reasonDetailIndex.value = index;
@@ -49,9 +55,23 @@ class PostReportController extends GetxController {
      }
   }
   submitOnTap() {
+    
 
   }
-
+  /// 举报
+  Future<bool> report(Post post) {
+    final completer = Completer<bool>();
+    final reason = reasons[reasonIndex.value]['title'];
+    final detail = reasons[reasonIndex.value]['subTitles'][reasonDetailIndex.value] as String ;
+    final desc =  reportDescCtr.text;
+    request(
+        api: () => this.post('post/${post.id}/complain/', {'description':'${reason-detail},$desc'}, (data) => data),
+        success: (_) {
+          completer.complete(true);
+        },
+        fail: (_) => completer.complete(false));
+    return completer.future;
+  }
 
 
 
