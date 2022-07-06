@@ -50,7 +50,6 @@ final postRoutes = [
           BindingsBuilder(() => Get.lazyPut(() => MediaBrowserController(Get.arguments.first, Get.arguments.second)))),
   GetPage(
       name: AppRoutes.postReport,
-      page: () =>  PostReportPage(),
-      binding:
-      BindingsBuilder(() => Get.lazyPut(() => PostReportController()))),
+      page: () => const PostReportPage(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => PostReportController(Get.arguments)))),
 ];

@@ -102,6 +102,7 @@ mixin PostActionMixin<T> on GetxController, NetMixin, RefreshMixin<T> {
 
     switch (result) {
       case 0:
+        Get.toNamed(AppRoutes.postReport, arguments: post.id);
         break;
       case 1:
         break;

@@ -4,7 +4,7 @@ import 'package:frontend/pages/user/setting/setting_controller.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
-import 'package:frontend/components/extension/int_extension.dart';
+
 class SettingPage extends GetView<SettingController> {
   const SettingPage({Key? key}) : super(key: key);
 
