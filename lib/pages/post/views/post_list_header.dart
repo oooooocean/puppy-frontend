@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:frontend/components/comps/circle_avatar_button.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/post/post.dart';
+import 'package:frontend/pages/post/mixin/post_action_mixin.dart';
 import 'package:frontend/pages/post/mixin/post_ui_mixin.dart';
-import 'package:frontend/pages/post/list/post_list_controller.dart';
+import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 
-class PostListHeader extends GetView<PostListController> with PostUIMixin {
+class PostListHeader<C extends PostActionMixin> extends GetView<C> with PostUIMixin {
   final Post post;
 
   const PostListHeader({Key? key, required this.post}) : super(key: key);
@@ -23,10 +24,19 @@ class PostListHeader extends GetView<PostListController> with PostUIMixin {
           SizedBox(width: 5.toPadding),
           Text(post.ownerInfo.nickname, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
           const Spacer(),
-          Row(mainAxisSize: MainAxisSize.min, children: [_followItem, _moreItem])
+          _buildActionBar
         ],
       ),
     );
+  }
+
+  Widget get _buildActionBar {
+    switch (Get.currentRoute) {
+      case AppRoutes.userCenter:
+        return _moreItem;
+      default:
+        return Row(mainAxisSize: MainAxisSize.min, children: [_followItem, _moreItem]);
+    }
   }
 
   Widget get _avatarItem {

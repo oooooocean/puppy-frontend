@@ -6,8 +6,11 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/media.dart';
 import 'package:frontend/models/paging_data.dart';
 import 'package:frontend/models/post/post.dart';
+import 'package:frontend/models/post/post_topic.dart';
+import 'package:frontend/models/user/user.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/route/pages.dart';
+import 'package:frontend/services/launch_service.dart';
 import 'package:get/get.dart';
 import 'package:more/more.dart';
 
@@ -27,6 +30,18 @@ mixin PostActionMixin<T> on GetxController, NetMixin, RefreshMixin<T> {
     Get.toNamed(AppRoutes.postDetail, arguments: post);
   }
 
+  /// 关注的人
+  onTapNotice(BaseUser user) {}
+
+  onTapFollow(Post post) => UnimplementedError('子类实现');
+
+  /// 主题
+  onTapTopic(Post post, PostTopic topic) {}
+
+  /// 点击头像
+  onTapAvatar(Post post) {
+    pushToPersonPage(post.owner);
+  }
 
   /// 图片, 视频等
   pushToMediaPage(List<Media> medias, int index) {
@@ -35,17 +50,8 @@ mixin PostActionMixin<T> on GetxController, NetMixin, RefreshMixin<T> {
 
   /// 个人主页
   pushToPersonPage(int ownerId) {
-    Get.toNamed(AppRoutes.userCenter, arguments: ownerId);
-  }
-
-  /// 关注
-  Future<bool> follow(int followId) {
-    final completer = Completer<bool>();
-    request(
-        api: () => post('follow/', {'follow_id': followId}, (data) => data),
-        success: (_) => completer.complete(true),
-        fail: (_) => completer.complete(false));
-    return completer.future;
+    final isLoginUser = LaunchService.shared.user!.id == ownerId;
+    Get.toNamed(isLoginUser ? AppRoutes.loginUserCenter : AppRoutes.userCenter, arguments: ownerId);
   }
 
   /// 点赞
