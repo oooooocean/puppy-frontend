@@ -26,7 +26,7 @@ enum CommentFilter {
   }
 }
 
-class PostDetailController extends GetxController with NetMixin, RefreshMixin<PostComment>, PostActionMixin {
+class PostDetailController extends GetxController with NetMixin, RefreshMixin<PostComment>, PostActionMixin<PostComment> {
   final Post mPost;
 
   PostDetailController(this.mPost);

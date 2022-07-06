@@ -33,6 +33,7 @@ class UserCenterHeader extends GetView<CenterController> with LoadImageMixin {
                 color: Colors.white,
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(radius), topRight: Radius.circular(radius))),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [_actionBar, _nicknameItem, _descriptionItem, _petsItem],
             ),
@@ -93,14 +94,23 @@ class UserCenterHeader extends GetView<CenterController> with LoadImageMixin {
         ],
       );
 
-  Widget get _descriptionItem => Text(controller.user.info!.introduction,
-      maxLines: 2, style: const TextStyle(color: kSecondaryTextColor2, fontSize: kSmallFont));
+  Widget get _descriptionItem => Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      _buildTitle('简介'),
+      const SizedBox(width: kDefaultFont),
+      Expanded(
+        child: Text(controller.user.info!.introduction,
+            maxLines: 2, style: const TextStyle(color: kSecondaryTextColor2, fontSize: kSmallFont)),
+      )
+    ],
+  );
 
   Widget get _petsItem => Row(
         children: [
-          const Text('宠物', style: TextStyle(fontSize: 10, color: kSecondaryTextColor, backgroundColor: kShapeColor)),
+          _buildTitle('宠物'),
           const SizedBox(width: kDefaultFont),
-          ...controller.pets.map(_buildPetImage)
+          ...(controller.pets.isEmpty ? [const Text('ta连个宠物都没有, 太可怜了~', style: TextStyle(fontSize: kSmallFont),)] : controller.pets.map(_buildPetImage))
         ],
       );
 
@@ -132,4 +142,6 @@ class UserCenterHeader extends GetView<CenterController> with LoadImageMixin {
 
   Widget _buildPetImage(Pet pet) =>
       CircleAvatarButton(url: pet.avatar.to200PxImageUrl, size: 24.toPadding, onTap: () => controller.onTapPet(pet));
+
+  Widget _buildTitle(String text) => Text(text, style: const TextStyle(fontSize: 10, color: kSecondaryTextColor, backgroundColor: kShapeColor));
 }

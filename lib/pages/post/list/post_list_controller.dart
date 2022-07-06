@@ -8,22 +8,7 @@ import 'package:frontend/pages/post/mixin/post_action_mixin.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 
-class PostListController extends GetxController with RefreshMixin<Post>, NetMixin, PostActionMixin {
-  /// 刷新
-  onRefresh() {
-    startRefresh(RefreshType.refresh).then((value) => update());
-  }
-
-  /// 加载更多
-  onLoading() {
-    startRefresh(RefreshType.loadMore).then((value) => update());
-  }
-
-  /// 点击帖子
-  onTapPost(Post post) {
-    Get.toNamed(AppRoutes.postDetail, arguments: post);
-  }
-
+class PostListController extends GetxController with RefreshMixin<Post>, NetMixin, PostActionMixin<Post> {
   /// 点击头像
   onTapAvatar(Post post) {
     pushToPersonPage(post.owner);

@@ -1,15 +1,33 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/components/mixins/refresh_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/media.dart';
+import 'package:frontend/models/paging_data.dart';
 import 'package:frontend/models/post/post.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:more/more.dart';
 
-mixin PostActionMixin on NetMixin {
+mixin PostActionMixin<T> on GetxController, NetMixin, RefreshMixin<T> {
+  /// 刷新
+  onRefresh() {
+    return startRefresh(RefreshType.refresh).then((value) => update());
+  }
+
+  /// 加载更多
+  onLoading() {
+    return startRefresh(RefreshType.loadMore).then((value) => update());
+  }
+
+  /// 点击帖子
+  onTapPost(Post post) {
+    Get.toNamed(AppRoutes.postDetail, arguments: post);
+  }
+
+
   /// 图片, 视频等
   pushToMediaPage(List<Media> medias, int index) {
     Get.toNamed(AppRoutes.mediaBrowser, arguments: Tuple2(medias, index));
