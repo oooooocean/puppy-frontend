@@ -55,7 +55,7 @@ mixin NetMixin {
     return _parse(res, decoder);
   }
 
-  Future<T> delete<T>(String uri, Map<String, dynamic> query, Decoder<T> decoder) async {
+  Future<T> delete<T>(String uri, Map<String, dynamic>? query, Decoder<T> decoder) async {
     final res = (await net.delete<NetResponse>(uri, query: query, decoder: net.defaultDecoder)).body;
     return _parse(res, decoder);
   }

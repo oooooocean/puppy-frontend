@@ -49,7 +49,7 @@ class _PostDescriptionState extends State<PostDescriptionTile> {
     final notices = [widget.notices, noticeGestures]
         .zip()
         .map((e) => TextSpan(
-            text: '@${(e[0] as BaseUser).info!.nickname} ',
+            text: '@${(e[0] as BaseUser).info.nickname} ',
             recognizer: e[1] as TapGestureRecognizer,
             style: const TextStyle(color: kBlueColor, fontSize: kSmallFont)))
         .toList();

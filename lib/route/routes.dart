@@ -15,6 +15,7 @@ abstract class AppRoutes {
   static const userSetting = '/user/setting';
   static const feedback = '/user/setting/feedback';
   static const userCenter = '/user/center';
+  static const loginUserCenter = '/loginUser/center';
 
   static const petAdd = '/pet/add';
   static const petCategory = '/pet/category';

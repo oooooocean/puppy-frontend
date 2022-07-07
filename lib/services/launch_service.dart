@@ -12,8 +12,7 @@ class LaunchService with NetMixin {
   /// 是否登录
   bool isLogin = false;
 
-  User? user;
-
+  LoginUser? user;
 
   AppConfigModel configModel = AppConfigModel(
       maxCommentDescription:'200' ,/// 最大评论字数
@@ -35,7 +34,7 @@ class LaunchService with NetMixin {
 
   Future init() async {
     isLogin = (await SharedPreferences.getInstance()).containsKey('token');
-    user = isLogin ? (await User.cached())! : null;
+    user = isLogin ? (await LoginUser.cached())! : null;
     appConfig();
 
   }
@@ -48,13 +47,13 @@ class LaunchService with NetMixin {
   }
 
   /// 登录
-  void login(User user, String token) {
+  void login(LoginUser user, String token) {
     updateUser(user);
     StoreToken.setToken(token);
   }
 
   /// 更新用户
-  void updateUser(User user) {
+  void updateUser(LoginUser user) {
     user.save();
     this.user = user;
   }

@@ -57,8 +57,8 @@ class IdolListPage extends GetView<IdolListController> {
     return ListTile(
         onTap: () => Get.back(result: user),
         contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-        leading: CircleAvatarButton(onTap: () {}, url: user.info!.avatarUrl),
-        title: Text(user.info!.nickname),
+        leading: CircleAvatarButton(onTap: () {}, url: user.info.avatarUrl),
+        title: Text(user.info.nickname),
         visualDensity: VisualDensity.compact,
         trailing: PuppyButton(
             style: PuppyButtonStyle.style3,

@@ -57,20 +57,6 @@ class PasswordResetController extends GetxController with NetMixin {
   }
 
   login() {
-    success(Tuple2<String, User> result) {
-      LaunchService.shared.login(result.second, result.first);
-      final next = LaunchService.shared.isCompletedRegisterFlow;
-      next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
-    }
-    request<Tuple2<String, User>>(
-        api: () =>
-            post('user/login/', {'phone': phoneCtl.text, 'code': codeCtl.text},
-                    (data) {
-                  final token = data['token'];
-                  final user = User.fromJson(data['user']);
-                  return Tuple2(token, user);
-                }),
-        success: success);
   }
 
   loginWithAppleId() {}

@@ -26,7 +26,7 @@ enum CommentFilter {
   }
 }
 
-class PostDetailController extends GetxController with NetMixin, RefreshMixin<PostComment>, PostActionMixin {
+class PostDetailController extends GetxController with NetMixin, RefreshMixin<PostComment>, PostActionMixin<PostComment> {
   final Post mPost;
 
   PostDetailController(this.mPost);
@@ -34,9 +34,10 @@ class PostDetailController extends GetxController with NetMixin, RefreshMixin<Po
   var commentFilter = CommentFilter.timeDesc.obs;
 
   /// 关注
-  onTapFollow() {
+  @override
+  onTapFollow(Post post) {
     request(
-        api: () => post('follow/', {'follow_id': mPost.owner}, (data) => data),
+        api: () => this.post('follow/', {'follow_id': mPost.owner}, (data) => data),
         success: (_) {
           mPost.social.hasFollow.value = true;
         });
@@ -46,7 +47,8 @@ class PostDetailController extends GetxController with NetMixin, RefreshMixin<Po
   onTapMore() {}
 
   /// 话题
-  onTapTopic(PostTopic topic) {}
+  @override
+  onTapTopic(Post post, PostTopic topic) {}
 
   /// 评论
   onTapComment() {}
@@ -60,6 +62,7 @@ class PostDetailController extends GetxController with NetMixin, RefreshMixin<Po
   onTapCollect() {}
 
   /// 关注的人
+  @override
   onTapNotice(BaseUser user) {}
 
   onCommentToComment(PostComment comment) {}

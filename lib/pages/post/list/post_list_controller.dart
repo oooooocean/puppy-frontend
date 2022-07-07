@@ -5,33 +5,15 @@ import 'package:frontend/models/post/post_topic.dart';
 import 'package:frontend/models/user/user.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/pages/post/mixin/post_action_mixin.dart';
+import 'package:frontend/pages/social/social_action_mixin.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 
-class PostListController extends GetxController with RefreshMixin<Post>, NetMixin, PostActionMixin {
-  /// 刷新
-  onRefresh() {
-    startRefresh(RefreshType.refresh).then((value) => update());
-  }
-
-  /// 加载更多
-  onLoading() {
-    startRefresh(RefreshType.loadMore).then((value) => update());
-  }
-
-  /// 点击帖子
-  onTapPost(Post post) {
-    Get.toNamed(AppRoutes.postDetail, arguments: post);
-  }
-
-  /// 点击头像
-  onTapAvatar(Post post) {
-    pushToPersonPage(post.owner);
-  }
-
+class PostListController extends GetxController with RefreshMixin<Post>, NetMixin, PostActionMixin<Post>, SocialActionMixin {
   /// 关注
+  @override
   onTapFollow(Post post) async {
-    final result = await follow(post.owner);
+    final result = await follow(followId: post.owner, isCancel: false);
     if (!result) return;
     final needUpdatePosts = items.where((element) => element.owner == post.owner).map((e) {
       e.social.hasFollow.value = true;
@@ -54,12 +36,6 @@ class PostListController extends GetxController with RefreshMixin<Post>, NetMixi
   onTapPraise(Post post) async {
     await praise(post);
   }
-
-  /// 主题
-  onTapTopic(Post post, PostTopic topic) {}
-
-  /// 关注的人
-  onTapNotice(BaseUser user) {}
 
   @override
   Future<PagingData<Post>> get refreshRequest => get('post/', (data) => PagingData.fromJson(data, Post.fromJson),
