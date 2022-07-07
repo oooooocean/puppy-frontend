@@ -26,7 +26,6 @@ class LaunchService with NetMixin {
   /// 用户基本信息 -> 至少一个宠物
   String? get isCompletedRegisterFlow {
     assert(user != null, '必须先登录, 才能进入注册流程');
-    if (user!.hasPassword == false) return AppRoutes.loginSetPassword;
     if (user!.info == null) return AppRoutes.userInfoAdd;
     if (user!.petCount == 0) return AppRoutes.petAdd;
     return null;

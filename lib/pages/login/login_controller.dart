@@ -78,6 +78,7 @@ class LoginController extends GetxController with NetMixin {
   login() {
     success(Tuple2<String, LoginUser> result) {
       LaunchService.shared.login(result.second, result.first);
+      if (result.second.hasPassword == false) return Get.toNamed(AppRoutes.loginSetPassword);
       final next = LaunchService.shared.isCompletedRegisterFlow;
       next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
     }

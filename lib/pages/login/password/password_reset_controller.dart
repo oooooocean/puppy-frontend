@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/components/mixins/validator.dart';
-import 'package:frontend/models/user/user.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:frontend/services/launch_service.dart';
@@ -31,13 +30,13 @@ class PasswordResetController extends GetxController with NetMixin {
 
   bool get shouldCodeLogin =>
       codeCtl.text.length == 6 &&
-          Validator.phone.verify(phoneCtl.text) &&
-          selectedClause.value;
+      Validator.phone.verify(phoneCtl.text) &&
+      selectedClause.value;
 
   bool get shouldPwdLogin =>
       pwdCtl.text.length >= 6 &&
-          Validator.phone.verify(phoneCtl.text) &&
-          selectedClause.value;
+      Validator.phone.verify(phoneCtl.text) &&
+      selectedClause.value;
 
   bool get shouldFetchCode =>
       Validator.phone.verify(phoneCtl.text) && !(timer?.isActive ?? false);
@@ -56,8 +55,7 @@ class PasswordResetController extends GetxController with NetMixin {
     });
   }
 
-  login() {
-  }
+  login() {}
 
   loginWithAppleId() {}
 
