@@ -13,14 +13,16 @@ class SettingController extends GetxController with NetMixin {
           LaunchService.shared.restart();
         });
   }
+
   feedback() {
     FeedbackStore.shouldFeedback().then((value) {
-      if(value) {
+      if (value) {
         Get.toNamed(AppRoutes.feedback);
-      }else {
+      } else {
         EasyLoading.showToast("您今天已经反馈过了，请明天再来哦。");
       }
-
     });
   }
+
+  jumpToResetPassword() => Get.toNamed(AppRoutes.loginResetPassword);
 }
