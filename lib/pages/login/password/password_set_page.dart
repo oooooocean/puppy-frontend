@@ -67,6 +67,7 @@ class PasswordSetPage extends GetView<PasswordSetController>
   Widget get _passwordItem => TextField(
         focusNode: passwordNode,
         controller: controller.pwdCtl,
+        obscureText: true,
         keyboardType: TextInputType.visiblePassword,
         decoration: const InputDecoration(hintText: '至少8个字符，且包含数字和字母👇'),
         onChanged: (_) =>
@@ -77,6 +78,7 @@ class PasswordSetPage extends GetView<PasswordSetController>
         controller: controller.confirmCtl,
         focusNode: confirmNode,
         keyboardType: TextInputType.visiblePassword,
+        obscureText: true,
         decoration: const InputDecoration(hintText: '再次确认👇'),
         onChanged: (_) =>
             controller.saveEnable.value = controller.shouldSavePassword,

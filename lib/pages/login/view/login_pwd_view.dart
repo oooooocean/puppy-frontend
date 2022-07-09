@@ -69,7 +69,8 @@ class LoginPwdView extends GetView<LoginController>
   Widget get _codeItem => TextField(
         controller: controller.pwdCtl,
         focusNode: codeNode,
-        keyboardType: TextInputType.phone,
+        obscureText: true,
+        keyboardType: TextInputType.visiblePassword,
         decoration: const InputDecoration(hintText: '密码填在这里👇'),
         onChanged: (_) =>
             controller.loginEnable.value = controller.shouldPwdLogin,
