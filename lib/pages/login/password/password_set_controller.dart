@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:frontend/components/mixins/validator.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/route/pages.dart';
@@ -15,6 +18,8 @@ class PasswordSetController extends GetxController with NetMixin {
   bool get shouldSavePassword =>
       pwdCtl.text == confirmCtl.text && Validator.password.verify(pwdCtl.text);
 
+  final fromOther = Get.previousRoute != AppRoutes.login;
+
   skip() {
     final next = LaunchService.shared.isCompletedRegisterFlow;
     next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
@@ -23,14 +28,19 @@ class PasswordSetController extends GetxController with NetMixin {
   save() {
     final user = LaunchService.shared.user;
     assert(user != null, '必须登录');
-    success() {
+    success(_) {
+      EasyLoading.showSuccess("设置成功");
+      if (fromOther) {
+        Get.back();
+        return;
+      }
       final next = LaunchService.shared.isCompletedRegisterFlow;
       next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
     }
 
-    request<void>(
-        api: () => post(
-            'user/${user!.id}/password', {'password': pwdCtl.text}, (data) {}),
-        success: success());
+    request<bool>(
+        api: () => post('user/${user!.id}/password', {'password': pwdCtl.text},
+            (data) => true),
+        success: success);
   }
 }

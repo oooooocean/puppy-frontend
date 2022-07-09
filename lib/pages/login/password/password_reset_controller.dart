@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:frontend/components/mixins/validator.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/services/launch_service.dart';
@@ -18,13 +19,12 @@ class PasswordResetController extends GetxController with NetMixin {
   save() {
     final user = LaunchService.shared.user;
     assert(user != null, '必须登录');
-    success() {
-      Get.back();
-    }
-
-    request<void>(
+    request<bool>(
         api: () => post('user/${user!.id}/password/reset/',
-            {'old': oldPwdCtl.text, "new": newPwdCtl.text}, (data) {}),
-        success: success());
+            {'old': oldPwdCtl.text, "new": newPwdCtl.text}, (data) => true),
+        success: (_) {
+          EasyLoading.showSuccess("重置成功");
+          Get.back();
+        });
   }
 }
