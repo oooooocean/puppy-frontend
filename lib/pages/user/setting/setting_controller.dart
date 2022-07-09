@@ -24,5 +24,8 @@ class SettingController extends GetxController with NetMixin {
     });
   }
 
+  bool get hasPassword => LaunchService.shared.user!.hasPassword;
+
   jumpToResetPassword() => Get.toNamed(AppRoutes.loginResetPassword);
+  jumpToSetPassword() => Get.toNamed(AppRoutes.loginSetPassword);
 }

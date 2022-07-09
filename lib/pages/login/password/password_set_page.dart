@@ -23,12 +23,14 @@ class PasswordSetPage extends GetView<PasswordSetController>
       appBar: AppBar(
         leading: fromOther ? null : const Text(""),
         title: const Text('设置密码'),
-        actions: [
-          TextButton(
-              onPressed: () => controller.skip(),
-              child: const Text('跳过',
-                  style: TextStyle(color: kSecondaryTextColor)))
-        ],
+        actions: fromOther
+            ? null
+            : [
+                TextButton(
+                    onPressed: () => controller.skip(),
+                    child: const Text('跳过',
+                        style: TextStyle(color: kSecondaryTextColor)))
+              ],
       ),
       body: WillPopScope(
         child: KeyboardActions(
