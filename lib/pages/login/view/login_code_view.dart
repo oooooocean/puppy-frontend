@@ -75,7 +75,7 @@ class LoginCodeView extends GetView<LoginController>
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(hintText: '验证码填在这里👇'),
             onChanged: (_) =>
-                controller.loginEnable.value = controller.shouldCodeLogin,
+                controller.loginEnable.value = controller.shouldLogin,
           ),
         ),
         SizedBox(
@@ -130,8 +130,7 @@ class LoginCodeView extends GetView<LoginController>
                       value: controller.selectedClause.value,
                       onChanged: (value) {
                         controller.selectedClause.value = value ?? false;
-                        controller.loginEnable.value =
-                            controller.shouldCodeLogin;
+                        controller.loginEnable.value = controller.shouldLogin;
                       },
                       shape: const CircleBorder(),
                       activeColor: kOrangeColor,

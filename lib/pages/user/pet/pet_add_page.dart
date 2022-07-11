@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/app.dart';
 import 'package:frontend/components/comps/comps.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/gender.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
 import 'package:frontend/route/pages.dart';
+import 'package:frontend/services/launch_service.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
@@ -22,8 +24,11 @@ class PetAddPage extends GetView<PetAddController>
 
   @override
   Widget build(BuildContext context) {
+    bool noBack = Get.previousRoute == AppRoutes.login ||
+        Get.previousRoute == AppRoutes.userInfoAdd;
     return Scaffold(
       appBar: AppBar(
+        leading: noBack ? const Text("") : null,
         title: const Text('添加宠物'),
         actions: [
           TextButton(
@@ -32,9 +37,11 @@ class PetAddPage extends GetView<PetAddController>
                   style: TextStyle(color: kSecondaryTextColor)))
         ],
       ),
-      body: controller.obx((_) => _body,
-          onLoading: const Center(child: es.LoadingIndicator()),
-          onError: (_) => Text(_ ?? '')),
+      body: WillPopScope(
+          onWillPop: () async => !noBack,
+          child: controller.obx((_) => _body,
+              onLoading: const Center(child: es.LoadingIndicator()),
+              onError: (_) => Text(_ ?? ''))),
     );
   }
 
@@ -43,7 +50,10 @@ class PetAddPage extends GetView<PetAddController>
           padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
           child: Column(
             children: [
-              Divider(color: kBackgroundColor, height: 25.toPadding, thickness: 10.toPadding),
+              Divider(
+                  color: kBackgroundColor,
+                  height: 25.toPadding,
+                  thickness: 10.toPadding),
               Expanded(
                   child: KeyboardActions(
                       config:
@@ -149,7 +159,8 @@ class PetAddPage extends GetView<PetAddController>
         builder: (_) => PuppyButton(
             onPressed: controller.shouldRequest ? controller.save : null,
             style: PuppyButtonStyle.style1,
-            buttonStyle: ButtonStyle(fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
+            buttonStyle: ButtonStyle(
+                fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
             child: const Text('下一步')),
       );
 }

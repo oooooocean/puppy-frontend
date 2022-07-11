@@ -39,7 +39,7 @@ class PasswordSetController extends GetxController with NetMixin {
     }
 
     request<bool>(
-        api: () => post('user/${user!.id}/password', {'password': pwdCtl.text},
+        api: () => post('user/${user!.id}/password/', {'password': pwdCtl.text},
             (data) => true),
         success: success);
   }

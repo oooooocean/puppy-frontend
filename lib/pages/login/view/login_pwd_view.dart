@@ -62,8 +62,7 @@ class LoginPwdView extends GetView<LoginController>
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         decoration: const InputDecoration(hintText: '铲屎的, 手机号填在这里👇'),
-        onChanged: (_) =>
-            controller.loginEnable.value = controller.shouldPwdLogin,
+        onChanged: (_) => controller.loginEnable.value = controller.shouldLogin,
       );
 
   Widget get _codeItem => TextField(
@@ -72,8 +71,7 @@ class LoginPwdView extends GetView<LoginController>
         obscureText: true,
         keyboardType: TextInputType.visiblePassword,
         decoration: const InputDecoration(hintText: '密码填在这里👇'),
-        onChanged: (_) =>
-            controller.loginEnable.value = controller.shouldPwdLogin,
+        onChanged: (_) => controller.loginEnable.value = controller.shouldLogin,
       );
 
   Widget get _switchItem => Row(children: [
@@ -108,8 +106,7 @@ class LoginPwdView extends GetView<LoginController>
                       value: controller.selectedClause.value,
                       onChanged: (value) {
                         controller.selectedClause.value = value ?? false;
-                        controller.loginEnable.value =
-                            controller.shouldPwdLogin;
+                        controller.loginEnable.value = controller.shouldLogin;
                       },
                       shape: const CircleBorder(),
                       activeColor: kOrangeColor,

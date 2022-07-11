@@ -34,15 +34,20 @@ class LoginController extends GetxController with NetMixin {
   /// 验证码定时器
   Timer? timer;
 
-  bool get shouldCodeLogin =>
-      codeCtl.text.length == 6 &&
-      Validator.phone.verify(phoneCtl.text) &&
-      selectedClause.value;
-
-  bool get shouldPwdLogin =>
-      pwdCtl.text.length >= 6 &&
-      Validator.phone.verify(phoneCtl.text) &&
-      selectedClause.value;
+  bool get shouldLogin {
+    switch (pageState.value) {
+      case LoginPageState.code:
+        return codeCtl.text.length == 6 &&
+            Validator.phone.verify(phoneCtl.text) &&
+            selectedClause.value;
+      case LoginPageState.password:
+        return Validator.password.verify(pwdCtl.text) &&
+            Validator.phone.verify(phoneCtl.text) &&
+            selectedClause.value;
+      default:
+        return false;
+    }
+  }
 
   bool get shouldFetchCode =>
       Validator.phone.verify(phoneCtl.text) && !(timer?.isActive ?? false);
@@ -50,15 +55,8 @@ class LoginController extends GetxController with NetMixin {
   var pageState = LoginPageState.code.obs;
 
   void switchLoginPageState(LoginPageState state) {
-    switch (state) {
-      case LoginPageState.code:
-        loginEnable.value = shouldCodeLogin;
-        break;
-      case LoginPageState.password:
-        loginEnable.value = shouldPwdLogin;
-        break;
-    }
     pageState.value = state;
+    loginEnable.value = shouldLogin;
   }
 
   fetchCode() {
@@ -78,7 +76,9 @@ class LoginController extends GetxController with NetMixin {
   login() {
     success(Tuple2<String, LoginUser> result) {
       LaunchService.shared.login(result.second, result.first);
-      if (result.second.hasPassword == false) return Get.toNamed(AppRoutes.loginSetPassword);
+      if (result.second.hasPassword == false) {
+        return Get.toNamed(AppRoutes.loginSetPassword);
+      }
       final next = LaunchService.shared.isCompletedRegisterFlow;
       next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
     }
