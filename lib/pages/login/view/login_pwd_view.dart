@@ -10,12 +10,12 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-class LoginPwdView extends GetView<LoginController>
+class LoginPasswordView extends GetView<LoginController>
     with ThemeMixin, LoadImageMixin, KeyboardAllocator {
   final photoNode = FocusNode();
   final codeNode = FocusNode();
 
-  LoginPwdView({Key? key}) : super(key: key);
+  LoginPasswordView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +65,7 @@ class LoginPwdView extends GetView<LoginController>
         onChanged: (_) => controller.loginEnable.value = controller.shouldLogin,
       );
 
+  //TODO: onChanged 重复代码 放到控制器
   Widget get _codeItem => TextField(
         controller: controller.pwdCtl,
         focusNode: codeNode,
@@ -74,10 +75,11 @@ class LoginPwdView extends GetView<LoginController>
         onChanged: (_) => controller.loginEnable.value = controller.shouldLogin,
       );
 
+  //TODO: 使用Align组件
   Widget get _switchItem => Row(children: [
         TextButton(
             onPressed: () =>
-                controller.switchLoginPageState(LoginPageState.code),
+                controller.switchLoginPageState(LoginStyle.code),
             child: const Text("验证码登录"))
       ]);
 

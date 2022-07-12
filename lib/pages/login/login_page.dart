@@ -6,21 +6,17 @@ import 'package:get/get.dart';
 
 class LoginPage extends GetView<LoginController> {
   const LoginPage({Key? key}) : super(key: key);
-
+  
+  //TODO: 刷新整个页面, 重复代码
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 60),
-      child: Obx(() {
-        switch (controller.pageState.value) {
-          case LoginPageState.code:
-            return LoginCodeView();
-          case LoginPageState.password:
-            return LoginPwdView();
-          default:
-            return LoginCodeView();
-        }
-      }),
-    ),
-  );
+        body: Obx(() {
+          switch (controller.loginStyle.value) {
+            case LoginStyle.code:
+              return LoginCodeView();
+            case LoginStyle.password:
+              return LoginPasswordView();
+          }
+        }),
+      );
 }

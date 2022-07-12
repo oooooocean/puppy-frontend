@@ -9,8 +9,9 @@ import 'package:frontend/components/extension/int_extension.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
 
-class PasswordSetPage extends GetView<PasswordSetController>
-    with ThemeMixin, LoadImageMixin, KeyboardAllocator {
+//TODO: UI
+//TODO: 1. 使用枚举注入 2. 不同route来处理
+class PasswordSetPage extends GetView<PasswordSetController> with ThemeMixin, LoadImageMixin, KeyboardAllocator {
   final passwordNode = FocusNode();
   final confirmNode = FocusNode();
 
@@ -18,48 +19,49 @@ class PasswordSetPage extends GetView<PasswordSetController>
 
   @override
   Widget build(BuildContext context) {
-    final fromOther = Get.previousRoute != AppRoutes.login;
     return Scaffold(
-      appBar: AppBar(
-        leading: fromOther ? null : const Text(""),
-        title: const Text('设置密码'),
-        actions: fromOther
-            ? null
-            : [
-                TextButton(
-                    onPressed: () => controller.skip(),
-                    child: const Text('跳过',
-                        style: TextStyle(color: kSecondaryTextColor)))
-              ],
-      ),
+      appBar: _appBar,
       body: WillPopScope(
         child: KeyboardActions(
           disableScroll: false,
           config: doneKeyboardConfig([passwordNode, confirmNode]),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  buildAssetImage('logo', width: Get.width * 0.35),
-                  _inputContainer,
-                  Column(children: [_saveItem])
-                ]),
+            child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+              buildAssetImage('logo', width: Get.width * 0.35),
+              _inputContainer,
+              //TODO: -
+              Column(children: [_saveItem])
+            ]),
           ),
         ),
-        onWillPop: () async => fromOther,
+        onWillPop: () async => Get.previousRoute != AppRoutes.login,
       ),
     );
   }
 
+  AppBar get _appBar {
+    //TODO: 放到控制器
+    //TODO: automaticallyImplyLeading, WillPopScope
+    final fromOther = Get.previousRoute != AppRoutes.login;
+    return AppBar(
+      leading: fromOther ? null : const Text(""),
+      title: const Text('设置密码'),
+      actions: fromOther
+          ? null
+          : [
+              TextButton(
+                  onPressed: controller.skip, child: const Text('跳过', style: TextStyle(color: kSecondaryTextColor)))
+            ],
+    );
+  }
+
+  //TODO: 细节
   Widget get _inputContainer => Container(
         padding: EdgeInsets.all(15.toPadding),
-        decoration: const BoxDecoration(
-            color: kShapeColor,
-            borderRadius: BorderRadius.all(Radius.circular(5))),
+        decoration: const BoxDecoration(color: kShapeColor, borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
           children: [_passwordItem, _confirmItem],
         ),
       );
@@ -70,8 +72,7 @@ class PasswordSetPage extends GetView<PasswordSetController>
         obscureText: true,
         keyboardType: TextInputType.visiblePassword,
         decoration: const InputDecoration(hintText: '至少8个字符，且包含数字和字母👇'),
-        onChanged: (_) =>
-            controller.saveEnable.value = controller.shouldSavePassword,
+        onChanged: (_) => controller.saveEnable.value = controller.shouldSavePassword,
       );
 
   Widget get _confirmItem => TextField(
@@ -80,18 +81,14 @@ class PasswordSetPage extends GetView<PasswordSetController>
         keyboardType: TextInputType.visiblePassword,
         obscureText: true,
         decoration: const InputDecoration(hintText: '再次确认👇'),
-        onChanged: (_) =>
-            controller.saveEnable.value = controller.shouldSavePassword,
+        onChanged: (_) => controller.saveEnable.value = controller.shouldSavePassword,
       );
 
   Widget get _saveItem => Obx(
         () => PuppyButton(
             onPressed: controller.saveEnable.value ? controller.save : null,
             style: PuppyButtonStyle.style1,
-            buttonStyle: ButtonStyle(
-                fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
-            child: const Text('保存密码',
-                style: TextStyle(
-                    fontSize: kButtonFont, fontWeight: FontWeight.w600))),
+            buttonStyle: ButtonStyle(fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
+            child: const Text('保存密码', style: TextStyle(fontSize: kButtonFont, fontWeight: FontWeight.w600))),
       );
 }

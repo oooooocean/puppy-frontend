@@ -101,7 +101,7 @@ class LoginCodeView extends GetView<LoginController>
   Widget get _switchItem => Row(children: [
         TextButton(
             onPressed: () =>
-                controller.switchLoginPageState(LoginPageState.password),
+                controller.switchLoginPageState(LoginStyle.password),
             child: const Text("账号密码登录"))
       ]);
 

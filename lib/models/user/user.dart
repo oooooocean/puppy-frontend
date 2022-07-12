@@ -30,6 +30,7 @@ class LoginUser {
   int id;
   UserInfo? info;
   int petCount;
+  @JsonKey(defaultValue: false)
   bool hasPassword;
 
   LoginUser(this.id, this.info, this.petCount, this.hasPassword);
