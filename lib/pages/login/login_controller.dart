@@ -14,10 +14,37 @@ import 'package:more/more.dart';
 
 enum LoginStyle { code, password }
 
-class LoginController extends GetxController with NetMixin {
+extension LoginServerStyle on LoginStyle {
+  String get url {
+    switch(this) {
+      case LoginStyle.password:
+        return 'user/login_password/';
+      case LoginStyle.code:
+        return 'user/login/';
+    }
+  }
+  Map<String,String> parma(String phone, String another) {
+    switch(this) {
+      case LoginStyle.password:
+        return {'phone': phone, 'password': another};
+      case LoginStyle.code:
+        return {'phone': phone, 'code': another};
+    }
+  }
+}
+
+mixin LoginServerMixin on NetMixin {
+  login(LoginStyle style, Tuple2<String, String> value, ValueSetter<Tuple2<String, LoginUser>> success) {
+
+  }
+}
+
+class LoginController extends GetxController with NetMixin, LoginServerMixin {
   final phoneCtl = TextEditingController();
   final codeCtl = TextEditingController();
   final pwdCtl = TextEditingController();
+  final codeCheckLength = 6;
+  final countDown = 60;
 
   /// 是否选择同意用户协议
   var selectedClause = true.obs;
@@ -39,8 +66,7 @@ class LoginController extends GetxController with NetMixin {
   bool get shouldLogin {
     switch (loginStyle.value) {
       case LoginStyle.code:
-        //TODO: 魔法数字
-        return codeCtl.text.length == 6 && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
+        return codeCtl.text.length == codeCheckLength && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
       case LoginStyle.password:
         return Validator.password.verify(pwdCtl.text) && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
     }
@@ -57,14 +83,13 @@ class LoginController extends GetxController with NetMixin {
     timer?.cancel();
     codeEnable.value = false;
     timer = Timer.periodic(const Duration(seconds: 1), (t) {
-      //TODO: 验证码
-      if (t.tick == 10) {
+      if (t.tick == countDown) {
         codeCounter.value = '获取验证码';
         timer?.cancel();
         codeEnable.value = true;
         return;
       }
-      codeCounter.value = '${60 - t.tick}s';
+      codeCounter.value = '${countDown - t.tick}s';
     });
   }
 
