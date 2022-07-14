@@ -6,6 +6,14 @@ import 'package:frontend/route/pages.dart';
 import 'package:frontend/services/store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// enum LaunchServiceFlow {
+//    password, userInfo, petInfo;
+//
+//    String get nextFlow {
+//      return this.
+//    }
+// }
+
 class LaunchService with NetMixin {
   static final shared = LaunchService();
 

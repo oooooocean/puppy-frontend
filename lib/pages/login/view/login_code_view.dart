@@ -111,7 +111,7 @@ class LoginCodeView extends GetView<LoginController>
           Obx(
             () => PuppyButton(
                 onPressed:
-                    controller.loginEnable.value ? controller.login : null,
+                    controller.loginEnable.value ? controller.onLogin : null,
                 style: PuppyButtonStyle.style1,
                 buttonStyle: ButtonStyle(
                     fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),

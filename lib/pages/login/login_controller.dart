@@ -12,9 +12,9 @@ import 'package:more/more.dart';
 /// 世之奇伟、瑰怪，非常之观，常在于险远，而人之所罕至焉，故非有志者不能至也。
 /// 宠物星球 冲冲冲!
 
-enum LoginStyle { code, password }
+enum LoginStyle {
+  code, password;
 
-extension LoginServerStyle on LoginStyle {
   String get url {
     switch(this) {
       case LoginStyle.password:
@@ -23,6 +23,7 @@ extension LoginServerStyle on LoginStyle {
         return 'user/login/';
     }
   }
+
   Map<String,String> parma(String phone, String another) {
     switch(this) {
       case LoginStyle.password:
@@ -31,11 +32,16 @@ extension LoginServerStyle on LoginStyle {
         return {'phone': phone, 'code': another};
     }
   }
+
 }
 
 mixin LoginServerMixin on NetMixin {
-  login(LoginStyle style, Tuple2<String, String> value, ValueSetter<Tuple2<String, LoginUser>> success) {
-
+  login(LoginStyle style, Tuple2<String, String> value,
+      ValueSetter<Tuple2<String, LoginUser>> success) {
+    request<Tuple2<String, LoginUser>>(
+        api: () => post(style.url, style.parma(value.first, value.second),
+            (data) => Tuple2(data['token'], LoginUser.fromJson(data['user']))),
+        success: success);
   }
 }
 
@@ -74,6 +80,15 @@ class LoginController extends GetxController with NetMixin, LoginServerMixin {
 
   bool get shouldFetchCode => Validator.phone.verify(phoneCtl.text) && !(timer?.isActive ?? false);
 
+  Tuple2<String, String> get valueMap {
+    switch (loginStyle.value) {
+      case LoginStyle.code:
+        return Tuple2(phoneCtl.text, codeCtl.text);
+      case LoginStyle.password:
+        return Tuple2(phoneCtl.text, pwdCtl.text);
+    }
+  }
+
   void switchLoginPageState(LoginStyle state) {
     loginStyle.value = state;
     loginEnable.value = shouldLogin;
@@ -93,7 +108,7 @@ class LoginController extends GetxController with NetMixin, LoginServerMixin {
     });
   }
 
-  login() {
+  onLogin() {
     //TODO: 1. 应该放到注册流程里去 2. 解构
     success(Tuple2<String, LoginUser> result) {
       LaunchService.shared.login(result.second, result.first);
@@ -104,23 +119,7 @@ class LoginController extends GetxController with NetMixin, LoginServerMixin {
       next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
     }
 
-    if (LoginStyle.password == loginStyle.value) {
-      request<Tuple2<String, LoginUser>>(
-          api: () => post('user/login_password/', {'phone': phoneCtl.text, 'password': pwdCtl.text}, (data) {
-                final token = data['token'];
-                final user = LoginUser.fromJson(data['user']);
-                return Tuple2(token, user);
-              }),
-          success: success);
-      return;
-    }
-    request<Tuple2<String, LoginUser>>(
-        api: () => post('user/login/', {'phone': phoneCtl.text, 'code': codeCtl.text}, (data) {
-              final token = data['token'];
-              final user = LoginUser.fromJson(data['user']);
-              return Tuple2(token, user);
-            }),
-        success: success);
+    login(loginStyle.value, valueMap, success);
   }
 
   loginWithAppleId() {}
