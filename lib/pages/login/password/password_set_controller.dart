@@ -11,14 +11,13 @@ import 'package:get/get.dart';
 class PasswordSetController extends GetxController with NetMixin {
   final pwdCtl = TextEditingController();
   final confirmCtl = TextEditingController();
+  final fromOther = Get.previousRoute.isNotEmpty && (!LaunchServiceFlow.passwordSet.previousRoutes.contains(Get.previousRoute));
 
   /// 是否可保存
   var saveEnable = false.obs;
 
   bool get shouldSavePassword =>
       pwdCtl.text == confirmCtl.text && Validator.password.verify(pwdCtl.text);
-
-  final fromOther = Get.previousRoute != AppRoutes.login;
 
   skip() {
     final next = LaunchServiceFlow.passwordSet.nextRoute;

@@ -12,6 +12,7 @@ import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 class PetAddController extends GetxController with NetMixin, StateMixin<List<PetCategory>> {
   final nicknameCtl = TextEditingController();
   final introductionCtl = TextEditingController();
+  final formOther = Get.previousRoute.isNotEmpty && (!LaunchServiceFlow.petAdd.previousRoutes.contains(Get.previousRoute));
 
   AssetEntity? avatar;
   var gender = Gender.male.obs;

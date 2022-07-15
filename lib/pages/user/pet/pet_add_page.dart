@@ -5,7 +5,6 @@ import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/gender.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
 import 'package:frontend/route/pages.dart';
-import 'package:frontend/services/launch_service.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
@@ -24,11 +23,9 @@ class PetAddPage extends GetView<PetAddController>
 
   @override
   Widget build(BuildContext context) {
-    bool noBack = Get.previousRoute == AppRoutes.login ||
-        Get.previousRoute == AppRoutes.userInfoAdd;
     return Scaffold(
       appBar: AppBar(
-        leading: noBack ? const Text("") : null,
+        automaticallyImplyLeading: controller.formOther,
         title: const Text('添加宠物'),
         actions: [
           TextButton(
@@ -38,7 +35,7 @@ class PetAddPage extends GetView<PetAddController>
         ],
       ),
       body: WillPopScope(
-          onWillPop: () async => !noBack,
+          onWillPop: () async => !controller.formOther,
           child: controller.obx((_) => _body,
               onLoading: const Center(child: es.LoadingIndicator()),
               onError: (_) => Text(_ ?? ''))),

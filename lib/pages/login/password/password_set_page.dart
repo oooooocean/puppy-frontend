@@ -3,14 +3,12 @@ import 'package:frontend/components/comps/puppy_button.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/pages/login/password/password_set_controller.dart';
-import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
 
 //TODO: UI
-//TODO: 1. 使用枚举注入 2. 不同route来处理
 class PasswordSetPage extends GetView<PasswordSetController> with ThemeMixin, LoadImageMixin, KeyboardAllocator {
   final passwordNode = FocusNode();
   final confirmNode = FocusNode();
@@ -35,26 +33,21 @@ class PasswordSetPage extends GetView<PasswordSetController> with ThemeMixin, Lo
             ]),
           ),
         ),
-        onWillPop: () async => Get.previousRoute != AppRoutes.login,
+        onWillPop: () async => controller.fromOther,
       ),
     );
   }
 
-  AppBar get _appBar {
-    //TODO: 放到控制器
-    //TODO: automaticallyImplyLeading, WillPopScope
-    final fromOther = Get.previousRoute != AppRoutes.login;
-    return AppBar(
-      leading: fromOther ? null : const Text(""),
+  AppBar get _appBar => AppBar(
+      leading: controller.fromOther ? null : const Text(""),
       title: const Text('设置密码'),
-      actions: fromOther
+      actions: controller.fromOther
           ? null
           : [
               TextButton(
                   onPressed: controller.skip, child: const Text('跳过', style: TextStyle(color: kSecondaryTextColor)))
             ],
     );
-  }
 
   //TODO: 细节
   Widget get _inputContainer => Container(

@@ -20,11 +20,30 @@ enum LaunchServiceFlow {
      }
    }
 
-   String? get nextRoute {
-     if (index == values.length - 1) {
-       return null;
+   String? get nextRoute => _nextRoute(this);
+   String? _nextRoute(LaunchServiceFlow flow) {
+     final user = LaunchService.shared.user;
+     assert(user != null, '必须先登录, 才能进入注册流程');
+     switch (flow) {
+       case LaunchServiceFlow.passwordSet:
+         if (user!.info == null) return LaunchServiceFlow.userInfoAdd.route;
+         if (user!.petCount == 0) return LaunchServiceFlow.petAdd.route;
+         break;
+       case LaunchServiceFlow.userInfoAdd:
+         if (user!.petCount == 0) return LaunchServiceFlow.petAdd.route;
+         break;
+       case LaunchServiceFlow.petAdd:
+         return null;
      }
-     return LaunchServiceFlow.values[index + 1].route;
+     return null;
+   }
+
+   /// 用于判断前置流程对应的页面是否是登录流程过来的
+   List<String> get previousRoutes {
+     if (this == LaunchServiceFlow.passwordSet) {
+       return [AppRoutes.login];
+     }
+     return LaunchServiceFlow.values.where((element) => element.index < index).map((e) => e.route).toList();
    }
 }
 
