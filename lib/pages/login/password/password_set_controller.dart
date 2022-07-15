@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:frontend/components/mixins/validator.dart';
@@ -39,7 +37,7 @@ class PasswordSetController extends GetxController with NetMixin {
 
     request<bool>(
         api: () => post('user/${user!.id}/password/', {'password': pwdCtl.text},
-            (data) => true),
+            (data) => data),
         success: success);
   }
 }

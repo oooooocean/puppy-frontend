@@ -8,7 +8,6 @@ import 'package:frontend/components/extension/int_extension.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
 
-//TODO: UI
 class PasswordSetPage extends GetView<PasswordSetController> with ThemeMixin, LoadImageMixin, KeyboardAllocator {
   final passwordNode = FocusNode();
   final confirmNode = FocusNode();
@@ -23,15 +22,10 @@ class PasswordSetPage extends GetView<PasswordSetController> with ThemeMixin, Lo
         child: KeyboardActions(
           disableScroll: false,
           config: doneKeyboardConfig([passwordNode, confirmNode]),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
-            child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-              buildAssetImage('logo', width: Get.width * 0.35),
-              _inputContainer,
-              //TODO: -
-              Column(children: [_saveItem])
-            ]),
-          ),
+          child: Column(children: [
+            _inputContainer,
+            _saveItem
+          ]),
         ),
         onWillPop: () async => controller.fromOther,
       ),
@@ -49,10 +43,8 @@ class PasswordSetPage extends GetView<PasswordSetController> with ThemeMixin, Lo
             ],
     );
 
-  //TODO: 细节
   Widget get _inputContainer => Container(
         padding: EdgeInsets.all(15.toPadding),
-        decoration: const BoxDecoration(color: kShapeColor, borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [_passwordItem, _confirmItem],
@@ -78,10 +70,15 @@ class PasswordSetPage extends GetView<PasswordSetController> with ThemeMixin, Lo
       );
 
   Widget get _saveItem => Obx(
-        () => PuppyButton(
-            onPressed: controller.saveEnable.value ? controller.save : null,
-            style: PuppyButtonStyle.style1,
-            buttonStyle: ButtonStyle(fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
-            child: const Text('保存密码', style: TextStyle(fontSize: kButtonFont, fontWeight: FontWeight.w600))),
+        () => Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
+            child: PuppyButton(
+                onPressed: controller.saveEnable.value ? controller.save : null,
+                style: PuppyButtonStyle.style1,
+                buttonStyle: ButtonStyle(
+                    fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
+                child: const Text('保存',
+                    style: TextStyle(
+                        fontSize: kButtonFont, fontWeight: FontWeight.w600)))),
       );
 }

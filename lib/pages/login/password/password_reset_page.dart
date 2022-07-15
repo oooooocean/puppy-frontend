@@ -22,60 +22,51 @@ class PasswordResetPage extends GetView<PasswordResetController>
       body: KeyboardActions(
         disableScroll: false,
         config: doneKeyboardConfig([passwordNode, confirmNode]),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                buildAssetImage('logo', width: Get.width * 0.35),
-                _inputContainer,
-                Column(children: [_saveItem])
-              ]),
-        ),
+        child: Column(
+            children: [
+              _inputContainer,
+              _saveItem
+            ]),
       ),
     );
   }
 
   Widget get _inputContainer => Container(
-        padding: EdgeInsets.all(15.toPadding),
-        decoration: const BoxDecoration(
-            color: kShapeColor,
-            borderRadius: BorderRadius.all(Radius.circular(5))),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [_oldPasswordItem, _newPasswordItem],
-        ),
-      );
+    padding: EdgeInsets.all(15.toPadding),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [_passwordItem, _confirmItem],
+    ),
+  );
 
-  Widget get _oldPasswordItem => TextField(
-        focusNode: passwordNode,
-        controller: controller.oldPwdCtl,
-        obscureText: true,
-        keyboardType: TextInputType.visiblePassword,
-        decoration: const InputDecoration(hintText: '输入旧密码👇'),
-        onChanged: (_) =>
-            controller.saveEnable.value = controller.shouldSavePassword,
-      );
+  Widget get _passwordItem => TextField(
+    focusNode: passwordNode,
+    controller: controller.newPwdCtl,
+    obscureText: true,
+    keyboardType: TextInputType.visiblePassword,
+    decoration: const InputDecoration(hintText: '输入旧密码👇'),
+    onChanged: (_) => controller.resetEnable.value = controller.shouldResetPassword,
+  );
 
-  Widget get _newPasswordItem => TextField(
-        controller: controller.newPwdCtl,
-        focusNode: confirmNode,
-        keyboardType: TextInputType.visiblePassword,
-        obscureText: true,
-        decoration: const InputDecoration(hintText: '输入新密码👇'),
-        onChanged: (_) =>
-            controller.saveEnable.value = controller.shouldSavePassword,
-      );
+  Widget get _confirmItem => TextField(
+    controller: controller.oldPwdCtl,
+    focusNode: confirmNode,
+    keyboardType: TextInputType.visiblePassword,
+    obscureText: true,
+    decoration: const InputDecoration(hintText: '输入新密码👇'),
+    onChanged: (_) => controller.resetEnable.value = controller.shouldResetPassword,
+  );
 
   Widget get _saveItem => Obx(
-        () => PuppyButton(
-            onPressed: controller.saveEnable.value ? controller.save : null,
+        () => Padding(
+        padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
+        child: PuppyButton(
+            onPressed: controller.resetEnable.value ? controller.save : null,
             style: PuppyButtonStyle.style1,
             buttonStyle: ButtonStyle(
                 fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
-            child: const Text('重置',
+            child: const Text('保存',
                 style: TextStyle(
-                    fontSize: kButtonFont, fontWeight: FontWeight.w600))),
-      );
+                    fontSize: kButtonFont, fontWeight: FontWeight.w600)))),
+  );
 }

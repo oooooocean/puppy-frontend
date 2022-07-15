@@ -10,9 +10,10 @@ class PasswordResetController extends GetxController with NetMixin {
   final newPwdCtl = TextEditingController();
 
   /// 是否可保存
-  var saveEnable = false.obs;
+  var resetEnable = false.obs;
 
-  bool get shouldSavePassword =>
+  bool get shouldResetPassword =>
+      oldPwdCtl.text != newPwdCtl.text &&
       Validator.password.verify(oldPwdCtl.text) &&
       Validator.password.verify(newPwdCtl.text);
 
