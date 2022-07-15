@@ -87,6 +87,7 @@ class PasswordController extends GetxController with NetMixin, PasswordServerMix
       next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
       break;
     case PasswordStyle.reset:
+      EasyLoading.showSuccess("重置成功");
       Get.back();
       break;
     }
