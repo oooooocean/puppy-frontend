@@ -74,8 +74,7 @@ class LoginCodeView extends GetView<LoginController>
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(hintText: '验证码填在这里👇'),
-            onChanged: (_) =>
-                controller.loginEnable.value = controller.shouldLogin,
+            onChanged: controller.onShouldLogin,
           ),
         ),
         SizedBox(

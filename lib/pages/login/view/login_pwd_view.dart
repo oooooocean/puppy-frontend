@@ -62,17 +62,16 @@ class LoginPasswordView extends GetView<LoginController>
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         decoration: const InputDecoration(hintText: '铲屎的, 手机号填在这里👇'),
-        onChanged: (_) => controller.loginEnable.value = controller.shouldLogin,
+        onChanged: controller.onShouldLogin,
       );
 
-  //TODO: onChanged 重复代码 放到控制器
   Widget get _codeItem => TextField(
         controller: controller.pwdCtl,
         focusNode: codeNode,
         obscureText: true,
         keyboardType: TextInputType.visiblePassword,
         decoration: const InputDecoration(hintText: '密码填在这里👇'),
-        onChanged: (_) => controller.loginEnable.value = controller.shouldLogin,
+        onChanged: controller.onShouldLogin,
       );
 
   //TODO: 使用Align组件
