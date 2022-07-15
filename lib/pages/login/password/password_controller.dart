@@ -46,32 +46,26 @@ class PasswordController extends GetxController with NetMixin, PasswordServerMix
 
   PasswordController(this.passwordStyle);
 
-  final oldPwdCtl = TextEditingController();
-  final newPwdCtl = TextEditingController();
-
-  bool get shouldResetPassword =>
-      oldPwdCtl.text != newPwdCtl.text &&
-          Validator.password.verify(oldPwdCtl.text) &&
-          Validator.password.verify(newPwdCtl.text);
-
-
-  final pwdCtl = TextEditingController();
-  final confirmCtl = TextEditingController();
+  final pwdCtl1 = TextEditingController();
+  final pwdCtl2 = TextEditingController();
   final fromOther = Get.previousRoute.isNotEmpty && (!LaunchServiceFlow.passwordSet.previousRoutes.contains(Get.previousRoute));
 
   /// 是否可保存
   var saveEnable = false.obs;
 
+  bool get shouldResetPassword =>
+      pwdCtl1.text != pwdCtl2.text &&
+          Validator.password.verify(pwdCtl1.text) &&
+          Validator.password.verify(pwdCtl2.text);
 
-  bool get shouldSavePassword =>
-      pwdCtl.text == confirmCtl.text && Validator.password.verify(pwdCtl.text);
+  bool get shouldSavePassword => pwdCtl1.text == pwdCtl2.text && Validator.password.verify(pwdCtl1.text);
 
   Tuple2<String, String> get _valueMap {
     switch (passwordStyle) {
       case PasswordStyle.set:
-        return Tuple2(pwdCtl.text, '');
+        return Tuple2(pwdCtl1.text, '');
       case PasswordStyle.reset:
-        return Tuple2(newPwdCtl.text, oldPwdCtl.text);
+        return Tuple2(pwdCtl2.text, pwdCtl1.text);
     }
   }
 

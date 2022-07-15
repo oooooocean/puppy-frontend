@@ -41,7 +41,7 @@ class PasswordResetPage extends GetView<PasswordController>
 
   Widget get _passwordItem => TextField(
     focusNode: passwordNode,
-    controller: controller.oldPwdCtl,
+    controller: controller.pwdCtl1,
     obscureText: true,
     keyboardType: TextInputType.visiblePassword,
     decoration: const InputDecoration(hintText: '输入旧密码👇'),
@@ -49,7 +49,7 @@ class PasswordResetPage extends GetView<PasswordController>
   );
 
   Widget get _confirmItem => TextField(
-    controller: controller.newPwdCtl,
+    controller: controller.pwdCtl2,
     focusNode: confirmNode,
     keyboardType: TextInputType.visiblePassword,
     obscureText: true,

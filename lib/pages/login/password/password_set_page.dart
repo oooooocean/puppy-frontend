@@ -53,7 +53,7 @@ class PasswordSetPage extends GetView<PasswordController> with ThemeMixin, LoadI
 
   Widget get _passwordItem => TextField(
         focusNode: passwordNode,
-        controller: controller.pwdCtl,
+        controller: controller.pwdCtl1,
         obscureText: true,
         keyboardType: TextInputType.visiblePassword,
         decoration: const InputDecoration(hintText: '至少8个字符，且包含数字和字母👇'),
@@ -61,7 +61,7 @@ class PasswordSetPage extends GetView<PasswordController> with ThemeMixin, LoadI
       );
 
   Widget get _confirmItem => TextField(
-        controller: controller.confirmCtl,
+        controller: controller.pwdCtl2,
         focusNode: confirmNode,
         keyboardType: TextInputType.visiblePassword,
         obscureText: true,
