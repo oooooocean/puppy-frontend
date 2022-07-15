@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:frontend/components/comps/puppy_button.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
-import 'package:frontend/pages/login/password/password_set_controller.dart';
+import 'package:frontend/pages/login/password/password_controller.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
 
-class PasswordSetPage extends GetView<PasswordSetController> with ThemeMixin, LoadImageMixin, KeyboardAllocator {
+class PasswordSetPage extends GetView<PasswordController> with ThemeMixin, LoadImageMixin, KeyboardAllocator {
   final passwordNode = FocusNode();
   final confirmNode = FocusNode();
 

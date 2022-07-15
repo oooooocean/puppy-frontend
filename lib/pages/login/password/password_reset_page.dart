@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:frontend/components/comps/puppy_button.dart';
 import 'package:frontend/components/mixins/load_image_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
-import 'package:frontend/pages/login/password/password_reset_controller.dart';
+import 'package:frontend/pages/login/password/password_controller.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:frontend/components/mixins/keyboard_allocator.dart';
 
-class PasswordResetPage extends GetView<PasswordResetController>
+class PasswordResetPage extends GetView<PasswordController>
     with ThemeMixin, LoadImageMixin, KeyboardAllocator {
   final passwordNode = FocusNode();
   final confirmNode = FocusNode();
@@ -45,7 +45,7 @@ class PasswordResetPage extends GetView<PasswordResetController>
     obscureText: true,
     keyboardType: TextInputType.visiblePassword,
     decoration: const InputDecoration(hintText: '输入旧密码👇'),
-    onChanged: (_) => controller.resetEnable.value = controller.shouldResetPassword,
+    onChanged: (_) => controller.saveEnable.value = controller.shouldResetPassword,
   );
 
   Widget get _confirmItem => TextField(
@@ -54,14 +54,14 @@ class PasswordResetPage extends GetView<PasswordResetController>
     keyboardType: TextInputType.visiblePassword,
     obscureText: true,
     decoration: const InputDecoration(hintText: '输入新密码👇'),
-    onChanged: (_) => controller.resetEnable.value = controller.shouldResetPassword,
+    onChanged: (_) => controller.saveEnable.value = controller.shouldResetPassword,
   );
 
   Widget get _saveItem => Obx(
         () => Padding(
         padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
         child: PuppyButton(
-            onPressed: controller.resetEnable.value ? controller.save : null,
+            onPressed: controller.saveEnable.value ? controller.save : null,
             style: PuppyButtonStyle.style1,
             buttonStyle: ButtonStyle(
                 fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
