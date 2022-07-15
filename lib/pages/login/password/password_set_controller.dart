@@ -21,7 +21,7 @@ class PasswordSetController extends GetxController with NetMixin {
   final fromOther = Get.previousRoute != AppRoutes.login;
 
   skip() {
-    final next = LaunchService.shared.isCompletedRegisterFlow;
+    final next = LaunchServiceFlow.passwordSet.nextRoute;
     next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
   }
 
@@ -34,7 +34,7 @@ class PasswordSetController extends GetxController with NetMixin {
         Get.back();
         return;
       }
-      final next = LaunchService.shared.isCompletedRegisterFlow;
+      final next = LaunchServiceFlow.passwordSet.nextRoute;
       next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
     }
 

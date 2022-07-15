@@ -6,13 +6,27 @@ import 'package:frontend/route/pages.dart';
 import 'package:frontend/services/store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// enum LaunchServiceFlow {
-//    password, userInfo, petInfo;
-//
-//    String get nextFlow {
-//      return this.
-//    }
-// }
+enum LaunchServiceFlow {
+   passwordSet, userInfoAdd, petAdd;
+
+   String get route {
+     switch (this) {
+       case LaunchServiceFlow.passwordSet:
+         return AppRoutes.loginSetPassword;
+       case LaunchServiceFlow.userInfoAdd:
+         return AppRoutes.userInfoAdd;
+       case LaunchServiceFlow.petAdd:
+         return AppRoutes.petAdd;
+     }
+   }
+
+   String? get nextRoute {
+     if (index == values.length - 1) {
+       return null;
+     }
+     return LaunchServiceFlow.values[index + 1].route;
+   }
+}
 
 class LaunchService with NetMixin {
   static final shared = LaunchService();
@@ -30,12 +44,13 @@ class LaunchService with NetMixin {
       maxTopicTitle: '50') ; /// 主题标题最大字数
 
 
-  /// 注册流程:
+  /// 获取当前注册流程步骤:
   /// 用户密码 -> 用户基本信息 -> 至少一个宠物
-  String? get isCompletedRegisterFlow {
+  LaunchServiceFlow? get currentRegisterFlow {
     assert(user != null, '必须先登录, 才能进入注册流程');
-    if (user!.info == null) return AppRoutes.userInfoAdd;
-    if (user!.petCount == 0) return AppRoutes.petAdd;
+    if (user!.hasPassword == false) return LaunchServiceFlow.passwordSet;
+    if (user!.info == null) return LaunchServiceFlow.userInfoAdd;
+    if (user!.petCount == 0) return LaunchServiceFlow.petAdd;
     return null;
   }
 
@@ -74,7 +89,7 @@ class LaunchService with NetMixin {
     });
   }
 
-  String get firstRoute => isLogin ? (isCompletedRegisterFlow ?? AppRoutes.scaffold) : AppRoutes.login;
+  String get firstRoute => isLogin ? (currentRegisterFlow?.route ?? AppRoutes.scaffold) : AppRoutes.login;
 
   /// 获取配置信息
   void appConfig() async {

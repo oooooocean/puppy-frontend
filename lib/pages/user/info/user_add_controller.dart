@@ -33,7 +33,7 @@ class UserAddController extends UserBaseController {
         success: (userInfo) {
           user.info = userInfo;
           LaunchService.shared.updateUser(user);
-          final next = LaunchService.shared.isCompletedRegisterFlow;
+          final next = LaunchServiceFlow.userInfoAdd.nextRoute;
           next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
         });
   }

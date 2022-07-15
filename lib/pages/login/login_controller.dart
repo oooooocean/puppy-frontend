@@ -109,13 +109,12 @@ class LoginController extends GetxController with NetMixin, LoginServerMixin {
   }
 
   onLogin() {
-    //TODO: 1. 应该放到注册流程里去 2. 解构
     success(Tuple2<String, LoginUser> result) {
       LaunchService.shared.login(result.second, result.first);
       if (result.second.hasPassword == false) {
         return Get.toNamed(AppRoutes.loginSetPassword);
       }
-      final next = LaunchService.shared.isCompletedRegisterFlow;
+      final next = LaunchService.shared.currentRegisterFlow?.nextRoute;
       next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
     }
 
