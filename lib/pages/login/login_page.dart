@@ -14,8 +14,8 @@ class LoginPage extends GetView<LoginController>
     with ThemeMixin, LoadImageMixin, KeyboardAllocator {
   LoginPage({Key? key}) : super(key: key);
 
-  final photoNode = FocusNode();
-  final codeNode = FocusNode();
+  final phoneNode = FocusNode();
+  final secondNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class LoginPage extends GetView<LoginController>
       body: SafeArea(
         child: KeyboardActions(
           disableScroll: false,
-          config: doneKeyboardConfig([photoNode, codeNode]),
+          config: doneKeyboardConfig([phoneNode, secondNode]),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
             child: Column(
@@ -44,31 +44,34 @@ class LoginPage extends GetView<LoginController>
     );
   }
 
-  Widget get _inputContainer => Container(
-        padding: EdgeInsets.all(15.toPadding),
-        decoration: const BoxDecoration(
-            color: kShapeColor,
-            borderRadius: BorderRadius.all(Radius.circular(5))),
-        child: Obx(() {
-          switch (controller.loginStyle.value) {
-            case LoginStyle.code:
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [_phoneItem, _codeItem, _switchItem],
-              );
-            case LoginStyle.password:
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [_phoneItem, _pwdItem, _switchItem],
-              );
-          }
-        }),
-      );
+  Widget get _inputContainer => Column(children: [
+        Container(
+          padding: EdgeInsets.all(15.toPadding),
+          decoration: const BoxDecoration(
+              color: kShapeColor,
+              borderRadius: BorderRadius.all(Radius.circular(5))),
+          child: Obx(() {
+            switch (controller.loginStyle.value) {
+              case LoginStyle.code:
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [_phoneItem, _codeItem],
+                );
+              case LoginStyle.password:
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [_phoneItem, _pwdItem],
+                );
+            }
+          }),
+        ),
+        _switchItem
+      ]);
 
   Widget get _phoneItem => TextField(
-        focusNode: photoNode,
+        focusNode: phoneNode,
         controller: controller.phoneCtl,
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -80,7 +83,7 @@ class LoginPage extends GetView<LoginController>
         Expanded(
           child: TextField(
             controller: controller.codeCtl,
-            focusNode: codeNode,
+            focusNode: secondNode,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(hintText: '验证码填在这里👇'),
@@ -96,7 +99,7 @@ class LoginPage extends GetView<LoginController>
                 onPressed: controller.codeEnable.value
                     ? () {
                         controller.fetchCode();
-                        codeNode.requestFocus();
+                        secondNode.requestFocus();
                       }
                     : null,
                 style: PuppyButtonStyle.style2,
@@ -109,7 +112,7 @@ class LoginPage extends GetView<LoginController>
 
   Widget get _pwdItem => TextField(
         controller: controller.pwdCtl,
-        focusNode: codeNode,
+        focusNode: secondNode,
         obscureText: true,
         keyboardType: TextInputType.visiblePassword,
         decoration: const InputDecoration(hintText: '密码填在这里👇'),
@@ -120,7 +123,14 @@ class LoginPage extends GetView<LoginController>
       alignment: Alignment.centerLeft,
       child: TextButton(
           onPressed: controller.switchLoginPageState,
-          child: const Text("验证码登录")));
+          child: Obx(() {
+            switch (controller.loginStyle.value) {
+              case LoginStyle.code:
+                return const Text("账号密码登录");
+              case LoginStyle.password:
+                return const Text("验证码登录");
+            }
+          })));
 
   Widget get _loginItem => Column(
         mainAxisSize: MainAxisSize.min,
