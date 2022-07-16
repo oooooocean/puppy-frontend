@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/app.dart';
 import 'package:frontend/components/comps/comps.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/gender.dart';

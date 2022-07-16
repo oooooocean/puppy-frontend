@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:frontend/models/gender.dart';
@@ -9,10 +8,12 @@ import 'package:frontend/services/launch_service.dart';
 import 'package:get/get.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
-class PetAddController extends GetxController with NetMixin, StateMixin<List<PetCategory>> {
+class PetAddController extends GetxController
+    with NetMixin, StateMixin<List<PetCategory>> {
   final nicknameCtl = TextEditingController();
   final introductionCtl = TextEditingController();
-  final formOther = Get.previousRoute.isNotEmpty && (!LaunchServiceFlow.petAdd.previousRoutes.contains(Get.previousRoute));
+  final formOther = Get.previousRoute.isNotEmpty &&
+      (!LaunchServiceFlow.petAdd.previousRoutes.contains(Get.previousRoute));
 
   AssetEntity? avatar;
   var gender = Gender.male.obs;
@@ -20,7 +21,11 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
   PetExplicitCategory? category;
 
   @override
-  bool get shouldRequest => nicknameCtl.text.isNotEmpty && avatar != null && birthday != null && category != null;
+  bool get shouldRequest =>
+      nicknameCtl.text.isNotEmpty &&
+      avatar != null &&
+      birthday != null &&
+      category != null;
 
   save() {
     final user = LaunchService.shared.user;
@@ -64,7 +69,8 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
   /// 选择生日
   choseBirthday() {
     final start = DateTime.now().subtract(const Duration(days: 30));
-    DatePicker.showDatePicker(Get.context!, maxTime: DateTime.now(), currentTime: start, onConfirm: (dateTime) {
+    DatePicker.showDatePicker(Get.context!,
+        maxTime: DateTime.now(), currentTime: start, onConfirm: (dateTime) {
       birthday = dateTime;
       update(['birthday', 'id']);
     }, locale: LocaleType.zh);
@@ -73,17 +79,16 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
   /// 选择类别
   chosePetCategory() async {
     final result = await Get.bottomSheet<PetCategory>(
-      SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // 设置最小的弹出
-          children: state!
-              .map((e) =>
-                  ListTile(title: Text(e.name), onTap: () => Get.back(result: e)))
-              .toList(),
+        SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // 设置最小的弹出
+            children: state!
+                .map((e) => ListTile(
+                    title: Text(e.name), onTap: () => Get.back(result: e)))
+                .toList(),
+          ),
         ),
-      ),
-      backgroundColor: Colors.white
-    );
+        backgroundColor: Colors.white);
     if (result == null) return;
 
     PetExplicitCategory? category =
@@ -98,9 +103,14 @@ class PetAddController extends GetxController with NetMixin, StateMixin<List<Pet
   @override
   void onReady() {
     change(null, status: RxStatus.loading());
-    get('configuration/pet/', (data) => (data as List<dynamic>).map((e) => PetCategory.fromJson(e)).toList())
+    get(
+            'configuration/pet/',
+            (data) => (data as List<dynamic>)
+                .map((e) => PetCategory.fromJson(e))
+                .toList())
         .then((value) => change(value, status: RxStatus.success()))
-        .catchError((error) => change(null, status: RxStatus.error(error.toString())));
+        .catchError(
+            (error) => change(null, status: RxStatus.error(error.toString())));
     super.onReady();
   }
 }

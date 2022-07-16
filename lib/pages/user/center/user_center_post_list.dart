@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/abstract/scaffold_child_state.dart';
-import 'package:frontend/models/paging_data.dart';
-import 'package:frontend/pages/post/list/post_list_controller.dart';
 import 'package:frontend/pages/post/views/post_list_tile.dart';
 import 'package:frontend/pages/user/center/user_center_post_controller.dart';
 import 'package:get/get.dart';
@@ -16,7 +14,8 @@ class CenterPostListPage extends StatefulWidget {
   State<StatefulWidget> createState() => _CenterPostListState();
 }
 
-class _CenterPostListState extends ScaffoldChildState<CenterPostListPage, CenterPostController> {
+class _CenterPostListState
+    extends ScaffoldChildState<CenterPostListPage, CenterPostController> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -29,15 +28,19 @@ class _CenterPostListState extends ScaffoldChildState<CenterPostListPage, Center
         onRefresh: controller.onRefresh,
         onLoading: controller.onLoading,
         child: ListView.separated(
-            itemBuilder: _itemBuilder, separatorBuilder: _separatorBuilder, itemCount: controller.items.length),
+            itemBuilder: _itemBuilder,
+            separatorBuilder: _separatorBuilder,
+            itemCount: controller.items.length),
       ),
     );
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
     final post = controller.items[index];
-    return PostListTile<CenterPostController>(post: post, onTap: controller.onTapPost);
+    return PostListTile<CenterPostController>(
+        post: post, onTap: controller.onTapPost);
   }
 
-  Widget _separatorBuilder(BuildContext context, int index) => Divider(height: 5.toPadding, thickness: 5.toPadding);
+  Widget _separatorBuilder(BuildContext context, int index) =>
+      Divider(height: 5.toPadding, thickness: 5.toPadding);
 }
