@@ -18,7 +18,7 @@ final appRoutes = [
   GetPage(name: AppRoutes.debug, page: () => const DebugPage()),
   GetPage(
       name: AppRoutes.login,
-      page: () => const LoginPage(),
+      page: () => LoginPage(),
       binding: BindingsBuilder(() => Get.lazyPut(() => LoginController()))),
   GetPage(
       name: AppRoutes.loginSetPassword,

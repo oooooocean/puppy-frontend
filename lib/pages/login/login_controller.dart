@@ -13,10 +13,11 @@ import 'package:more/more.dart';
 /// 宠物星球 冲冲冲!
 
 enum LoginStyle {
-  code, password;
+  code,
+  password;
 
   String get url {
-    switch(this) {
+    switch (this) {
       case LoginStyle.password:
         return 'user/login_password/';
       case LoginStyle.code:
@@ -24,15 +25,14 @@ enum LoginStyle {
     }
   }
 
-  Map<String,String> parma(String phone, String another) {
-    switch(this) {
+  Map<String, String> parma(String phone, String another) {
+    switch (this) {
       case LoginStyle.password:
         return {'phone': phone, 'password': another};
       case LoginStyle.code:
         return {'phone': phone, 'code': another};
     }
   }
-
 }
 
 mixin LoginServerMixin on NetMixin {
@@ -72,13 +72,18 @@ class LoginController extends GetxController with NetMixin, LoginServerMixin {
   bool get shouldLogin {
     switch (loginStyle.value) {
       case LoginStyle.code:
-        return codeCtl.text.length == codeCheckLength && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
+        return codeCtl.text.length == codeCheckLength &&
+            Validator.phone.verify(phoneCtl.text) &&
+            selectedClause.value;
       case LoginStyle.password:
-        return Validator.password.verify(pwdCtl.text) && Validator.phone.verify(phoneCtl.text) && selectedClause.value;
+        return Validator.password.verify(pwdCtl.text) &&
+            Validator.phone.verify(phoneCtl.text) &&
+            selectedClause.value;
     }
   }
 
-  bool get shouldFetchCode => Validator.phone.verify(phoneCtl.text) && !(timer?.isActive ?? false);
+  bool get shouldFetchCode =>
+      Validator.phone.verify(phoneCtl.text) && !(timer?.isActive ?? false);
 
   Tuple2<String, String> get valueMap {
     switch (loginStyle.value) {
@@ -89,8 +94,10 @@ class LoginController extends GetxController with NetMixin, LoginServerMixin {
     }
   }
 
-  void switchLoginPageState(LoginStyle state) {
-    loginStyle.value = state;
+  void switchLoginPageState() {
+    loginStyle.value = loginStyle.value == LoginStyle.code
+        ? LoginStyle.password
+        : LoginStyle.code;
     loginEnable.value = shouldLogin;
     codeEnable.value = shouldFetchCode;
   }
