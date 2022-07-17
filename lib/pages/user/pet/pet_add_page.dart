@@ -70,8 +70,10 @@ class PetAddPage extends GetView<PetAddController>
         ),
       );
 
-  Widget get _avatarItem =>
-      PuppyAvatarButton(didSelected: controller.choseAvatar);
+  Widget get _avatarItem => SizedBox(
+      height: 80.toPadding,
+      width: 80.toPadding,
+      child: PuppyAvatarButton(didSelected: controller.choseAvatar));
 
   Widget get _nicknameItem => PuppyTextField(
       focusNode: nickNameNode,
