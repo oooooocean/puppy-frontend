@@ -10,6 +10,8 @@ import 'package:frontend/pages/post/comment/post_comment.dart';
 import 'package:frontend/pages/post/comment/post_comment_controller.dart';
 import 'package:frontend/pages/post/detail/post_detail.dart';
 import 'package:frontend/pages/post/detail/post_detail_controller.dart';
+import 'package:frontend/pages/post/report/post_report_controller.dart';
+import 'package:frontend/pages/post/report/post_report_page.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'browser/media_browser_controller.dart';
@@ -46,4 +48,8 @@ final postRoutes = [
       page: () => const MediaBrowserPage(),
       binding:
           BindingsBuilder(() => Get.lazyPut(() => MediaBrowserController(Get.arguments.first, Get.arguments.second)))),
+  GetPage(
+      name: AppRoutes.postReport,
+      page: () => const PostReportPage(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => PostReportController(Get.arguments)))),
 ];

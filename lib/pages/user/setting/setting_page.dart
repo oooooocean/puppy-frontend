@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/pages/user/setting/setting_controller.dart';
+import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
-import 'package:frontend/components/extension/int_extension.dart';
+
 class SettingPage extends GetView<SettingController> {
   const SettingPage({Key? key}) : super(key: key);
 
@@ -24,6 +25,15 @@ class SettingPage extends GetView<SettingController> {
               ),
             ),
              Divider(height: 1,indent: 15.toPadding,endIndent: 15.toPadding,),
+            Container(
+              color: Colors.white,
+              child: ListTile(
+                title: const Text('举报'),
+                onTap: () => Get.toNamed(AppRoutes.postReport),
+                trailing: const Icon(Icons.arrow_forward_ios),
+              ),
+            ),
+            Divider(height: 1,indent: 15.toPadding,endIndent: 15.toPadding,),
             TextButton(
                 onPressed: controller.logout,
                 style: ButtonStyle(

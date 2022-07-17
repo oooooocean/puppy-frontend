@@ -22,6 +22,7 @@ abstract class AppRoutes {
   static const postTopicList = '/post/topic/list';
   static const postLocation = '/post/location';
   static const postComment = '/post/comment';
+  static const postReport = '/post/report';
 
   static const choseIdol = '/idol/chose';
 
