@@ -9,18 +9,24 @@ class PuppyAvatarButton extends StatefulWidget {
   final ValueSetter<AssetEntity> didSelected;
   final String? defaultAvatar;
 
-  const PuppyAvatarButton({Key? key, required this.didSelected, this.defaultAvatar}) : super(key: key);
+  const PuppyAvatarButton(
+      {Key? key, required this.didSelected, this.defaultAvatar})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PuppyAvatarState();
 }
 
-class _PuppyAvatarState extends State<PuppyAvatarButton> with ThemeMixin, LoadImageMixin {
+class _PuppyAvatarState extends State<PuppyAvatarButton>
+    with ThemeMixin, LoadImageMixin {
   AssetEntity? avatar;
+  final avatarWidth = 80.0;
 
   choseAvatar() async {
     final config = AssetPickerConfig(
-        selectedAssets: avatar != null ? [avatar!] : null, maxAssets: 1, requestType: RequestType.image);
+        selectedAssets: avatar != null ? [avatar!] : null,
+        maxAssets: 1,
+        requestType: RequestType.image);
     final results = await AssetPicker.pickAssets(context, pickerConfig: config);
     if (results == null || results.isEmpty) return;
     setState(() => avatar = results.first);
@@ -34,7 +40,8 @@ class _PuppyAvatarState extends State<PuppyAvatarButton> with ThemeMixin, LoadIm
         style: ButtonStyle(
           padding: MaterialStateProperty.all(EdgeInsets.zero),
           shape: MaterialStateProperty.all(const CircleBorder()),
-          side: MaterialStateProperty.all(BorderSide(color: kBorderColor, width: 3.toPadding)),
+          side: MaterialStateProperty.all(
+              BorderSide(color: kBorderColor, width: 3.toPadding)),
         ),
         child: _avatar);
   }
@@ -48,8 +55,12 @@ class _PuppyAvatarState extends State<PuppyAvatarButton> with ThemeMixin, LoadIm
       ? _buildImageItem(buildNetImage(widget.defaultAvatar!))
       : const Padding(
           padding: EdgeInsets.all(20.0),
-          child: Icon(Icons.camera_alt_rounded, size: 40, color: kSecondaryTextColor),
+          child: Icon(Icons.camera_alt_rounded,
+              size: 40, color: kSecondaryTextColor),
         );
 
-  Widget _buildImageItem(Widget image) => Padding(padding: EdgeInsets.all(3.toPadding), child: ClipOval(child: image));
+  Widget _buildImageItem(Widget image) => AspectRatio(
+      aspectRatio: 1.0,
+      child: Padding(
+          padding: EdgeInsets.all(3.toPadding), child: ClipOval(child: image)));
 }
