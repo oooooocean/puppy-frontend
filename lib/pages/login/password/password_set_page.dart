@@ -19,21 +19,14 @@ class PasswordSetPage extends GetView<PasswordController> with ThemeMixin, LoadI
     return Scaffold(
       appBar: _appBar,
       body: WillPopScope(
-        child: KeyboardActions(
-          disableScroll: false,
-          config: doneKeyboardConfig([passwordNode, confirmNode]),
-          child: Column(children: [
-            _inputContainer,
-            _saveItem
-          ]),
-        ),
+        child: _body,
         onWillPop: () async => controller.fromOther,
       ),
     );
   }
 
   AppBar get _appBar => AppBar(
-      leading: controller.fromOther ? null : const Text(""),
+      automaticallyImplyLeading: controller.fromOther,
       title: const Text('设置密码'),
       actions: controller.fromOther
           ? null
@@ -42,6 +35,28 @@ class PasswordSetPage extends GetView<PasswordController> with ThemeMixin, LoadI
                   onPressed: controller.skip, child: const Text('跳过', style: TextStyle(color: kSecondaryTextColor)))
             ],
     );
+
+  // Widget get _body => Obx(() => Stepper(
+  //     controlsBuilder: (_, details) => Row(
+  //       children: const [],
+  //     ),
+  //     onStepContinue: controller.stepContinue,
+  //     currentStep: controller.currentStep.value,
+  //     type: StepperType.horizontal,
+  //     steps: [
+  //       const Step(title: Text('设置密码'), content: Text(''), state: StepState.complete),
+  //       Step(title: const Text('完善信息'), content: const Text(''), state: (controller.currentStep.value >= 1 ? StepState.complete : StepState.indexed)),
+  //       Step(title: const Text('添加宠物'), content: const Text(''), state: (controller.currentStep.value > 1 ? StepState.complete : StepState.indexed)),
+  //     ]));
+
+  Widget get _body => KeyboardActions(
+        disableScroll: false,
+        config: doneKeyboardConfig([passwordNode, confirmNode]),
+        child: Column(children: [
+          _inputContainer,
+          _saveItem
+        ]),
+      );
 
   Widget get _inputContainer => Container(
         padding: EdgeInsets.all(15.toPadding),

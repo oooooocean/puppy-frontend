@@ -53,6 +53,8 @@ class PasswordController extends GetxController with NetMixin, PasswordServerMix
   /// 是否可保存
   var saveEnable = false.obs;
 
+  var currentStep = 2.obs;
+
   bool get shouldResetPassword =>
       pwdCtl1.text != pwdCtl2.text &&
           Validator.password.verify(pwdCtl1.text) &&
@@ -67,6 +69,13 @@ class PasswordController extends GetxController with NetMixin, PasswordServerMix
       case PasswordStyle.reset:
         return Tuple2(pwdCtl2.text, pwdCtl1.text);
     }
+  }
+
+  stepContinue() {
+    if (currentStep.value == 2) {
+      return;
+    }
+    currentStep.value ++;
   }
 
   _success(_) {
