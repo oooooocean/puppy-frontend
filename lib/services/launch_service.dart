@@ -11,6 +11,17 @@ enum LaunchServiceFlow {
   userInfoAdd,
   petAdd;
 
+  String get name {
+    switch (this) {
+      case LaunchServiceFlow.passwordSet:
+        return '设置密码';
+      case LaunchServiceFlow.userInfoAdd:
+        return '完善信息';
+      case LaunchServiceFlow.petAdd:
+        return '添加宠物';
+    }
+  }
+
   String get route {
     switch (this) {
       case LaunchServiceFlow.passwordSet:
