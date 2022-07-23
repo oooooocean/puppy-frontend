@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/pages/login/launch_service_controller.dart';
+import 'package:frontend/pages/login/password/password_set_page.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 
@@ -21,8 +22,8 @@ class LaunchServicePage extends GetView<LaunchServiceController> with ThemeMixin
 
   AppBar get _appBar => AppBar(
     automaticallyImplyLeading: controller.fromOther,
-    title: const Text('设置密码'),
-    actions: controller.fromOther
+    title: Text('${controller.currentFlow.value?.name}'),
+    actions: !controller.hasSkip
         ? null
         : [
       TextButton(
@@ -48,7 +49,7 @@ class LaunchServicePage extends GetView<LaunchServiceController> with ThemeMixin
                 state: e.state))
                 .toList())),
       ),
-      const Expanded(child: Text('后续完善流程'))
+      Expanded(child: PasswordSetPage())
     ],
   );
 

@@ -1,4 +1,5 @@
 
+import 'package:frontend/pages/login/password/password_controller.dart';
 import 'package:frontend/services/launch_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,10 +23,19 @@ extension IFlowStep on LaunchServiceFlow {
 }
 
 class LaunchServiceController extends GetxController {
+
   RxInt? currentStep = LaunchService.shared.currentRegisterFlow?.index.obs;
   final steps = IFlowStep.steps();
-
+  var currentFlow = LaunchService.shared.currentRegisterFlow.obs;
   final fromOther = Get.previousRoute.isNotEmpty && (!LaunchServiceFlow.passwordSet.previousRoutes.contains(Get.previousRoute));
+  get hasSkip => !fromOther && (LaunchService.shared.currentRegisterFlow != LaunchServiceFlow.userInfoAdd);
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    Get.lazyPut(() => PasswordController(PasswordStyle.set));
+  }
 
   stepContinue() {
     if (currentStep!.value == 2) {

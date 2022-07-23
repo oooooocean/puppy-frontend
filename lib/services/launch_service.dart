@@ -22,16 +22,7 @@ enum LaunchServiceFlow {
     }
   }
 
-  String get route {
-    switch (this) {
-      case LaunchServiceFlow.passwordSet:
-        return AppRoutes.loginSetPassword;
-      case LaunchServiceFlow.userInfoAdd:
-        return AppRoutes.userInfoAdd;
-      case LaunchServiceFlow.petAdd:
-        return AppRoutes.petAdd;
-    }
-  }
+  String get route => AppRoutes.launchServiceFlow;
 
   String? get nextRoute => _nextRoute(this);
   String? _nextRoute(LaunchServiceFlow flow) {

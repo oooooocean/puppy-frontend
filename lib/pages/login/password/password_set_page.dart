@@ -16,19 +16,29 @@ class PasswordSetPage extends GetView<PasswordController> with ThemeMixin, LoadI
 
   @override
   Widget build(BuildContext context) {
+    if (!controller.fromSettings) { // 来自注册流程
+      return KeyboardActions(
+        disableScroll: false,
+        config: doneKeyboardConfig([passwordNode, confirmNode]),
+        child: Column(children: [
+          _inputContainer,
+          _saveItem
+        ]),
+      );
+    }
     return Scaffold(
       appBar: _appBar,
       body: WillPopScope(
         child: _body,
-        onWillPop: () async => controller.fromOther,
+        onWillPop: () async => controller.fromSettings,
       ),
     );
   }
 
   AppBar get _appBar => AppBar(
-      automaticallyImplyLeading: controller.fromOther,
+      automaticallyImplyLeading: controller.fromSettings,
       title: const Text('设置密码'),
-      actions: controller.fromOther
+      actions: controller.fromSettings
           ? null
           : [
               TextButton(
