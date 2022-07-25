@@ -7,16 +7,16 @@ import 'package:frontend/services/store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum LaunchServiceFlow {
-  passwordSet,
   userInfoAdd,
+  passwordSet,
   petAdd;
 
   String get name {
     switch (this) {
-      case LaunchServiceFlow.passwordSet:
-        return '设置密码';
       case LaunchServiceFlow.userInfoAdd:
         return '完善信息';
+      case LaunchServiceFlow.passwordSet:
+        return '设置密码';
       case LaunchServiceFlow.petAdd:
         return '添加宠物';
     }
@@ -28,11 +28,11 @@ enum LaunchServiceFlow {
   String? _nextRoute(LaunchServiceFlow flow) {
     final user = LaunchService.shared.user;
     switch (flow) {
-      case LaunchServiceFlow.passwordSet:
-        if (user!.info == null) return LaunchServiceFlow.userInfoAdd.route;
-        if (user.petCount == 0) return LaunchServiceFlow.petAdd.route;
-        break;
       case LaunchServiceFlow.userInfoAdd:
+        if (user!.info == null) return LaunchServiceFlow.passwordSet.route;
+        if (user!.petCount == 0) return LaunchServiceFlow.petAdd.route;
+        break;
+      case LaunchServiceFlow.passwordSet:
         if (user!.petCount == 0) return LaunchServiceFlow.petAdd.route;
         break;
       case LaunchServiceFlow.petAdd:
@@ -79,11 +79,11 @@ class LaunchService with NetMixin {
   /// 主题标题最大字数
 
   /// 获取当前注册流程步骤:
-  /// 用户密码 -> 用户基本信息 -> 至少一个宠物
+  /// 用户基本信息 -> 用户密码 -> 至少一个宠物
   LaunchServiceFlow? get currentRegisterFlow {
     assert(user != null, '必须先登录, 才能进入注册流程');
-    if (user!.hasPassword == false) return LaunchServiceFlow.passwordSet;
     if (user!.info == null) return LaunchServiceFlow.userInfoAdd;
+    if (user!.hasPassword == false) return LaunchServiceFlow.passwordSet;
     if (user!.petCount == 0) return LaunchServiceFlow.petAdd;
     return null;
   }

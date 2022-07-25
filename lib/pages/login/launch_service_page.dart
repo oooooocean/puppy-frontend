@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/pages/login/launch_service_controller.dart';
 import 'package:frontend/pages/login/password/password_set_page.dart';
+import 'package:frontend/pages/user/info/user_add_page.dart';
+import 'package:frontend/pages/user/pet/pet_add_page.dart';
+import 'package:frontend/services/launch_service.dart';
+import 'package:frontend/pages/user/info/user_add_controller.dart';
+import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 
@@ -21,15 +26,17 @@ class LaunchServicePage extends GetView<LaunchServiceController> with ThemeMixin
   }
 
   AppBar get _appBar => AppBar(
-    automaticallyImplyLeading: controller.fromOther,
-    title: Text('${controller.currentFlow.value?.name}'),
-    actions: !controller.hasSkip
-        ? null
-        : [
-      TextButton(
-          onPressed: controller.skip, child: const Text('跳过', style: TextStyle(color: kSecondaryTextColor)))
-    ],
-  );
+        automaticallyImplyLeading: controller.fromOther,
+        title: Text('${controller.currentFlow.value?.name}'),
+        actions: !controller.hasSkip
+            ? null
+            : [
+                TextButton(
+                    onPressed: () => Get.offAllNamed(AppRoutes.scaffold),
+                    child: const Text('跳过',
+                        style: TextStyle(color: kSecondaryTextColor)))
+              ],
+      );
 
   Widget get _body => Column(
     children: [
@@ -49,8 +56,19 @@ class LaunchServicePage extends GetView<LaunchServiceController> with ThemeMixin
                 state: e.state))
                 .toList())),
       ),
-      Expanded(child: PasswordSetPage())
+      Expanded(child: _content!)
     ],
   );
 
+  Widget? get _content {
+    if (controller.currentFlow.value == null) return null;
+    switch (controller.currentFlow.value!) {
+      case LaunchServiceFlow.passwordSet:
+        return PasswordSetPage();
+      case LaunchServiceFlow.userInfoAdd:
+        return UserAddPage<UserAddController>();
+      case LaunchServiceFlow.petAdd:
+        return PetAddPage();
+    }
+  }
 }

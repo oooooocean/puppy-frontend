@@ -1,10 +1,11 @@
 
 import 'package:frontend/pages/login/password/password_controller.dart';
+import 'package:frontend/pages/user/info/user_add_controller.dart';
+import 'package:frontend/pages/user/pet/pet_add_controller.dart';
 import 'package:frontend/services/launch_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:frontend/route/pages.dart';
 
 class FlowStep {
   final String name;
@@ -34,7 +35,9 @@ class LaunchServiceController extends GetxController {
   void onInit() {
     super.onInit();
 
+    Get.lazyPut(() => UserAddController());
     Get.lazyPut(() => PasswordController(PasswordStyle.set));
+    Get.lazyPut(() => PetAddController());
   }
 
   stepContinue() {
@@ -44,8 +47,4 @@ class LaunchServiceController extends GetxController {
     currentStep!.value ++;
   }
 
-  skip() {
-    final next = LaunchServiceFlow.passwordSet.nextRoute;
-    next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
-  }
 }
