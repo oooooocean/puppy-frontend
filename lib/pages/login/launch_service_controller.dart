@@ -14,19 +14,15 @@ class FlowStep {
 }
 
 extension IFlowStep on LaunchServiceFlow {
-  static List<FlowStep> steps() {
-    final curIndex = LaunchService.shared.currentRegisterFlow?.index ?? 0;
-    return LaunchServiceFlow.values
-        .map((e) => FlowStep(e.name,
-        curIndex >= e.index ? StepState.complete : StepState.indexed))
-        .toList();
-  }
+  static List<FlowStep> steps(LaunchServiceFlow flow) =>
+      LaunchServiceFlow.values
+          .map((e) => FlowStep(e.name,
+              flow.index >= e.index ? StepState.complete : StepState.indexed))
+          .toList();
 }
 
 class LaunchServiceController extends GetxController {
 
-  RxInt? currentStep = LaunchService.shared.currentRegisterFlow?.index.obs;
-  final steps = IFlowStep.steps();
   var currentFlow = LaunchService.shared.currentRegisterFlow.obs;
   final fromOther = Get.previousRoute.isNotEmpty && (!LaunchServiceFlow.passwordSet.previousRoutes.contains(Get.previousRoute));
   get hasSkip => !fromOther && (LaunchService.shared.currentRegisterFlow != LaunchServiceFlow.userInfoAdd);
@@ -40,11 +36,13 @@ class LaunchServiceController extends GetxController {
     Get.lazyPut(() => PetAddController());
   }
 
+  get steps => IFlowStep.steps(currentFlow.value!);
+
   stepContinue() {
-    if (currentStep!.value == 2) {
+    if (currentFlow.value!.index == LaunchServiceFlow.values.length) {
       return;
     }
-    currentStep!.value ++;
+    currentFlow.value = currentFlow.value!.nextFlow;
   }
 
 }

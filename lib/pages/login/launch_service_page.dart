@@ -16,18 +16,19 @@ class LaunchServicePage extends GetView<LaunchServiceController> with ThemeMixin
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: _appBar,
       body: WillPopScope(
         child: _body,
         onWillPop: () async => controller.fromOther,
       ),
-    );
+    ));
   }
 
   AppBar get _appBar => AppBar(
         automaticallyImplyLeading: controller.fromOther,
-        title: Text('${controller.currentFlow.value?.name}'),
+        title: Obx(() => Text('${controller.currentFlow.value?.name}')),
         actions: !controller.hasSkip
             ? null
             : [
@@ -38,6 +39,7 @@ class LaunchServicePage extends GetView<LaunchServiceController> with ThemeMixin
               ],
       );
 
+  // TODO: 继续完善
   Widget get _body => Column(
     children: [
       SizedBox(
@@ -47,7 +49,7 @@ class LaunchServicePage extends GetView<LaunchServiceController> with ThemeMixin
               children: const [],
             ),
             onStepContinue: controller.stepContinue,
-            currentStep: controller.currentStep!.value,
+            currentStep: controller.currentFlow.value!.index,
             type: StepperType.horizontal,
             steps: controller.steps
                 .map((e) => Step(

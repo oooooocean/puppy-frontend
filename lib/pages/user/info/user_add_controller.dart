@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/models/gender.dart';
 import 'package:frontend/models/user/user.dart';
+import 'package:frontend/pages/login/launch_service_controller.dart';
 import 'package:frontend/pages/user/info/user_base_controller.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:frontend/services/launch_service.dart';
@@ -13,11 +14,17 @@ class UserAddController extends UserBaseController {
     gender = Gender.male.obs;
   }
 
+  LaunchServiceController get launchServiceCtl => Get.find<LaunchServiceController>();
+
   @override
   bool get shouldRequest => avatar != null && super.shouldRequest;
 
   @override
   void save() {
+    launchServiceCtl.stepContinue();
+    // TODO: 继续完善
+    return;
+
     final user = LaunchService.shared.user!;
 
     request<UserInfo>(
@@ -33,8 +40,6 @@ class UserAddController extends UserBaseController {
         success: (userInfo) {
           user.info = userInfo;
           LaunchService.shared.updateUser(user);
-          final next = LaunchServiceFlow.userInfoAdd.nextRoute;
-          next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
         });
   }
 }

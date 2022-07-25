@@ -24,16 +24,31 @@ enum LaunchServiceFlow {
 
   String get route => AppRoutes.launchServiceFlow;
 
-  String? get nextRoute => _nextRoute(this);
-  String? _nextRoute(LaunchServiceFlow flow) {
+  String? get nextRoute {
     final user = LaunchService.shared.user;
-    switch (flow) {
+    switch (this) {
       case LaunchServiceFlow.userInfoAdd:
         if (user!.info == null) return LaunchServiceFlow.passwordSet.route;
-        if (user!.petCount == 0) return LaunchServiceFlow.petAdd.route;
+        if (user.petCount == 0) return LaunchServiceFlow.petAdd.route;
         break;
       case LaunchServiceFlow.passwordSet:
         if (user!.petCount == 0) return LaunchServiceFlow.petAdd.route;
+        break;
+      case LaunchServiceFlow.petAdd:
+        return null;
+    }
+    return null;
+  }
+
+  LaunchServiceFlow? get nextFlow {
+    final user = LaunchService.shared.user;
+    switch (this) {
+      case LaunchServiceFlow.userInfoAdd:
+        if (user!.info == null) return LaunchServiceFlow.passwordSet;
+        if (user.petCount == 0) return LaunchServiceFlow.petAdd;
+        break;
+      case LaunchServiceFlow.passwordSet:
+        if (user!.petCount == 0) return LaunchServiceFlow.petAdd;
         break;
       case LaunchServiceFlow.petAdd:
         return null;

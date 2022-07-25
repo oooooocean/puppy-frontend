@@ -16,26 +16,18 @@ class UserAddPage<C extends UserBaseController> extends GetView<C>
   UserAddPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text(controller.title)),
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
-            child: Column(
-              children: [
-                Expanded(
-                    child: KeyboardActions(
-                        config: doneKeyboardConfig(
-                            [introductionNone, nickNameNode]),
-                        child: _editContainer)),
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.toPadding),
-                    child: _nextItem)
-              ],
-            ),
-          ),
-        ),
-      );
+  Widget build(BuildContext context) => Column(
+    children: [
+      Expanded(
+          child: KeyboardActions(
+              config: doneKeyboardConfig(
+                  [introductionNone, nickNameNode]),
+              child: _editContainer)),
+      Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.toPadding),
+          child: _nextItem)
+    ],
+  );
 
   Widget get _editContainer => Column(
         mainAxisAlignment: MainAxisAlignment.center,
