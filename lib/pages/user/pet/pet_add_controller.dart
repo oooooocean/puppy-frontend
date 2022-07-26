@@ -12,8 +12,7 @@ class PetAddController extends GetxController
     with NetMixin, StateMixin<List<PetCategory>> {
   final nicknameCtl = TextEditingController();
   final introductionCtl = TextEditingController();
-  final formOther = Get.previousRoute.isNotEmpty &&
-      (!LaunchServiceFlow.petAdd.previousRoutes.contains(Get.previousRoute));
+  final formOther = Get.previousRoute.isNotEmpty && Get.previousRoute != AppRoutes.launchServiceFlow;
 
   AssetEntity? avatar;
   var gender = Gender.male.obs;

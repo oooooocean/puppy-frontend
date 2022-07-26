@@ -2,10 +2,10 @@
 import 'package:frontend/pages/login/password/password_controller.dart';
 import 'package:frontend/pages/user/info/user_add_controller.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
+import 'package:frontend/route/pages.dart';
 import 'package:frontend/services/launch_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class FlowStep {
   final String name;
@@ -18,14 +18,14 @@ extension IFlowStep on LaunchServiceFlow {
       LaunchServiceFlow.values
           .map((e) => FlowStep(
               e.name,
-              (flow?.index ?? 0) >= e.index
+              (flow?.index ?? 0) > e.index
                   ? StepState.complete
                   : StepState.indexed))
           .toList();
 }
 
 class LaunchServiceController extends GetxController {
-  final fromOther = Get.previousRoute.isNotEmpty && (!LaunchServiceFlow.passwordSet.previousRoutes.contains(Get.previousRoute));
+  final fromOther = Get.previousRoute.isNotEmpty && Get.previousRoute != AppRoutes.launchServiceFlow;
   var currentFlow = LaunchService.shared.currentRegisterFlow.obs;
   get hasSkip => !fromOther && (LaunchService.shared.currentRegisterFlow != LaunchServiceFlow.userInfoAdd);
   List<FlowStep> get steps => IFlowStep.steps(currentFlow.value);

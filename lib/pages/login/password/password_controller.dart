@@ -5,6 +5,7 @@ import 'package:frontend/components/mixins/validator.dart';
 import 'package:frontend/net/net_mixin.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:frontend/services/launch_service.dart';
+import 'package:frontend/pages/login/launch_service_controller.dart';
 import 'package:get/get.dart';
 import 'package:more/more.dart';
 
@@ -49,7 +50,7 @@ class PasswordController extends GetxController with NetMixin, PasswordServerMix
 
   final pwdCtl1 = TextEditingController();
   final pwdCtl2 = TextEditingController();
-  final fromSettings = Get.previousRoute.isNotEmpty && (!LaunchServiceFlow.passwordSet.previousRoutes.contains(Get.previousRoute));
+  final fromSettings = Get.previousRoute.isNotEmpty && (Get.previousRoute != AppRoutes.launchServiceFlow);
 
   /// 是否可保存
   var saveEnable = false.obs;
@@ -70,6 +71,8 @@ class PasswordController extends GetxController with NetMixin, PasswordServerMix
     }
   }
 
+  LaunchServiceController get launchServiceCtl => Get.find<LaunchServiceController>();
+
   _success(_) {
     switch (passwordStyle) {
     case PasswordStyle.set:
@@ -78,8 +81,9 @@ class PasswordController extends GetxController with NetMixin, PasswordServerMix
         Get.back();
         return;
       }
+      // TODO: 继续完善
       final next = LaunchServiceFlow.passwordSet.nextRoute;
-      next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
+      next != null ? launchServiceCtl.stepContinue() : Get.offAllNamed(AppRoutes.scaffold);
       break;
     case PasswordStyle.reset:
       EasyLoading.showSuccess("重置成功");

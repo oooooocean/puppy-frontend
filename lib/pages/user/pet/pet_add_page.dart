@@ -22,9 +22,15 @@ class PetAddPage extends GetView<PetAddController>
 
   @override
   Widget build(BuildContext context) {
+    if (!controller.formOther) {
+      return WillPopScope(
+          onWillPop: () async => false,
+          child: controller.obx((_) => _body,
+              onLoading: const Center(child: es.LoadingIndicator()),
+              onError: (_) => Text(_ ?? '')));
+    }
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: controller.formOther,
         title: const Text('添加宠物'),
         actions: [
           TextButton(
@@ -33,11 +39,9 @@ class PetAddPage extends GetView<PetAddController>
                   style: TextStyle(color: kSecondaryTextColor)))
         ],
       ),
-      body: WillPopScope(
-          onWillPop: () async => !controller.formOther,
-          child: controller.obx((_) => _body,
-              onLoading: const Center(child: es.LoadingIndicator()),
-              onError: (_) => Text(_ ?? ''))),
+      body: controller.obx((_) => _body,
+          onLoading: const Center(child: es.LoadingIndicator()),
+          onError: (_) => Text(_ ?? '')),
     );
   }
 

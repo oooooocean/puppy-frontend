@@ -56,16 +56,6 @@ enum LaunchServiceFlow {
     return null;
   }
 
-  /// 用于判断前置流程对应的页面是否是登录流程过来的
-  List<String> get previousRoutes {
-    if (this == LaunchServiceFlow.passwordSet) {
-      return [AppRoutes.login];
-    }
-    return LaunchServiceFlow.values
-        .where((element) => element.index < index)
-        .map((e) => e.route)
-        .toList();
-  }
 }
 
 class LaunchService with NetMixin {

@@ -3,8 +3,8 @@ import 'package:frontend/models/gender.dart';
 import 'package:frontend/models/user/user.dart';
 import 'package:frontend/pages/login/launch_service_controller.dart';
 import 'package:frontend/pages/user/info/user_base_controller.dart';
-import 'package:frontend/route/pages.dart';
 import 'package:frontend/services/launch_service.dart';
+import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 
 class UserAddController extends UserBaseController {
@@ -21,10 +21,6 @@ class UserAddController extends UserBaseController {
 
   @override
   void save() {
-    launchServiceCtl.stepContinue();
-    // TODO: 继续完善
-    return;
-
     final user = LaunchService.shared.user!;
 
     request<UserInfo>(
@@ -40,6 +36,9 @@ class UserAddController extends UserBaseController {
         success: (userInfo) {
           user.info = userInfo;
           LaunchService.shared.updateUser(user);
+          // TODO: 继续完善
+          final next = LaunchServiceFlow.userInfoAdd.nextRoute;
+          next != null ? launchServiceCtl.stepContinue() : Get.offAllNamed(AppRoutes.scaffold);
         });
   }
 }
