@@ -39,7 +39,6 @@ class LaunchServicePage extends GetView<LaunchServiceController> with ThemeMixin
               ],
       );
 
-  // TODO: 继续完善
   Widget get _body => Column(
     children: [
       SizedBox(
@@ -58,7 +57,7 @@ class LaunchServicePage extends GetView<LaunchServiceController> with ThemeMixin
                 state: e.state))
                 .toList())),
       ),
-      Expanded(child: _content!)
+      Expanded(child: Obx(() => _content!))
     ],
   );
 
