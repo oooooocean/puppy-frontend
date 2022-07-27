@@ -124,7 +124,7 @@ class LoginController extends GetxController with NetMixin, LoginServerMixin {
       if (result.second.hasPassword == false) {
         return Get.toNamed(AppRoutes.loginSetPassword);
       }
-      final next = LaunchService.shared.currentRegisterFlow?.nextRoute;
+      final next = LaunchService.shared.currentRegisterFlow?.route;
       next != null ? Get.toNamed(next) : Get.offAllNamed(AppRoutes.scaffold);
     }
 

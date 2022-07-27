@@ -36,9 +36,7 @@ class UserAddController extends UserBaseController {
         success: (userInfo) {
           user.info = userInfo;
           LaunchService.shared.updateUser(user);
-          // TODO: 继续完善
-          final next = LaunchServiceFlow.userInfoAdd.nextRoute;
-          next != null ? launchServiceCtl.stepContinue() : Get.offAllNamed(AppRoutes.scaffold);
+          LaunchServiceFlow.userInfoAdd.hasNext ? launchServiceCtl.stepContinue() : Get.offAllNamed(AppRoutes.scaffold);
         });
   }
 }

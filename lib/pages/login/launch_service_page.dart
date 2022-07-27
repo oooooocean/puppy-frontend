@@ -10,8 +10,8 @@ import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 
-class LaunchServicePage extends GetView<LaunchServiceController> with ThemeMixin {
-
+class LaunchServicePage extends GetView<LaunchServiceController>
+    with ThemeMixin {
   LaunchServicePage({Key? key}) : super(key: key);
 
   @override
@@ -29,37 +29,39 @@ class LaunchServicePage extends GetView<LaunchServiceController> with ThemeMixin
   AppBar get _appBar => AppBar(
         automaticallyImplyLeading: controller.fromOther,
         title: Obx(() => Text('${controller.currentFlow.value?.name}')),
-        actions: !controller.hasSkip
-            ? null
-            : [
-                TextButton(
-                    onPressed: () => Get.offAllNamed(AppRoutes.scaffold),
-                    child: const Text('跳过',
-                        style: TextStyle(color: kSecondaryTextColor)))
-              ],
+        actions: [
+          Obx(() => TextButton(
+              onPressed: !controller.hasSkip
+                  ? null
+                  : () => Get.offAllNamed(AppRoutes.scaffold),
+              child: !controller.hasSkip
+                  ? const Text('')
+                  : const Text('跳过',
+                      style: TextStyle(color: kSecondaryTextColor))))
+        ],
       );
 
   Widget get _body => Column(
-    children: [
-      SizedBox(
-        height: 100.toPadding,
-        child: Obx(() => Stepper(
-            controlsBuilder: (_, details) => Row(
-              children: const [],
-            ),
-            onStepContinue: controller.stepContinue,
-            currentStep: controller.currentFlow.value!.index,
-            type: StepperType.horizontal,
-            steps: controller.steps
-                .map((e) => Step(
-                title: Text(e.name),
-                content: const Text(''),
-                state: e.state))
-                .toList())),
-      ),
-      Expanded(child: Obx(() => _content!))
-    ],
-  );
+        children: [
+          SizedBox(
+            height: 100.toPadding,
+            child: Obx(() => Stepper(
+                controlsBuilder: (_, details) => Row(
+                      children: const [],
+                    ),
+                onStepContinue: controller.stepContinue,
+                currentStep: controller.currentFlow.value!.index,
+                type: StepperType.horizontal,
+                steps: controller.steps
+                    .map((e) => Step(
+                        title: Text(e.name),
+                        content: const Text(''),
+                        state: e.state))
+                    .toList())),
+          ),
+          Expanded(child: Obx(() => _content!))
+        ],
+      );
 
   Widget? get _content {
     if (controller.currentFlow.value == null) return null;
