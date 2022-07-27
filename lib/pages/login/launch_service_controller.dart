@@ -25,7 +25,7 @@ extension IFlowStep on LaunchServiceFlow {
 }
 
 class LaunchServiceController extends GetxController {
-  final fromOther = Get.previousRoute.isNotEmpty && Get.previousRoute != AppRoutes.launchServiceFlow;
+  final fromOther = Get.previousRoute.isNotEmpty && Get.previousRoute != AppRoutes.login;
   var currentFlow = LaunchService.shared.currentRegisterFlow.obs;
   get hasSkip => !fromOther && (currentFlow.value != LaunchServiceFlow.userInfoAdd);
   List<FlowStep> get steps => IFlowStep.steps(currentFlow.value);

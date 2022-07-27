@@ -50,7 +50,7 @@ class PasswordController extends GetxController with NetMixin, PasswordServerMix
 
   final pwdCtl1 = TextEditingController();
   final pwdCtl2 = TextEditingController();
-  final fromSettings = Get.previousRoute.isNotEmpty && (Get.previousRoute != AppRoutes.launchServiceFlow);
+  final inRegisterFlow = Get.currentRoute == AppRoutes.launchServiceFlow;
 
   /// 是否可保存
   var saveEnable = false.obs;
@@ -77,7 +77,7 @@ class PasswordController extends GetxController with NetMixin, PasswordServerMix
     switch (passwordStyle) {
     case PasswordStyle.set:
       EasyLoading.showSuccess("设置成功");
-      if (fromSettings) {
+      if (!inRegisterFlow) {
         Get.back();
         return;
       }

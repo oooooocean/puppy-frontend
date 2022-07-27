@@ -29,7 +29,7 @@ enum LaunchServiceFlow {
     final user = LaunchService.shared.user;
     switch (this) {
       case LaunchServiceFlow.userInfoAdd:
-        if (user!.info == null) return LaunchServiceFlow.passwordSet;
+        if (user!.hasPassword == false) return LaunchServiceFlow.passwordSet;
         if (user.petCount == 0) return LaunchServiceFlow.petAdd;
         break;
       case LaunchServiceFlow.passwordSet:

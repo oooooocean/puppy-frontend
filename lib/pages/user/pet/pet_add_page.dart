@@ -22,7 +22,7 @@ class PetAddPage extends GetView<PetAddController>
 
   @override
   Widget build(BuildContext context) {
-    if (!controller.formOther) {
+    if (controller.inRegisterFlow) {
       return WillPopScope(
           onWillPop: () async => false,
           child: controller.obx((_) => _body,
