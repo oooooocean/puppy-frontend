@@ -102,7 +102,10 @@ class LoginController extends GetxController with NetMixin, LoginServerMixin {
     codeEnable.value = shouldFetchCode;
   }
 
-  onShouldLogin(_) => loginEnable.value = shouldLogin;
+  onShouldLogin(_)  {
+    loginEnable.value = shouldLogin;
+    codeEnable.value = shouldFetchCode;
+  }
 
   fetchCode() {
     timer?.cancel();
