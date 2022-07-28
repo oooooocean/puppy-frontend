@@ -10,6 +10,7 @@ import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
 import 'package:frontend/components/extension/int_extension.dart';
 
+// 登录注册后完善流程页面
 class LaunchServicePage extends GetView<LaunchServiceController>
     with ThemeMixin {
   LaunchServicePage({Key? key}) : super(key: key);

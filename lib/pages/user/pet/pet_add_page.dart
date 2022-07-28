@@ -30,15 +30,7 @@ class PetAddPage extends GetView<PetAddController>
               onError: (_) => Text(_ ?? '')));
     }
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('添加宠物'),
-        actions: [
-          TextButton(
-              onPressed: () => Get.offAllNamed(AppRoutes.scaffold),
-              child: const Text('跳过',
-                  style: TextStyle(color: kSecondaryTextColor)))
-        ],
-      ),
+      appBar: AppBar(title: const Text('添加宠物')),
       body: controller.obx((_) => _body,
           onLoading: const Center(child: es.LoadingIndicator()),
           onError: (_) => Text(_ ?? '')),

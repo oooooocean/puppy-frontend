@@ -45,20 +45,6 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
         ? null
         : Address.fromJson(json['address'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
-      'ownerInfo': instance.ownerInfo,
-      'owner': instance.owner,
-      'id': instance.id,
-      'description': instance.description,
-      'type': _$PostTypeEnumMap[instance.type],
-      'noticeUsers': instance.noticeUsers,
-      'social': instance.social,
-      'createTime': instance.createTime.toIso8601String(),
-      'pets': instance.pets,
-      'medias': instance.medias,
-      'topics': instance.topics,
-      'address': instance.address,
-    };
 
 const _$PostTypeEnumMap = {
   PostType.photo: 0,

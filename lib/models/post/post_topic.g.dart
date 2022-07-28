@@ -12,8 +12,3 @@ PostTopic _$PostTopicFromJson(Map<String, dynamic> json) => PostTopic(
       json['contentCount'] as int,
     );
 
-Map<String, dynamic> _$PostTopicToJson(PostTopic instance) => <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'contentCount': instance.contentCount,
-    };
