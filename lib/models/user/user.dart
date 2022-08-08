@@ -30,8 +30,10 @@ class LoginUser {
   int id;
   UserInfo? info;
   int petCount;
+  @JsonKey(defaultValue: false)
+  bool hasPassword;
 
-  LoginUser(this.id, this.info, this.petCount);
+  LoginUser(this.id, this.info, this.petCount, this.hasPassword);
 
   factory LoginUser.fromJson(Map<String, dynamic> json) => _$LoginUserFromJson(json);
 

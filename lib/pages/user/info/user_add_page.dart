@@ -8,41 +8,45 @@ import 'package:frontend/components/extension/int_extension.dart';
 import 'package:frontend/models/gender.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
-class UserAddPage<C extends UserBaseController> extends GetView<C> with KeyboardAllocator, ThemeMixin {
+class UserAddPage<C extends UserBaseController> extends GetView<C>
+    with KeyboardAllocator, ThemeMixin {
   final nickNameNode = FocusNode();
   final introductionNone = FocusNode();
 
   UserAddPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text(controller.title)),
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
-            child: Column(
-              children: [
-                Expanded(
-                    child: KeyboardActions(
-                        config: doneKeyboardConfig([introductionNone, nickNameNode]), child: _editContainer)),
-                Padding(padding: EdgeInsets.symmetric(horizontal: 15.toPadding), child: _nextItem)
-              ],
-            ),
-          ),
-        ),
-      );
+  Widget build(BuildContext context) => Column(
+    children: [
+      Expanded(
+          child: KeyboardActions(
+              config: doneKeyboardConfig(
+                  [introductionNone, nickNameNode]),
+              child: _editContainer)),
+      Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.toPadding),
+          child: _nextItem)
+    ],
+  );
 
   Widget get _editContainer => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _avatarItem,
           _nicknameItem,
-          Padding(padding: EdgeInsets.only(top: 15.toPadding, bottom: 25.toPadding), child: _genderItem),
+          Padding(
+              padding: EdgeInsets.only(top: 15.toPadding, bottom: 25.toPadding),
+              child: _genderItem),
           _introduceItem
         ],
       );
 
-  Widget get _avatarItem => PuppyAvatarButton(didSelected: controller.choseAvatar, defaultAvatar: controller.defaultAvatar);
+  Widget get _avatarItem => SizedBox(
+      height: 80.toPadding,
+      width: 80.toPadding,
+      child: PuppyAvatarButton(
+          didSelected: controller.choseAvatar,
+          defaultAvatar: controller.defaultAvatar));
 
   Widget get _nicknameItem => PuppyTextField(
       focusNode: nickNameNode,
@@ -72,9 +76,11 @@ class UserAddPage<C extends UserBaseController> extends GetView<C> with Keyboard
                 onPressed: () => controller.choseGender(gender),
                 style: ButtonStyle(
                     shape: MaterialStateProperty.all(const CircleBorder()),
-                    padding: MaterialStateProperty.all(EdgeInsets.all(12.toPadding)),
-                    side: MaterialStateProperty.all(
-                        BorderSide(color: isSelected ? kOrangeColor : kBorderColor, width: 1.5))),
+                    padding:
+                        MaterialStateProperty.all(EdgeInsets.all(12.toPadding)),
+                    side: MaterialStateProperty.all(BorderSide(
+                        color: isSelected ? kOrangeColor : kBorderColor,
+                        width: 1.5))),
                 child: Icon(gender == Gender.male ? Icons.man : Icons.woman,
                     color: isSelected ? kOrangeColor : Colors.grey, size: 30),
               );
@@ -86,7 +92,8 @@ class UserAddPage<C extends UserBaseController> extends GetView<C> with Keyboard
         builder: (_) => PuppyButton(
             onPressed: controller.shouldRequest ? controller.save : null,
             style: PuppyButtonStyle.style1,
-            buttonStyle: ButtonStyle(fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
+            buttonStyle: ButtonStyle(
+                fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
             child: const Text('下一步')),
       );
 }

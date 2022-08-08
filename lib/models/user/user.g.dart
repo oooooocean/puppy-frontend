@@ -22,12 +22,14 @@ LoginUser _$LoginUserFromJson(Map<String, dynamic> json) => LoginUser(
           ? null
           : UserInfo.fromJson(json['info'] as Map<String, dynamic>),
       json['petCount'] as int,
+      json['hasPassword'] as bool,
     );
 
 Map<String, dynamic> _$LoginUserToJson(LoginUser instance) => <String, dynamic>{
       'id': instance.id,
       'info': instance.info,
       'petCount': instance.petCount,
+      'hasPassword': instance.hasPassword,
     };
 
 User _$UserFromJson(Map<String, dynamic> json) => User(

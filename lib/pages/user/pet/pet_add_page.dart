@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/components/comps/comps.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
 import 'package:frontend/models/gender.dart';
-import 'package:frontend/models/pet/pet_category.dart';
 import 'package:frontend/pages/user/pet/pet_add_controller.dart';
 import 'package:frontend/route/pages.dart';
 import 'package:get/get.dart';
@@ -23,16 +22,15 @@ class PetAddPage extends GetView<PetAddController>
 
   @override
   Widget build(BuildContext context) {
+    if (controller.inRegisterFlow) {
+      return WillPopScope(
+          onWillPop: () async => false,
+          child: controller.obx((_) => _body,
+              onLoading: const Center(child: es.LoadingIndicator()),
+              onError: (_) => Text(_ ?? '')));
+    }
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('添加宠物'),
-        actions: [
-          TextButton(
-              onPressed: () => Get.offAllNamed(AppRoutes.scaffold),
-              child: const Text('跳过',
-                  style: TextStyle(color: kSecondaryTextColor)))
-        ],
-      ),
+      appBar: AppBar(title: const Text('添加宠物')),
       body: controller.obx((_) => _body,
           onLoading: const Center(child: es.LoadingIndicator()),
           onError: (_) => Text(_ ?? '')),
@@ -44,7 +42,10 @@ class PetAddPage extends GetView<PetAddController>
           padding: EdgeInsets.symmetric(horizontal: 25.toPadding),
           child: Column(
             children: [
-              Divider(color: kBackgroundColor, height: 25.toPadding, thickness: 10.toPadding),
+              Divider(
+                  color: kBackgroundColor,
+                  height: 25.toPadding,
+                  thickness: 10.toPadding),
               Expanded(
                   child: KeyboardActions(
                       config:
@@ -65,8 +66,10 @@ class PetAddPage extends GetView<PetAddController>
         ),
       );
 
-  Widget get _avatarItem =>
-      PuppyAvatarButton(didSelected: controller.choseAvatar);
+  Widget get _avatarItem => SizedBox(
+      height: 80.toPadding,
+      width: 80.toPadding,
+      child: PuppyAvatarButton(didSelected: controller.choseAvatar));
 
   Widget get _nicknameItem => PuppyTextField(
       focusNode: nickNameNode,
@@ -150,7 +153,8 @@ class PetAddPage extends GetView<PetAddController>
         builder: (_) => PuppyButton(
             onPressed: controller.shouldRequest ? controller.save : null,
             style: PuppyButtonStyle.style1,
-            buttonStyle: ButtonStyle(fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
+            buttonStyle: ButtonStyle(
+                fixedSize: MaterialStateProperty.all(Size(Get.width, 44))),
             child: const Text('下一步')),
       );
 }

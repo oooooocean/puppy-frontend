@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/mixins/refresh_mixin.dart';
 import 'package:frontend/components/mixins/theme_mixin.dart';
@@ -51,7 +50,8 @@ mixin PostActionMixin<T> on GetxController, NetMixin, RefreshMixin<T> {
   /// 个人主页
   pushToPersonPage(int ownerId) {
     final isLoginUser = LaunchService.shared.user!.id == ownerId;
-    Get.toNamed(isLoginUser ? AppRoutes.loginUserCenter : AppRoutes.userCenter, arguments: ownerId);
+    Get.toNamed(isLoginUser ? AppRoutes.loginUserCenter : AppRoutes.userCenter,
+        arguments: ownerId);
   }
 
   /// 点赞
@@ -84,7 +84,9 @@ mixin PostActionMixin<T> on GetxController, NetMixin, RefreshMixin<T> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('内容反馈:', style: TextStyle(color: kSecondaryTextColor, fontSize: kSmallFont)),
+              const Text('内容反馈:',
+                  style: TextStyle(
+                      color: kSecondaryTextColor, fontSize: kSmallFont)),
               TextButton.icon(
                   onPressed: () => Get.back(result: 0),
                   icon: const Icon(Icons.warning_amber_outlined),

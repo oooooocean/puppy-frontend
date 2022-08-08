@@ -1,4 +1,3 @@
-import 'package:frontend/components/extension/date_extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 typedef StoreDecoder<T> = T Function(dynamic data);
@@ -12,7 +11,8 @@ class Store {
   }
 
   static void set(String key, String value) {
-    SharedPreferences.getInstance().then((instance) => instance.setString(key, value));
+    SharedPreferences.getInstance()
+        .then((instance) => instance.setString(key, value));
   }
 
   static Future clear() async {
