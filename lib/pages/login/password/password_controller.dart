@@ -22,7 +22,7 @@ enum PasswordStyle {
     }
   }
 
-  Map<String,String> parma(String newPwd, [String oldPwd = '']) {
+  Map<String,String> param(String newPwd, [String oldPwd = '']) {
     switch(this) {
       case PasswordStyle.reset:
         return {"new": newPwd, 'old': oldPwd};
@@ -37,7 +37,7 @@ mixin PasswordServerMixin on NetMixin {
   password(PasswordStyle style, Tuple2<String, String> value,
       ValueSetter<bool> success) {
     request<bool>(
-        api: () => post(style.url, style.parma(value.first, value.second),
+        api: () => post(style.url, style.param(value.first, value.second),
                 (data) => true),
         success: success);
   }
