@@ -82,9 +82,7 @@ class PasswordController extends GetxController with NetMixin, PasswordServerMix
         return;
       }
       // 更新本地字段避免杀掉后本地未刷新
-      var user = LaunchService.shared.user!;
-      user.hasPassword = true;
-      LaunchService.shared.updateUser(user);
+      LaunchService.shared.updateUser(LaunchService.shared.user!..hasPassword = true);
       LaunchServiceFlow.passwordSet.hasNext ? launchServiceCtl.stepContinue() : Get.offAllNamed(AppRoutes.scaffold);
       break;
     case PasswordStyle.reset:
