@@ -4,14 +4,12 @@
 ## 功能
 - [x]宠物管理
 - [x]宠物交友
-- [x]宠物经验分享
+- [x]宠物经验分享<br/>
 ...
 
 ## 应用截图
-![1](WechatIMG9.jpeg)
-![2](WechatIMG7.jpeg)
-![3](WechatIMG6.jpeg)
-![4](WechatIMG4.jpeg)
+![](16790426365963.jpg)
+
 
 ## 技术架构
 - [后端](https://github.com/oooooocean/puppy-backend)
