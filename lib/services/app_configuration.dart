@@ -13,9 +13,9 @@ enum Environment {
       case Environment.develop:
         return 'http://39.107.136.94/puppy/api/v1/';
       case Environment.product:
-        return '';
+        return 'https://';
     }
   }
 }
 
-const currentEnvironment = Environment.local;
+const currentEnvironment = Environment.develop;
