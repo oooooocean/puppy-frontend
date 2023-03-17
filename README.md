@@ -8,10 +8,10 @@
 ...
 
 ## 应用截图
-[1](WechatIMG9.jpeg)
-[2](WechatIMG7.jpeg)
-[3](WechatIMG6.jpeg)
-[4](WechatIMG4.jpeg)
+![1](WechatIMG9.jpeg)
+![2](WechatIMG7.jpeg)
+![3](WechatIMG6.jpeg)
+![4](WechatIMG4.jpeg)
 
 ## 技术架构
 - [后端](https://github.com/oooooocean/puppy-backend)
